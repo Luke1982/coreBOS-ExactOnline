@@ -11,7 +11,7 @@ class ExactAccounts extends ExactApi{
 		if ( is_array($fields) ) {
 		$this->sendPostRequest('crm/Accounts', $division, $fields);
 		} else {
-			return "Post fields should be in array form";
+			echo "Post fields should be in array form";
 		}
 	}
 	
