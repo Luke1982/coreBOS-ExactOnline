@@ -24,7 +24,7 @@ if ( !isset($_GET['code']) ) {
 require('modules/ExactOnline/ExactAccounts.class.php');
 // First set your division, so Exact can identify you
 $division = '1041426';
-// 
+// Let's get all Accounts from our administration
 
 
 ?>
