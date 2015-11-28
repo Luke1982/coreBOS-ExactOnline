@@ -60,7 +60,7 @@ class ExactApi {
 			'authorization: Bearer '.$OAuth->getDbValue('access_token')
 		);
 		// Setup the cURL options
-		$get_curl_opts = array(
+		$post_curl_opts = array(
 			CURLOPT_URL 			=> $request_url,
 			CURLOPT_RETURNTRANSFER 	=> TRUE,
 			CURLOPT_SSL_VERIFYPEER 	=> TRUE,
