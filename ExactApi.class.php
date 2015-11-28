@@ -41,7 +41,7 @@ class ExactApi {
 		var_dump($get_curl_result);
 	}
 	
-	public function sendPostRequest($division, $postfields) {
+	public function sendPostRequest($suburl, $division, $postfields) {
 		global $OAth;
 		// Every get request has to have:
 		// * The API URL

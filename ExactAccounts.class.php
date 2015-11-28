@@ -9,7 +9,7 @@ class ExactAccounts extends ExactApi{
 	
 	public function CreateAccount($division, $fields) {
 		if ( is_array($fields) ) {
-		$this->sendPostRequest($division, $fields);
+		$this->sendPostRequest('crm/Accounts', $division, $fields);
 		} else {
 			return "Post fields should be in array form";
 		}
