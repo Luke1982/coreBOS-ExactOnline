@@ -2,7 +2,7 @@
 
 class ExactApi {
 	
-	private $apiUrl = 'http://start.exactonline.nl/api/v1/';
+	private $apiUrl = 'https://start.exactonline.nl/api/v1/';
 	
 	public function __construct() {
 		require_once('modules/ExactOnline/ExactOAuth.class.php');
@@ -30,8 +30,8 @@ class ExactApi {
 			CURLOPT_RETURNTRANSFER 	=> TRUE,
 			CURLOPT_SSL_VERIFYPEER 	=> TRUE,
 			CURLOPT_HEADER 			=> FALSE,
-			CURLOPT_HTTPHEADER 		=> $get_curl_header
-			// CURLOPT_ENCODING 		=> ''
+			CURLOPT_HTTPHEADER 		=> $get_curl_header,
+			CURLOPT_ENCODING 		=> ''
 		);
 		// Add the cURL options to the handler
 		curl_setopt_array($get_curl_handler, $get_curl_opts);
