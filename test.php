@@ -22,22 +22,26 @@ if ( !isset($_GET['code']) ) {
 
 // Now it's time to Test the accounts Class
 require('modules/ExactOnline/ExactAccounts.class.php');
+
 // First set your division, so Exact can identify you
 $division = '1041426';
+
 // Let's get all Accounts from our administration
 $Account = new ExactAccounts();
 // This function should get all the accounts, working together with the API class..
 // It currently accepts the division and the fields from Accounts you want returned
-// $Account->listAll($division, 'Name,City');
+// $Account->listAll($division, 'Name,City,Code');
+
+
 // Now for the creation of a new Account
 // Create an Array with the fields you want to create
 $accountCreateFields = array (
 	'Name'	=>	'Krijg nou wat',
 	'Email'	=>	'krijg@nouwat.nl',
-	'City'	=>	'Geldermalsen'
+	'City'	=>	'Geldermalsen',
+	'Code'	=>	'1587'
 );
 // Feed them to the create account method
 $Account->CreateAccount($division, $accountCreateFields);
-
 
 ?>

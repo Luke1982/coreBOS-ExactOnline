@@ -53,6 +53,11 @@ class ExactApi {
 		$post_curl_handler =  curl_init();
 		// Setup the URL
 		$request_url = $this->apiUrl.$division.'/'.$suburl;
+		// If there is a postfield named 'Code' it should be padded to end up 18
+		// Characters long with leading spaces
+		if ( array_key_exists('Code', $postfields) ) {
+			$postfields['Code'] = str_pad($postfields['Code'], 18, " ", STR_PAD_LEFT);
+		}
 		// Setup the postfields array so that is is a JSON string
 		$postfields = json_encode($postfields);
 		// Setup the header
