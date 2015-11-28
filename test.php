@@ -1,10 +1,10 @@
 <?php
 
 error_reporting(E_ALL);
-ini_set("display_errors", "on"); 
+ini_set("display_errors", "on");
 
+// TODO: OAuth class contains database method, maybe move this to a separate class
 require('modules/ExactOnline/ExactOAuth.class.php');
-$OAuth = new ExactOauth();
 
 // If we don't have a code (so we're at the start of the Auth process)
 if ( !isset($_GET['code']) ) {
@@ -25,6 +25,10 @@ require('modules/ExactOnline/ExactAccounts.class.php');
 // First set your division, so Exact can identify you
 $division = '1041426';
 // Let's get all Accounts from our administration
+$Account = new ExactAccounts();
+// This function should get all the accounts, working together with the API class..
+// It currently accepts the division and the fields from Accounts you want returned
+$Account->listAll($division, '');
 
 
 ?>
