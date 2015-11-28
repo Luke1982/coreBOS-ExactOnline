@@ -1,6 +1,6 @@
 <?php
 
-class ExactOauth {
+class ExactOAuth {
 	
 	function __construct() {
 		require_once('vtlib/Vtiger/Module.php');
@@ -138,5 +138,8 @@ class ExactOauth {
 	}
 	
 }
+
+// Instantiate yourself
+$OAuth = new ExactOAuth();
 
 ?>
