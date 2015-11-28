@@ -24,6 +24,7 @@ class ExactOAuth {
 			'client_id'		=>	$this->getDbValue('exactclientid'),
 			'redirect_uri'	=>	$this->getDbValue('exactreturnurl'),
 			'response_type'	=>	'code',
+			'force_login'	=>	0
 		);
 		$code_url_query = http_build_query($code_url_params, '', '&', PHP_QUERY_RFC3986);
 		header( "Location: ".$this->getDbValue('exactauthurl').'?'.$code_url_query, TRUE, 302 );
