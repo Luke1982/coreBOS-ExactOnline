@@ -81,6 +81,8 @@ class ExactOauth {
 		}
 	}
 	
+	// This one is quite stupid, I could just use my own 'getDbValue' function for this to get the last
+	// refresh time...
 	public function lastTokenTime() {
 		global $adb;
 		$refreshTimeResult = $adb->pquery('SELECT * FROM vtiger_exactonline WHERE exactonlineid=?',array(0));
