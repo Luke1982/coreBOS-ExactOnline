@@ -57,7 +57,8 @@ class ExactApi {
 		$postfields = json_encode($postfields);
 		// Setup the header
 		$post_curl_header = array (
-			'authorization: Bearer '.$OAuth->getDbValue('access_token')
+			'authorization: Bearer '.$OAuth->getDbValue('access_token'),
+			'Content-Type:application/json'
 		);
 		// Setup the cURL options
 		$post_curl_opts = array(
