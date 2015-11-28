@@ -42,7 +42,7 @@ class ExactApi {
 	}
 	
 	public function sendPostRequest($suburl, $division, $postfields) {
-		global $OAth;
+		global $OAuth;
 		// Every get request has to have:
 		// * The API URL
 		// * The division
