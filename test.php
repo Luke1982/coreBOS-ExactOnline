@@ -36,10 +36,8 @@ $accountCreateFields = array (
 	'Email'	=>	'krijg@nouwat.nl',
 	'City'	=>	'Geldermalsen'
 );
-
-$bla = 'bla';
 // Feed them to the create account method
-$Account->CreateAccount($division, $bla);
+$Account->CreateAccount($division, $accountCreateFields);
 
 
 ?>
