@@ -21,7 +21,12 @@ class ExactApi {
 		// setup a curl
 		$get_curl_handler =  curl_init();
 		// Setup the URL
-		$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select;
+		// Check if a filter was used and setup the URL accordingly
+		if ( isset($filter) && $filter != "" ) {
+			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$filter='.$filter.'&$select='.$select;
+		} else {
+			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select;
+		}
 		// Setup the header
 		$get_curl_header = array (
 			'authorization: Bearer '.$OAuth->getDbValue('access_token')
@@ -40,9 +45,9 @@ class ExactApi {
 		// Execute the cURL
 		$get_curl_result = curl_exec($get_curl_handler);
 		// TEST the new XML2array function
-		$curl_result_array = xml2array($get_curl_result);
+		$get_result_array = xml2array($get_curl_result);
 		// Return the XML in PHP Array form
-		return $curl_result_array;
+		return $get_result_array;
 	}
 	
 	public function sendPostRequest($suburl, $division, $postfields) {
@@ -90,7 +95,7 @@ class ExactApi {
 		var_dump($post_curl_result);		
 	}
 	
-	public function sendPutRequest($suburl, $division, $postfields) {
+	public function sendPutRequest($suburl, $division, $postfields, $GUID) {
 		global $OAuth;
 		// Every PUT request has to have:
 		// * The API URL
@@ -102,7 +107,7 @@ class ExactApi {
 		// setup a curl
 		$put_curl_handler =  curl_init();
 		// Setup the URL
-		$request_url = $this->apiUrl.$division.'/'.$suburl;
+		$request_url = $this->apiUrl.$division."/".$suburl."(guid'".$GUID."')";
 		// If there is a postfield named 'Code' it should be padded to end up 18
 		// Characters long with leading spaces. Also, we should first remove all
 		// non-numeric characters, since Exact won't accept them

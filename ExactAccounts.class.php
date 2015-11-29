@@ -6,7 +6,19 @@ class ExactAccounts extends ExactApi{
 	public function listAccounts($division, $selection, $filter = NULL) {
 		// Returns an array of all accounts with the account fields
 		// Provided in the '$selection' (comma separated input)
-		return $this->sendGetRequest('crm/Accounts', $division, $selection, $filter);
+		// Start filter empty
+		$filterstring = "";
+		// See if there was a filter and include it in the getrequest call
+		if ( isset($filter) && is_array($filter)) {
+			$i = 0;
+			foreach ($filter as $filterkey => $filtervalue) {
+				if (++$i == 2) break;
+				// If we want to filter on account code, remember we have
+				// to add padding to get to an 18 character string
+				$filterstring = $filterkey." eq '".$filtervalue."'";
+			}
+		}
+		return $this->sendGetRequest('crm/Accounts', $division, $selection, $filterstring);
 	}
 	
 	public function CreateAccount($division, $fields) {
@@ -19,7 +31,9 @@ class ExactAccounts extends ExactApi{
 					$this->sendPostRequest('crm/Accounts', $division, $fields);
 				} else {
 					// It already exists, so send a PUT
-					$this->sendPutRequest('crm/Accounts', $division, $fields);
+					// We need to provide the Exact 'guid' code for this, so let's retrieve it
+					$ExactGUID = $this->getAccountGUID($division, $fields['Code']);
+					$this->sendPutRequest('crm/Accounts', $division, $fields, $ExactGUID);
 				}
 			} else {
 				echo "You need to provide an Account code, make sure to set array key with a capital C.";
@@ -60,6 +74,20 @@ class ExactAccounts extends ExactApi{
 			}
 		}
 		if ($codeExists == 1) {return TRUE;} else {return FALSE;}
+	}
+	
+	public function getAccountGUID($division, $code) {
+		// Takes a provided code and gets the correct guid for it.
+		$AccountsCodeArray = $this->listAccounts($division,'Code,ID');
+		// Strip any non-numerical from the code
+		$code = preg_replace("/[^0-9,.]/", "", $code);
+		// Loop through the accounts from Exact
+		foreach ( $AccountsCodeArray['feed']['entry'] as $entry ) {
+			$ExactAccountCode = trim($entry['content']['m:properties']['d:Code']);
+			if ($ExactAccountCode == $code) {
+				return $entry['content']['m:properties']['d:ID'];
+			}
+		}
 	}
 	
 }
