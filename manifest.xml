@@ -1,32 +1,31 @@
 <?xml version='1.0'?>
 <module>
-<name>ModuleClass</name>
-<label>ModuleClass</label>
-<parent>Marketing</parent>
-<version>1.0</version>
-<short_description>Module description.</short_description>
+<name>ExactOnline</name>
+<label>Exact Online Connector</label>
+<parent>Tools</parent>
+<version>0.1</version>
+<short_description>Not finished yet, but should provide a two way connection to exact online software.</short_description>
 <dependencies>
 <vtiger_version>5.4.0</vtiger_version>
 <vtiger_max_version>5.*</vtiger_max_version>
 </dependencies>
 <license>
-<inline><![CDATA[Your license here]]></inline>
+<inline><![CDATA[MIT-LICENSE]]></inline>
 </license>
 <tables>
 <table>
-<name>vtiger_moduleclass</name>
-<sql><![CDATA[CREATE TABLE `vtiger_moduleclass` (
-  `moduleclassid` int(11) default NULL,
-  `moduleclass_no` varchar(56) default NULL,
+<name>vtiger_exactonline</name>
+<sql><![CDATA[CREATE TABLE `vtiger_exactonline` (
+  `exactonlineid` int(11) default NULL,
   ..rest of fields..
-  PRIMARY KEY (`moduleclassid`)
+  PRIMARY KEY (`exactonlineid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_moduleclasscf</name>
-<sql><![CDATA[CREATE TABLE `vtiger_moduleclasscf` (
-  `moduleclassid` int(11) NOT NULL,
-  PRIMARY KEY (`moduleclassid`)
+<sql><![CDATA[CREATE TABLE `vtiger_exactonlinecf` (
+  `exactonlineid` int(11) NOT NULL,
+  PRIMARY KEY (`exactonlineid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
