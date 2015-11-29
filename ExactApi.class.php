@@ -113,7 +113,7 @@ class ExactApi {
 		// If there is a postfield named 'Code' it should be padded to end up 18
 		// Characters long with leading spaces. Also, we should first remove all
 		// non-numeric characters, since Exact won't accept them
-		if ( array_key_exists('Code', $postfields) ) {
+		if ( array_key_exists('Code', $postfields && $suburl == 'crm/Accounts') ) {
 			$postfields['Code'] = preg_replace("/[^0-9,.]/", "", $postfields['Code']);
 			$postfields['Code'] = str_pad($postfields['Code'], 18, " ", STR_PAD_LEFT);
 		}
