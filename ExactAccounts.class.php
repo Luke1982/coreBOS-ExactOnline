@@ -10,8 +10,6 @@ class ExactAccounts extends ExactApi{
 	public function listAccounts($division, $selection, $filter = NULL) {
 		// Returns an array of all accounts with the account fields
 		// Provided in the '$selection' (comma separated input)
-		// Start filter empty
-		$filterstring = "";
 		// See if there was a filter and include it in the getrequest call
 		if ( isset($filter) && is_array($filter)) {
 			return $this->sendGetRequest('crm/Accounts', $division, $selection, $filter);
@@ -44,36 +42,23 @@ class ExactAccounts extends ExactApi{
 	}
 	
 	public function AccountExists($division, $fields) {
-		// Make sure we strip any non-numerical from the code we
-		// want to check, since Exact will return only numbers also
-		$enteredCode = preg_replace("/[^0-9,.]/", "", $fields['Code']);
-		// First, GET all the accounts, this returns an array
-		// To check if an account exists, we only need the code
-		// Because we regard this as the unique ID
-		// TODO: replace this listAll with a function that passes in the
-		// request code. The Exact API look on it's own server without
-		// havinf to return everything and check it here.
-		$AccountsCodeArray = $this->listAccounts($division,'Code');
-		// Now loop through the returned accounts
-		foreach ( $AccountsCodeArray['feed']['entry'] as $entry ) {
-			// Check every code from Exact and match it against the code we're feeding to
-			// This method. Set a variable to true or false depending on if it's found
-			// Make sure to TRIM the result from Exact, because it will be 18 characters
-			// long filled with leading spaces
-			$ExactAccountCode = trim($entry['content']['m:properties']['d:Code']);
-			// var_dump($ExactAccountCode);
-			// echo "<br>";
-			// var_dump($fields['Code']);
-			// echo "<br>";
-			if ( $ExactAccountCode == $enteredCode ) {
-				$codeExists = 1;
-				// Stop the loop if it exists
-				break;
-			} else {
-				$codeExists = 0;
-			}
+		// Setup the filter array, so checking if account exists is much quicker
+		// Because we let the Exact server filter first, so we don't have to
+		// No need to prepare the account Code 18 characters, the 'sendGetRequest'
+		// takes care of that
+		$filterCode = array(
+			'Code'	=>	$fields['Code']
+		);
+		// Now get the array filtering on the code
+		$AccountsCodeArray = $this->listAccounts($division,'Code',$filterCode);
+		$FeedArray = $AccountsCodeArray['feed'];
+		// Now check if this array has a child named 'entry' to see if the code exists
+		if ( array_key_exists('entry', $FeedArray) ) {
+			echo "Account already exists";
+			return TRUE;
+		} else {
+			return FALSE;
 		}
-		if ($codeExists == 1) {return TRUE;} else {return FALSE;}
 	}
 	
 	public function getAccountGUID($division, $code) {
