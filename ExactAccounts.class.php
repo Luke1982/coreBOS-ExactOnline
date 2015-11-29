@@ -3,6 +3,11 @@ require('modules/ExactOnline/ExactApi.class.php');
 
 class ExactAccounts extends ExactApi{
 	
+	public function __construct() {
+		require_once('vtlib/Vtiger/Module.php');
+		require_once('modules/ExactOnline/functions.php');
+	}
+	
 	public function listAccounts($division, $selection, $filter = NULL) {
 		// Returns an array of all accounts with the account fields
 		// Provided in the '$selection' (comma separated input)
@@ -87,6 +92,38 @@ class ExactAccounts extends ExactApi{
 			if ($ExactAccountCode == $code) {
 				return $entry['content']['m:properties']['d:ID'];
 			}
+		}
+	}
+	
+	public function sendAllAccounts($division) {
+		// This function will be a helper for when the initial setup
+		// Starts. It will send ALL coreBOS accounts to Exact and
+		// Respects the Account numbering used in Corebos (by setting
+		// the Exact 'Code' to the coreBOS account no, but removing
+		// any non-numerical prefix, since Exact can't handle that).
+		global $adb;
+		$accountResult = $adb->pquery('SELECT accountid, account_no, accountname, phone, email1 FROM vtiger_account', array());
+		while ( $Account = $adb->fetch_array($accountResult) ) {
+			$addressResult = $adb->pquery('SELECT bill_city, bill_country, bill_street, bill_pobox FROM vtiger_accountbillads WHERE accountaddressid=?', array($Account['accountid']));
+			while ($AccountAddress = $adb->fetch_array($addressResult)) {
+				$Account['bill_city']		=	$AccountAddress['bill_city'];
+				$Account['bill_country']	=	$AccountAddress['bill_country'];
+				$Account['bill_street']		=	$AccountAddress['bill_street'];
+				$Account['bill_pobox']		=	$AccountAddress['bill_pobox'];
+			}
+			// Setup the array the CreateAccount method wants
+			$AccountCreateFields = array(
+				'Name'				=>	$Account['accountname'],
+				'Code'				=>	$Account['account_no'],
+				'Phone'				=>	$Account['phone'],
+				'Email'				=>	$Account['email1'],
+				'City'				=>	$Account['bill_city'],
+				'Country'			=>	$Account['bill_country'],
+				'AddressLine1'		=>	$Account['bill_street'],
+				'Postcode'			=>	$Account['bill_pobox']
+			);
+			// Fire method 'CreateAccount' for each account
+			$this->CreateAccount($division, $AccountCreateFields);
 		}
 	}
 	
