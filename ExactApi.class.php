@@ -17,15 +17,20 @@ class ExactApi {
 		// * Your access token in the HEADER
 		// * The selection of fields you want returned
 		// * OPTIONAL: a filter, to select a specific record, this should be an array
-		
+
 		// setup a curl
 		$get_curl_handler =  curl_init();
 		// Setup the URL
 		// Check if a filter was used and setup the URL accordingly
 		if ( isset($filter) && is_array($filter) ) {
+			// Do the Account code special work for filtering
+			if ( array_key_exists('Code', $filter) && $suburl == 'crm/Accounts') {
+				$filter['Code'] = preg_replace("/[^0-9,.]/", "", $filter['Code']);
+				$filter['Code'] = str_pad($filter['Code'], 18, " ", STR_PAD_LEFT);
+			}
 			foreach ($filter as $key => $value) {
 				$searchfield 	= (string)$key;
-				$searchterm 	= (string)$value;
+				$searchterm 	= (string)urlencode($value);
 			}
 			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select.'&$filter='.$searchfield.'%20eq%20\''.$searchterm.'\'';
 		} else {
@@ -102,7 +107,7 @@ class ExactApi {
 		var_dump($post_curl_result);		
 	}
 	
-	public function sendPutRequest($suburl, $division, $postfields, $GUID) {
+	public function sendPutRequest($suburl, $division, $putfields, $GUID) {
 		global $OAuth;
 		// Every PUT request has to have:
 		// * The API URL
@@ -118,12 +123,12 @@ class ExactApi {
 		// If there is a postfield named 'Code' it should be padded to end up 18
 		// Characters long with leading spaces. Also, we should first remove all
 		// non-numeric characters, since Exact won't accept them
-		if ( array_key_exists('Code', $postfields && $suburl == 'crm/Accounts') ) {
-			$postfields['Code'] = preg_replace("/[^0-9,.]/", "", $postfields['Code']);
-			$postfields['Code'] = str_pad($postfields['Code'], 18, " ", STR_PAD_LEFT);
+		if ( (array_key_exists('Code', $putfields)) && ($suburl == 'crm/Accounts') ) {
+			$putfields['Code'] = preg_replace("/[^0-9,.]/", "", $putfields['Code']);
+			$putfields['Code'] = str_pad($putfields['Code'], 18, " ", STR_PAD_LEFT);
 		}
 		// Setup the postfields array so that is is a JSON string
-		$postfields = json_encode($postfields);
+		$putfields = json_encode($putfields);
 		// Setup the header
 		$put_curl_header = array (
 			'authorization: Bearer '.$OAuth->getDbValue('access_token'),
@@ -138,7 +143,7 @@ class ExactApi {
 			CURLOPT_HTTPHEADER 		=> $put_curl_header,
 			CURLOPT_ENCODING 		=> '',
 			CURLOPT_CUSTOMREQUEST	=> 'PUT',
-			CURLOPT_POSTFIELDS		=> $postfields
+			CURLOPT_POSTFIELDS		=> $putfields
 		);
 		// Add the cURL options to the handler
 		curl_setopt_array($put_curl_handler, $put_curl_opts);
