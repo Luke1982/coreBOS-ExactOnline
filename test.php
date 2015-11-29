@@ -20,6 +20,12 @@ if ( !isset($_GET['code']) ) {
 	$access_token = $OAuth->getAccessToken($_GET['code']);
 }
 
+// require the API, it instantiates itself
+require('modules/ExactOnline/ExactApi.class.php');
+
+/*==============================================================================*/
+/*======================= SOME TESTS OF THE ACCOUNT CLASS ======================*/
+/*==============================================================================*/
 // Now it's time to Test the accounts Class
 require('modules/ExactOnline/ExactAccounts.class.php');
 
@@ -47,7 +53,32 @@ $Account = new ExactAccounts();
 	// 'Code'	=>	'ACC102547'
 // );
 // Send ALL Accounts to Exact
-$Account->sendAllAccounts($division);
+// Will probably timeout or face the access token time 
+// limit in its current form.
+// $Account->sendAllAccounts($division);
+
+/*===========================================================================*/
+/*======================= SOME TESTS OF THE SALESINVOICE CLASS===============*/
+/*===========================================================================*/
+
+require('modules/ExactOnline/ExactSalesInvoice.class.php');
+
+$SI = new ExactSalesInvoice();
+
+/*===========================================================================*/
+/*==================== SOME TESTS OF THE ITEMS CLASS ========================*/
+/*===========================================================================*/
+
+require('modules/ExactOnline/ExactItems.class.php');
+
+$Item = new ExactItems();
+
+// $ItemCreateFields = array(
+	// 'Code'			=>		'PRO1584',
+	// 'Description'	=>		'Omschrijving van dit product'
+// );
+
+$Item->ExportAllItems($division);
 
 
 
