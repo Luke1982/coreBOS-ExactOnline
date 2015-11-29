@@ -37,11 +37,19 @@ $Account = new ExactAccounts();
 // This function should get all the accounts, working together with the API class..
 // It currently accepts the division and the fields from Accounts you want returned
 // UPDATE: it now also accepts a filter, in array form 
-// $Accountlisting = $Account->listAccounts( $division, 'Name,City,ID,Code');
 
-// echo "<pre>";
-// print_r($Accountlisting);
-// echo "</pre>";
+// Try out the filter, it should be an array with one key and one value like
+// a search. The key is the field you're searching, the value is you search term (has to be exact)
+
+$searchFilter = array (
+	'City' => 'Geldermalsen'
+);
+
+$Accountlisting = $Account->listAccounts( $division, 'Name,City,ID,Code', $searchFilter);
+
+echo "<pre>";
+print_r($Accountlisting);
+echo "</pre>";
 
 
 // Now for the creation of a new Account
@@ -78,7 +86,7 @@ $Item = new ExactItems();
 	// 'Description'	=>		'Omschrijving van dit product'
 // );
 
-$Item->ExportAllItems($division);
+// $Item->ExportAllItems($division);
 
 
 
