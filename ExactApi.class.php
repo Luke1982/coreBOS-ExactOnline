@@ -40,10 +40,8 @@ class ExactApi {
 		$get_curl_result = curl_exec($get_curl_handler);
 		// TEST the new XML2array function
 		$curl_result_array = xml2array($get_curl_result);
-		// Let's see what it gives back
-		echo "<pre>";
-		print_r($curl_result_array);
-		echo "</pre>";
+		// Return the XML in PHP Array form
+		return $curl_result_array;
 	}
 	
 	public function sendPostRequest($suburl, $division, $postfields) {
@@ -59,8 +57,10 @@ class ExactApi {
 		// Setup the URL
 		$request_url = $this->apiUrl.$division.'/'.$suburl;
 		// If there is a postfield named 'Code' it should be padded to end up 18
-		// Characters long with leading spaces
+		// Characters long with leading spaces. Also, we should first remove all
+		// non-numeric characters, since Exact won't accept them
 		if ( array_key_exists('Code', $postfields) ) {
+			$postfields['Code'] = preg_replace("/[^0-9,.]/", "", $postfields['Code']);
 			$postfields['Code'] = str_pad($postfields['Code'], 18, " ", STR_PAD_LEFT);
 		}
 		// Setup the postfields array so that is is a JSON string
