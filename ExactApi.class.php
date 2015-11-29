@@ -16,14 +16,18 @@ class ExactApi {
 		// * The division
 		// * Your access token in the HEADER
 		// * The selection of fields you want returned
-		// * OPTIONAL: a filter, to select a specific record
+		// * OPTIONAL: a filter, to select a specific record, this should be an array
 		
 		// setup a curl
 		$get_curl_handler =  curl_init();
 		// Setup the URL
 		// Check if a filter was used and setup the URL accordingly
-		if ( isset($filter) && $filter != "" ) {
-			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$filter='.$filter.'&$select='.$select;
+		if ( isset($filter) && is_array($filter) ) {
+			foreach ($filter as $key => $value) {
+				$searchfield 	= (string)$key;
+				$searchterm 	= (string)$value;
+			}
+			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select.'&$filter='.$searchfield.'%20eq%20\''.$searchterm.'\'';
 		} else {
 			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select;
 		}
@@ -38,7 +42,8 @@ class ExactApi {
 			CURLOPT_SSL_VERIFYPEER 	=> TRUE,
 			CURLOPT_HEADER 			=> FALSE,
 			CURLOPT_HTTPHEADER 		=> $get_curl_header,
-			CURLOPT_ENCODING 		=> ''
+			CURLOPT_ENCODING 		=> '',
+			CURLOPT_CUSTOMREQUEST	=> 'GET'
 		);
 		// Add the cURL options to the handler
 		curl_setopt_array($get_curl_handler, $get_curl_opts);
