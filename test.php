@@ -41,29 +41,26 @@ $Account = new ExactAccounts();
 // Try out the filter, it should be an array with one key and one value like
 // a search. The key is the field you're searching, the value is you search term (has to be exact)
 
-$searchFilter = array (
-	'City' => 'Geldermalsen'
+// $searchFilter = array (
+	// 'City' => 'Geldermalsen'
+// );
+
+// $Accountlisting = $Account->listAccounts( $division, 'Name,City,ID,Code', $searchFilter);
+
+// echo "<pre>";
+// print_r($Accountlisting);
+// echo "</pre>";
+
+
+$accountCreateFields = array (
+	'Name'	=>	'Testaccount 3',
+	'Email'	=>	'krijg@nouwat.nl',
+	'City'	=>	'Beneden Leeuwen',
+	'Code'	=>	'ACC123456'
 );
 
-$Accountlisting = $Account->listAccounts( $division, 'Name,City,ID,Code', $searchFilter);
+$Account->CreateAccount($division, $accountCreateFields);
 
-echo "<pre>";
-print_r($Accountlisting);
-echo "</pre>";
-
-
-// Now for the creation of a new Account
-// Create an Array with the fields you want to create
-// $accountCreateFields = array (
-	// 'Name'	=>	'Testaccount 2',
-	// 'Email'	=>	'krijg@nouwat.nl',
-	// 'City'	=>	'Krimpen aan de IJssel',
-	// 'Code'	=>	'ACC102547'
-// );
-// Send ALL Accounts to Exact
-// Will probably timeout or face the access token time 
-// limit in its current form.
-// $Account->sendAllAccounts($division);
 
 /*===========================================================================*/
 /*======================= SOME TESTS OF THE SALESINVOICE CLASS===============*/
