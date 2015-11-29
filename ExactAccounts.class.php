@@ -14,15 +14,11 @@ class ExactAccounts extends ExactApi{
 		$filterstring = "";
 		// See if there was a filter and include it in the getrequest call
 		if ( isset($filter) && is_array($filter)) {
-			$i = 0;
-			foreach ($filter as $filterkey => $filtervalue) {
-				if (++$i == 2) break;
-				// If we want to filter on account code, remember we have
-				// to add padding to get to an 18 character string
-				$filterstring = $filterkey." eq '".$filtervalue."'";
-			}
+			return $this->sendGetRequest('crm/Accounts', $division, $selection, $filter);
+		} else { //If there was no filter
+			return $this->sendGetRequest('crm/Accounts', $division, $selection);
 		}
-		return $this->sendGetRequest('crm/Accounts', $division, $selection, $filterstring);
+		
 	}
 	
 	public function CreateAccount($division, $fields) {
