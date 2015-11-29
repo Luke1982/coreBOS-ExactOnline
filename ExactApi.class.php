@@ -6,6 +6,7 @@ class ExactApi {
 	
 	public function __construct() {
 		require_once('modules/ExactOnline/ExactOAuth.class.php');
+		require_once('modules/ExactOnline/functions.php');
 	}
 	
 	public function sendGetRequest($suburl = NULL, $division = NULL, $select = NULL) {
@@ -37,8 +38,12 @@ class ExactApi {
 		curl_setopt_array($get_curl_handler, $get_curl_opts);
 		// Execute the cURL
 		$get_curl_result = curl_exec($get_curl_handler);
-		// TEST to see the result
-		var_dump($get_curl_result);
+		// TEST the new XML2array function
+		$curl_result_array = xml2array($get_curl_result);
+		// Let's see what it gives back
+		echo "<pre>";
+		print_r($curl_result_array);
+		echo "</pre>";
 	}
 	
 	public function sendPostRequest($suburl, $division, $postfields) {
