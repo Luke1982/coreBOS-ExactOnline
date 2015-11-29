@@ -30,17 +30,34 @@ $division = '1041426';
 $Account = new ExactAccounts();
 // This function should get all the accounts, working together with the API class..
 // It currently accepts the division and the fields from Accounts you want returned
-$Account->listAll($division, 'Name,City,Code');
+// UPDATE: it now also accepts a filter
+$Accountlisting = $Account->listAccounts($division, 'Name,City,Code,ID','789');
+
+echo "<pre>";
+print_r($Accountlisting);
+echo "</pre>";
 
 
 // Now for the creation of a new Account
 // Create an Array with the fields you want to create
-$accountCreateFields = array (
-	'Name'	=>	'Krijg nou wat',
-	'Email'	=>	'krijg@nouwat.nl',
-	'City'	=>	'Geldermalsen',
-	'Code'	=>	'1587'
-);
+// $accountCreateFields = array (
+	// 'Name'	=>	'Krijg nou wat',
+	// 'Email'	=>	'krijg@nouwat.nl',
+	// 'City'	=>	'Geldermalsen',
+	// 'Code'	=>	'ACC789'
+// );
+// Feed them to the create account method
+// $Account->CreateAccount($division, $accountCreateFields);
+
+// If we feed the same account, but change the address, can we update the record?
+// Now for the creation of a new Account
+// Create an Array with the fields you want to create
+// $accountCreateFields = array (
+	// 'Name'	=>	'Krijg nou wat',
+	// 'Email'	=>	'krijg@nouwat.nl',
+	// 'City'	=>	'Tricht',
+	// 'Code'	=>	'ACC789'
+// );
 // Feed them to the create account method
 // $Account->CreateAccount($division, $accountCreateFields);
 
