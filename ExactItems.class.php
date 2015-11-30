@@ -37,6 +37,22 @@ class ExactItems extends ExactApi{
 		}
 	}
 	
+	public function ExportAllServices ($division) {
+		// Attempts to send ALL services from coreBOS to Exact
+		global $adb;
+		// Get all the products from coreBOS
+		$serviceResult = $adb->pquery('SELECT service_no, servicename FROM vtiger_service', array());
+		// Loop them and insert them into Exact
+		while ( $service = $adb->fetch_array($serviceResult) ) {
+			$servicePostFields = array(
+				'Code'			=>		$service['service_no'],
+				'Description'	=>		$service['servicename']
+			);
+			// Let's send the post request for this Item in teh loop
+			$this->sendPostRequest('logistics/Items', $division, $servicePostFields);
+		}
+	}
+	
 }
 
 ?>
