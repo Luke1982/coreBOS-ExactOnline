@@ -27,13 +27,11 @@ class ExactAccounts extends ExactApi{
 				if ( !$this->AccountExists($division, $fields) ) {
 					// It doesn't exist, so send a POST
 					$this->sendPostRequest('crm/Accounts', $division, $fields);
-					echo "Account Created";
 				} else {
 					// It already exists, so send a PUT
 					// We need to provide the Exact 'guid' code for this, so let's retrieve it
 					$ExactGUID = $this->getAccountGUID($division, $fields['Code']);
 					$this->sendPutRequest('crm/Accounts', $division, $fields, $ExactGUID);
-					echo "Account Updated";
 				}
 			} else {
 				echo "You need to provide an Account code, make sure to set array key with a capital C.";
@@ -53,27 +51,28 @@ class ExactAccounts extends ExactApi{
 		);
 		// Now get the array filtering on the code
 		$AccountsCodeArray = $this->listAccounts($division,'Code',$filterCode);
-		$FeedArray = $AccountsCodeArray['feed'];
-		// Now check if this array has a child named 'entry' to see if the code exists
-		if ( array_key_exists('entry', $FeedArray) ) {
-			return TRUE;
+		// Only perform action if the result was an array
+		if ( is_array($AccountsCodeArray) ) {
+			$FeedArray = $AccountsCodeArray['feed'];
+			// Now check if this array has a child named 'entry' to see if the code exists
+			if ( array_key_exists('entry', $FeedArray) ) {
+				return TRUE;
+			} else {
+				return FALSE;
+			}
 		} else {
-			return FALSE;
+			echo "Result from listAccounts wasn't an array";
 		}
 	}
 	
 	public function getAccountGUID($division, $code) {
 		// Takes a provided code and gets the correct guid for it.
-		$AccountsCodeArray = $this->listAccounts($division,'Code,ID');
-		// Strip any non-numerical from the code
-		$code = preg_replace("/[^0-9,.]/", "", $code);
-		// Loop through the accounts from Exact
-		foreach ( $AccountsCodeArray['feed']['entry'] as $entry ) {
-			$ExactAccountCode = trim($entry['content']['m:properties']['d:Code']);
-			if ($ExactAccountCode == $code) {
-				return $entry['content']['m:properties']['d:ID'];
-			}
-		}
+		$codeFilter = array(
+			'Code' => $code
+		);
+		$AccountsCodeArray = $this->listAccounts($division,'ID',$codeFilter);
+		return $AccountsCodeArray['feed']['entry']['content']['m:properties']['d:ID'];
+		echo "</pre>";
 	}
 	
 	public function sendAllAccounts($division) {
@@ -101,7 +100,8 @@ class ExactAccounts extends ExactApi{
 				'City'				=>	$Account['bill_city'],
 				'Country'			=>	$Account['bill_country'],
 				'AddressLine1'		=>	$Account['bill_street'],
-				'Postcode'			=>	$Account['bill_pobox']
+				'Postcode'			=>	$Account['bill_pobox'],
+				'Status'			=>	'C'
 			);
 			// Fire method 'CreateAccount' for each account
 			$this->CreateAccount($division, $AccountCreateFields);
@@ -109,5 +109,7 @@ class ExactAccounts extends ExactApi{
 	}
 	
 }
+
+$Account = new ExactAccounts();
 
 ?>
