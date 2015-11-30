@@ -6,18 +6,27 @@ ini_set("display_errors", "on");
 // TODO: OAuth class contains database method, maybe move this to a separate class
 require('modules/ExactOnline/ExactOAuth.class.php');
 
-// If we don't have a code (so we're at the start of the Auth process)
-if ( !isset($_GET['code']) ) {
-	// Redirect to come back with the code
-	$getCode = $OAuth->getCode();
-} else {
-	// Now here's the tricky part:
-	// When we request a token, we have to also store WHEN we received it
-	// Then check if a previous one hasn't expired
-	// This all happens in 'getAccessToken' and related methods inside the
-	// ExactOAuth Class. This methods returns the access token and refreshes
-	// it when necessary, it does need the code from the initial GET request
-	$access_token = $OAuth->getAccessToken($_GET['code']);
+// If the 'last token time' is 0 (default value), we'll assume this is the very first run
+if ($OAuth->lastTokenTime() == 0) {
+
+	// If we don't have a code (so we're at the start of the Auth process)
+	if ( !isset($_GET['code']) ) {
+		// Redirect to come back with the code
+		$getCode = $OAuth->getCode();
+	} else {
+		// Now here's the tricky part:
+		// When we request a token, we have to also store WHEN we received it
+		// Then check if a previous one hasn't expired
+		// This all happens in 'getAccessToken' and related methods inside the
+		// ExactOAuth Class. This methods returns the access token and refreshes
+		// it when necessary, it does need the code from the initial GET request
+		$access_token = $OAuth->getAccessToken($_GET['code']);
+	}
+
+} else { 
+// The last refresh time wasn't 0, we'll assume there has been a login before
+// So we just need to refresh the token
+		$OAuth->refreshToken();
 }
 
 // require the API, it instantiates itself
