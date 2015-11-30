@@ -27,11 +27,13 @@ class ExactAccounts extends ExactApi{
 				if ( !$this->AccountExists($division, $fields) ) {
 					// It doesn't exist, so send a POST
 					$this->sendPostRequest('crm/Accounts', $division, $fields);
+					echo "Account Created";
 				} else {
 					// It already exists, so send a PUT
 					// We need to provide the Exact 'guid' code for this, so let's retrieve it
 					$ExactGUID = $this->getAccountGUID($division, $fields['Code']);
 					$this->sendPutRequest('crm/Accounts', $division, $fields, $ExactGUID);
+					echo "Account Updated";
 				}
 			} else {
 				echo "You need to provide an Account code, make sure to set array key with a capital C.";
@@ -54,7 +56,6 @@ class ExactAccounts extends ExactApi{
 		$FeedArray = $AccountsCodeArray['feed'];
 		// Now check if this array has a child named 'entry' to see if the code exists
 		if ( array_key_exists('entry', $FeedArray) ) {
-			echo "Account already exists";
 			return TRUE;
 		} else {
 			return FALSE;
