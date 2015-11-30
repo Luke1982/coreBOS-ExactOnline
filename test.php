@@ -64,7 +64,7 @@ $Account = new ExactAccounts();
 $accountCreateFields = array (
 	'Name'	=>	'Testaccount 3',
 	'Email'	=>	'krijg@nouwat.nl',
-	'City'	=>	'Beneden Leeuwen',
+	'City'	=>	'Darmstad',
 	'Code'	=>	'ACC123456'
 );
 
