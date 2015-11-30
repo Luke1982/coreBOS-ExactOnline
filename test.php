@@ -25,8 +25,11 @@ if ($OAuth->lastTokenTime() == 0) {
 
 } else { 
 // The last refresh time wasn't 0, we'll assume there has been a login before
-// So we just need to refresh the token
+// So we just need to check if the current access token has expired and refresh if
+// Necessary
+	if ( ($OAuth->lastTokenTime() + 600) <= time() ) {
 		$OAuth->refreshToken();
+	}
 }
 
 // require the API, it instantiates itself
@@ -40,9 +43,10 @@ require('modules/ExactOnline/ExactAccounts.class.php');
 
 // First set your division, so Exact can identify you
 $division = '1041426';
+// $division = '1041412';
 
 // Let's get all Accounts from our administration
-$Account = new ExactAccounts();
+
 // This function should get all the accounts, working together with the API class..
 // It currently accepts the division and the fields from Accounts you want returned
 // UPDATE: it now also accepts a filter, in array form 
@@ -64,11 +68,13 @@ $Account = new ExactAccounts();
 $accountCreateFields = array (
 	'Name'	=>	'Testaccount 3',
 	'Email'	=>	'krijg@nouwat.nl',
-	'City'	=>	'Darmstad',
-	'Code'	=>	'ACC123456'
+	'City'	=>	'Geldermalsen',
+	'Code'	=>	'ACC123456',
+	'Status'=>	'C'
 );
 
-$Account->CreateAccount($division, $accountCreateFields);
+// $test = $Account->getAccountGUID($division, 'ACC50');
+
 
 
 /*===========================================================================*/
@@ -77,7 +83,13 @@ $Account->CreateAccount($division, $accountCreateFields);
 
 require('modules/ExactOnline/ExactSalesInvoice.class.php');
 
-$SI = new ExactSalesInvoice();
+$SI->CreateSalesInvoice($division,'20140808');
+// $test = $SI->journals($division);
+// echo "<pre>";
+// var_dump($test);
+// echo "</pre>";
+
+
 
 /*===========================================================================*/
 /*==================== SOME TESTS OF THE ITEMS CLASS ========================*/
@@ -92,7 +104,7 @@ $Item = new ExactItems();
 	// 'Description'	=>		'Omschrijving van dit product'
 // );
 
-// $Item->ExportAllItems($division);
+// $Item->ExportAllServices($division);
 
 
 
