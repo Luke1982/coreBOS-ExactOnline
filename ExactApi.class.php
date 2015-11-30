@@ -104,7 +104,10 @@ class ExactApi {
 		// Execute the cURL
 		$post_curl_result = curl_exec($post_curl_handler);
 		// TEST to see the result
-		var_dump($post_curl_result);		
+		var_dump($postfields);	
+		var_dump($post_curl_result);
+		// Close the curl
+		curl_close($post_curl_handler);
 	}
 	
 	public function sendPutRequest($suburl, $division, $putfields, $GUID) {
