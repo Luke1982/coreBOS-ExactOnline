@@ -83,7 +83,7 @@ $accountCreateFields = array (
 
 require('modules/ExactOnline/ExactSalesInvoice.class.php');
 
-$SI->CreateSalesInvoice($division,'20140808');
+$SI->CreateSalesInvoice($division,'20151247');
 // $test = $SI->journals($division);
 // echo "<pre>";
 // var_dump($test);
