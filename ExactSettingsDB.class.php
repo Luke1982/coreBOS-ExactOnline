@@ -17,10 +17,22 @@ class ExactSettingsDB {
 		return $Field;
 	}
 	
-	//function to set the value of a specific column from the database
-	public function setDbValue($columnname, $value) {
+	//function to save the access token into the database
+	public function saveAccessToken($value) {
 		global $adb;
-		$adb->pquery('UPDATE vtiger_exactonline SET ?=? WHERE exactonlineid=?',array($columnname, $value, 0));
+		$adb->pquery('UPDATE vtiger_exactonline SET access_token=? WHERE exactonlineid=0',array($value));
+	}
+	
+	//function to save the refresh token into the database
+	public function saveRefreshToken($value) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline SET refresh_token=? WHERE exactonlineid=0',array($value));
+	}
+	
+	//function to save the refreshed time into the database
+	public function saveRefreshedTime() {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline SET exactrefreshedtime=? WHERE exactonlineid=0',array(time()));
 	}
 	
 }

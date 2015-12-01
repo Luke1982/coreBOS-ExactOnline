@@ -1,6 +1,6 @@
 <?php
 
-// Includes the ExactSettingsDB class that self-instantiates as $SDB
+// Includes the ExactSettingsDB class that self-instantiates as $this
 require_once('modules/ExactOnline/ExactSettingsDB.class.php');
 
 class ExactOAuth extends ExactSettingsDB {
@@ -15,15 +15,14 @@ class ExactOAuth extends ExactSettingsDB {
 	// This function redirects to the auth URL and requests the user to authorize user
 	// After that it comes back with a code in the GET parameter
 	public function getCode() {
-		global $SDB;
 		$code_url_params = array(
-			'client_id'		=>	$SDB->getDbValue('exactclientid'),
-			'redirect_uri'	=>	$SDB->getDbValue('exactreturnurl'),
+			'client_id'		=>	$this->getDbValue('exactclientid'),
+			'redirect_uri'	=>	$this->getDbValue('exactreturnurl'),
 			'response_type'	=>	'code',
 			'force_login'	=>	0
 		);
 		$code_url_query = http_build_query($code_url_params, '', '&', PHP_QUERY_RFC3986);
-		header( "Location: ".$SDB->getDbValue('exactauthurl').'?'.$code_url_query, TRUE, 302 );
+		header( "Location: ".$this->getDbValue('exactauthurl').'?'.$code_url_query, TRUE, 302 );
 	}
 	
 	// function to get to the access token
@@ -32,17 +31,16 @@ class ExactOAuth extends ExactSettingsDB {
 	// You receive this from the first step in the Auth process
 	// Described on https://developers.exactonline.com/#OAuth_Tutorial.html%3FTocPath%3DAuthentication|_____2
 	public function getAccessToken($code) {
-		global $SDB;
 		// First, let's see if there IS an access token in the database, and if it hasn't expired
 		// The last check is to see if the refresh time isn't zero, which would indicate first run
-		if ( $SDB->getDbValue('access_token') != "" &&  time() <= ($this->lastTokenTime() + 600 ) && $this->lastTokenTime() != 0) {
+		if ( $this->getDbValue('access_token') != "" &&  time() <= ($this->lastTokenTime() + 600 ) && $this->lastTokenTime() != 0) {
 			// Well if all of the above is OK, we can use the current token
-			return $SDB->getDbValue('access_token');
-		} else if ( $SDB->getDbValue('access_token') != "" &&  time() >= ($this->lastTokenTime() + 600 ) ) {
+			return $this->getDbValue('access_token');
+		} else if ( $this->getDbValue('access_token') != "" &&  time() >= ($this->lastTokenTime() + 600 ) ) {
 			// There IS an access token, but it expired
 			$this->refreshToken();
 			// OK, we're all refreshed now, let's return the new token
-			return $SDB->getDbValue('access_token');
+			return $this->getDbValue('access_token');
 		} else if ( $this->lastTokenTime() == 0 ) {
 			// This is the first time, let's get an access token!
 			// Setup a CURL
@@ -50,17 +48,17 @@ class ExactOAuth extends ExactSettingsDB {
 			// Setup the post fields for this curl request
 			$token_postfields = array(
 				'code'			=>	$code,
-				'redirect_uri'	=>	$SDB->getDbValue('exactreturnurl'),
+				'redirect_uri'	=>	$this->getDbValue('exactreturnurl'),
 				'grant_type'	=>	'authorization_code',
-				'client_id'		=>	$SDB->getDbValue('exactclientid'),
-				'client_secret'	=>	$SDB->getDbValue('exactsecret')
+				'client_id'		=>	$this->getDbValue('exactclientid'),
+				'client_secret'	=>	$this->getDbValue('exactsecret')
 			);
 			// Turn the postfields into a query
 			$token_postfields_query = http_build_query($token_postfields, '', '&');
 			// Setup the Curl options
 			$token_curl_opts = array(
 				CURLOPT_RETURNTRANSFER => 1,
-				CURLOPT_URL => $SDB->getDbValue('exacttokenurl'),
+				CURLOPT_URL => $this->getDbValue('exacttokenurl'),
 				CURLOPT_SSL_VERIFYPEER => TRUE,
 				CURLOPT_POST => 1,
 				CURLOPT_POSTFIELDS => $token_postfields_query
@@ -75,49 +73,46 @@ class ExactOAuth extends ExactSettingsDB {
 			// token is requested, the TRUE parameter indicates to update the timestamp
 			$this->storeToken($token_result_array, TRUE);
 			// We're good to go, return the access token
-			return $SDB->getDbValue('access_token');
+			return $this->getDbValue('access_token');
 		}
 	}
 	
 	public function lastTokenTime() {
-		global $SDB;
-		return $SDB->getDbValue('exactrefreshedtime');
+		return $this->getDbValue('exactrefreshedtime');
 	}
 	
 	public function storeToken($tokenResultArray, $newTimeStamp = FALSE) {
-		global $adb;
 		// Loop through results from getAccessToken of RefreshToken
 		foreach ($tokenResultArray as $key => $value) {
 			// Only store the Access token en Refresh Token
 			if ($key == 'access_token') {
-				$adb->pquery('UPDATE vtiger_exactonline SET access_token=? WHERE exactonlineid=?',array($value, 0));
+				$this->saveAccessToken($value);
 			} else if ($key == 'refresh_token') {
-				$adb->pquery('UPDATE vtiger_exactonline SET refresh_token=? WHERE exactonlineid=?',array($value, 0));
+				$this->saveRefreshToken($value);
 			}
 		}
 		// If this is the initial token request
 		if ($newTimeStamp == TRUE) {
-			$adb->pquery('UPDATE vtiger_exactonline SET exactrefreshedtime=? WHERE exactonlineid=?', array(time(),0));
+			$this->saveRefreshedTime();
 		}
 	}
 	
 	public function refreshToken() {
-		global $SDB;
 		// setup the refresh cURL
 		$refresh_handler = curl_init();
 		// Setup the POST parameters
 		$refresh_post_params = array(
-			'refresh_token'		=>	$SDB->getDbValue('refresh_token'),
+			'refresh_token'		=>	$this->getDbValue('refresh_token'),
 			'grant_type'		=>	'refresh_token',
-			'client_id'			=>	$SDB->getDbValue('exactclientid'),
-			'client_secret'		=>	$SDB->getDbValue('exactsecret')
+			'client_id'			=>	$this->getDbValue('exactclientid'),
+			'client_secret'		=>	$this->getDbValue('exactsecret')
 		);
 		// Create a query string
 		$refresh_postfields_query = http_build_query($refresh_post_params, '', '&');
 		// Setup the cURL options
 		$refresh_curl_opts = array(
 			CURLOPT_RETURNTRANSFER => 1,
-			CURLOPT_URL => $SDB->getDbValue('exacttokenurl'),
+			CURLOPT_URL => $this->getDbValue('exacttokenurl'),
 			CURLOPT_SSL_VERIFYPEER => TRUE,
 			CURLOPT_POST => 1,
 			CURLOPT_POSTFIELDS => $refresh_postfields_query
