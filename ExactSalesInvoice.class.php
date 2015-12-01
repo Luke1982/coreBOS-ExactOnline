@@ -38,8 +38,20 @@ class ExactSalesInvoice extends ExactApi{
 			'Description'		=>	$invoiceData['subject'],
 			'SalesInvoiceLines'	=>	$InvoiceLines
 		);
-		// Send the invoice
-		$this->sendPostRequest('salesinvoice/SalesInvoices', $division, $SIpostfields);
+		// Send the invoice and catch it in a var, we want to do some things to it
+		$returnedSI = $this->sendPostRequest('salesinvoice/SalesInvoices', $division, $SIpostfields);
+		// Now create an array from the returned string
+		$returnedSI = explode("\n", $returnedSI);
+		// Create the start string for the report
+		$returnedLines = '';
+		foreach ($returnedSI as $returnLine) {
+			// Filter out the strings that only exist of empty spaces
+			if ( trim($returnLine) != "" ) { 
+				$returnedLines .= $returnLine.'<br>';
+			}
+		}
+		// Return an UL with all the returned lines as an LI element.
+		return $returnedLines;
 	}
 	
 	public function getSalesInvoiceLines($division, $invoiceno) {
