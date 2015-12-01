@@ -4,8 +4,6 @@ class ExactSalesInvoice extends ExactApi{
 	
 	public function __construct() {
 		require_once('vtlib/Vtiger/Module.php');
-		// To be removed, we know how to get JSON now
-		// require_once('modules/ExactOnline/functions.php');
 		require_once('modules/ExactOnline/ExactAccounts.class.php');
 	}
 	

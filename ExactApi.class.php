@@ -6,8 +6,6 @@ class ExactApi {
 	
 	public function __construct() {
 		require_once('modules/ExactOnline/ExactOAuth.class.php');
-		// To be removed, we know how to get JSON back now
-		// require_once('modules/ExactOnline/functions.php');
 	}
 	
 	public function sendGetRequest($suburl = NULL, $division = NULL, $select = NULL, $filter = NULL) {
@@ -56,8 +54,6 @@ class ExactApi {
 		curl_setopt_array($get_curl_handler, $get_curl_opts);
 		// Execute the cURL
 		$get_curl_result = curl_exec($get_curl_handler);
-		// TEST the new XML2array function
-		// $get_result_array = xml2array($get_curl_result);
 		// Return the JSON in PHP Array form
 		return json_decode($get_curl_result, true);
 		// Close the curl
