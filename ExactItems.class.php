@@ -1,5 +1,7 @@
 <?php
 
+require_once('modules/ExactOnline/ExactApi.class.php');
+
 class ExactItems extends ExactApi{
 	
 	// This class will handle all the products, or Items
@@ -8,7 +10,6 @@ class ExactItems extends ExactApi{
 	
 	public function __construct() {
 		require_once('vtlib/Vtiger/Module.php');
-		require_once('modules/ExactOnline/functions.php');
 	}
 	
 	public function CreateItem($division, $postarray) {
