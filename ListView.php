@@ -7,5 +7,5 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-include('modules/Vtiger/Settings.php');
+include_once('modules/Vtiger/ListView.php');
 ?>

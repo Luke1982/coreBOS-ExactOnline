@@ -12,9 +12,9 @@ class ExactSalesInvoice extends ExactApi{
 		// Here's the function that creates a sales invoice
 		// It only needs the division and invoice no.
 		global $adb, $Account;
-		// Get the invoice subject line
-		$IR = $adb->pquery('SELECT subject FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
-		$invoiceSubject = $adb->query_result($IR,0,'subject');
+		// Get some more information from the invoice
+		$IR = $adb->pquery('SELECT subject, invoicedate FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
+		$invoiceData = $adb->query_result_rowdata($IR,0);
 		// Get the Account number related to this invoice
 		$accountResultforInvoice = $adb->pquery('SELECT account_no FROM vtiger_account LEFT JOIN vtiger_invoice ON vtiger_account.accountid=vtiger_invoice.accountid WHERE vtiger_invoice.invoice_no=?',array($invoiceno));
 		$AccNoForThisInvoice = $adb->query_result($accountResultforInvoice,0,'account_no');
@@ -31,9 +31,10 @@ class ExactSalesInvoice extends ExactApi{
 			'Journal'			=>	'50',
 			'OrderedBy'			=>	$AccGuidForThisInv,
 			'InvoiceTo'			=>	$AccGuidForThisInv,
+			'InvoiceDate'		=>	$invoiceData['invoicedate'],
 			'Type'				=>	8020,
 			'OrderNumber'		=>	$invoiceno,
-			'Description'		=>	$invoiceSubject,
+			'Description'		=>	$invoiceData['subject'],
 			'SalesInvoiceLines'	=>	$InvoiceLines
 		);
 		// Send the invoice
