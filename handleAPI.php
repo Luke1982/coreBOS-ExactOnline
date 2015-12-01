@@ -60,6 +60,10 @@ function sendAccountToExact($entity) {
 	Authenticate();
 	include_once('modules/ExactOnline/classes/includeExactClasses.php');
 	global $adb;
+	list($acc,$acc_id) = explode('x',$entity->data['id']);
+	// Get the bill address for this account
+	$AR = $adb->pquery('SELECT bill_city, bill_code, bill_country, bill_street FROM vtiger_accountbillads WHERE accountaddressid=?',array($acc_id));
+	$AccAddress = $adb->query_result_rowdata($AR,0);
 	$SDB = new ExactSettingsDB();
 	$Account = new ExactAccounts();
 	// Get the division
@@ -68,7 +72,12 @@ function sendAccountToExact($entity) {
 	// If the account was already there and update it if it is.
 	$accountFields = array(
 		'Code'			=>	$entity->data['account_no'],
-		'Name'			=>	$entity->data['accountname']
+		'Name'			=>	$entity->data['accountname'],
+		'City'			=>	$AccAddress['bill_city'],
+		'Email'			=>	$entity->data['email1'],
+		'AddressLine1'	=>	$AccAddress['bill_street'],
+		'Postcode'		=>	$AccAddress['bill_code'],
+		'Status'		=>	'C'
 	);
 	$Account->CreateAccount($division, $accountFields);
 }
