@@ -49,17 +49,12 @@ class ExactAccounts extends ExactApi{
 		);
 		// Now get the array filtering on the code
 		$AccountsCodeArray = $this->listAccounts($division,'Code',$filterCode);
-		// Only perform action if the result was an array
-		if ( is_array($AccountsCodeArray) ) {
-			$FeedArray = $AccountsCodeArray['feed'];
-			// Now check if this array has a child named 'entry' to see if the code exists
-			if ( array_key_exists('entry', $FeedArray) ) {
-				return TRUE;
-			} else {
-				return FALSE;
-			}
+		// Return TRUE if the Array key 'Code' exists in the answer from Exact
+		if ( array_key_exists('Code',$AccountsCodeArray['d']['results'][0]) ) {
+			return TRUE;
 		} else {
-			echo "Result from listAccounts wasn't an array";
+			// The account code did not exist
+			return FALSE;
 		}
 	}
 	
@@ -106,8 +101,5 @@ class ExactAccounts extends ExactApi{
 	}
 	
 }
-
-// Instantiate yourself
-// $Account = new ExactAccounts();
 
 ?>
