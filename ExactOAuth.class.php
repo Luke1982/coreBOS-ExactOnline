@@ -79,13 +79,9 @@ class ExactOAuth extends ExactSettingsDB {
 		}
 	}
 	
-	// This one is quite stupid, I could just use my own 'getDbValue' function for this to get the last
-	// refresh time...
 	public function lastTokenTime() {
-		global $adb;
-		$refreshTimeResult = $adb->pquery('SELECT * FROM vtiger_exactonline WHERE exactonlineid=?',array(0));
-		$lastRefreshed = $adb->query_result($refreshTimeResult,0,'exactrefreshedtime');
-		return $lastRefreshed;
+		global $SDB;
+		return $SDB->getDbValue('exactrefreshedtime');
 	}
 	
 	public function storeToken($tokenResultArray, $newTimeStamp = FALSE) {
