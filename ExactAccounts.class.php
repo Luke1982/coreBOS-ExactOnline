@@ -71,7 +71,7 @@ class ExactAccounts extends ExactApi{
 			'Code' => $code
 		);
 		$AccountsCodeArray = $this->listAccounts($division,'ID',$codeFilter);
-		return $AccountsCodeArray['feed']['entry']['content']['m:properties']['d:ID'];
+		return $AccountsCodeArray['d']['results'][0]['ID'];
 	}
 	
 	public function sendAllAccounts($division) {

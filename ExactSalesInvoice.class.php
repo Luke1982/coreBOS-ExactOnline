@@ -4,7 +4,8 @@ class ExactSalesInvoice extends ExactApi{
 	
 	public function __construct() {
 		require_once('vtlib/Vtiger/Module.php');
-		require_once('modules/ExactOnline/functions.php');
+		// To be removed, we know how to get JSON now
+		// require_once('modules/ExactOnline/functions.php');
 		require_once('modules/ExactOnline/ExactAccounts.class.php');
 	}
 	
@@ -102,7 +103,7 @@ class ExactSalesInvoice extends ExactApi{
 			'Code'	=>	$productcode
 		);
 		$ProductArray = $this->sendGetRequest('logistics/Items', $division, 'ID', $productFilter);
-		return $ProductArray['feed']['entry']['content']['m:properties']['d:ID'];
+		return $ProductArray['d']['results'][0]['ID'];
 	}
 	
 	// TEST function to see what 'Journals' are available
