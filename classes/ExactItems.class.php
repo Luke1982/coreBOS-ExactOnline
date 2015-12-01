@@ -1,7 +1,5 @@
 <?php
 
-require_once('modules/ExactOnline/classes/ExactApi.class.php');
-
 class ExactItems extends ExactApi{
 	
 	// This class will handle all the products, or Items

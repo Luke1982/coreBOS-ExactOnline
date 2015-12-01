@@ -4,12 +4,12 @@ class ExactApi {
 	
 	private $apiUrl = 'https://start.exactonline.nl/api/v1/';
 	
-	public function __construct() {
-		require_once('modules/ExactOnline/classes/ExactOAuth.class.php');
+	function __construct() {
+		include_once('modules/ExactOnline/classes/ExactSettingsDB.class.php');
 	}
 	
 	public function sendGetRequest($suburl = NULL, $division = NULL, $select = NULL, $filter = NULL) {
-		global $OAuth;
+		$SDB = new ExactSettingsDB();
 		// Every get request has to have:
 		// * The API URL
 		// * The division
@@ -37,7 +37,7 @@ class ExactApi {
 		}
 		// Setup the header
 		$get_curl_header = array (
-			'authorization: Bearer '.$OAuth->getDbValue('access_token'),
+			'authorization: Bearer '.$SDB->getDbValue('access_token'),
 			'Accept: application/JSON'
 		);
 		// Setup the cURL options
@@ -61,7 +61,7 @@ class ExactApi {
 	}
 	
 	public function sendPostRequest($suburl, $division, $postfields) {
-		global $OAuth;
+		$SDB = new ExactSettingsDB();
 		// Every POST request has to have:
 		// * The API URL
 		// * The division
@@ -85,7 +85,7 @@ class ExactApi {
 		$postfields = json_encode($postfields);
 		// Setup the header
 		$post_curl_header = array (
-			'authorization: Bearer '.$OAuth->getDbValue('access_token'),
+			'authorization: Bearer '.$SDB->getDbValue('access_token'),
 			'Content-Type:application/json'
 		);
 		// Setup the cURL options
@@ -111,7 +111,7 @@ class ExactApi {
 	}
 	
 	public function sendPutRequest($suburl, $division, $putfields, $GUID) {
-		global $OAuth;
+		$SDB = new ExactSettingsDB();
 		// Every PUT request has to have:
 		// * The API URL
 		// * The internal Exact guid for this record
@@ -134,7 +134,7 @@ class ExactApi {
 		$putfields = json_encode($putfields);
 		// Setup the header
 		$put_curl_header = array (
-			'authorization: Bearer '.$OAuth->getDbValue('access_token'),
+			'authorization: Bearer '.$SDB->getDbValue('access_token'),
 			'Content-Type:application/json'
 		);
 		// Setup the cURL options
@@ -159,6 +159,6 @@ class ExactApi {
 }
 
 // Instantiate yourself
-$ExactAPI = new ExactOAuth();
+// $ExactAPI = new ExactApi();
 
 ?>

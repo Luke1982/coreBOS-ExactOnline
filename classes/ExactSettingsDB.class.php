@@ -1,7 +1,7 @@
 <?php
 
 class ExactSettingsDB {
-	// THe class is meant to handle all the interaction
+	// This class is meant to handle all the interaction
 	// between the Settings database for the Exact Online
 	// module and the module
 	
@@ -36,8 +36,5 @@ class ExactSettingsDB {
 	}
 	
 }
-
-// Instantiate yourself
-$SDB = new ExactSettingsDB();
 
 ?>

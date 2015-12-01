@@ -1,8 +1,5 @@
 <?php
 
-// Includes the ExactSettingsDB class that self-instantiates as $SDB
-require_once('modules/ExactOnline/classes/ExactSettingsDB.class.php');
-
 class ExactOAuth extends ExactSettingsDB {
 	
 	// Function to get a code. You need this code to get the access token
@@ -126,6 +123,6 @@ class ExactOAuth extends ExactSettingsDB {
 }
 
 // Instantiate yourself
-$OAuth = new ExactOAuth();
+// $OAuth = new ExactOAuth();
 
 ?>

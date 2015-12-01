@@ -1,12 +1,9 @@
 <?php
 
-require_once('modules/ExactOnline/classes/ExactApi.class.php');
-
 class ExactSalesInvoice extends ExactApi{
 	
 	public function __construct() {
 		require_once('vtlib/Vtiger/Module.php');
-		require_once('modules/ExactOnline/classes/ExactAccounts.class.php');
 	}
 	
 	public function CreateSalesInvoice($division, $invoiceno) {
@@ -130,5 +127,5 @@ class ExactSalesInvoice extends ExactApi{
 }
 
 // Instantiate yourself
-$SI = new ExactSalesInvoice();
+// $SI = new ExactSalesInvoice();
 ?>

@@ -1,7 +1,5 @@
 <?php
 
-require_once('modules/ExactOnline/classes/ExactApi.class.php');
-
 class ExactAccounts extends ExactApi{
 	
 	public function __construct() {
@@ -17,7 +15,6 @@ class ExactAccounts extends ExactApi{
 		} else { //If there was no filter
 			return $this->sendGetRequest('crm/Accounts', $division, $selection);
 		}
-		
 	}
 	
 	public function CreateAccount($division, $fields) {
@@ -111,6 +108,6 @@ class ExactAccounts extends ExactApi{
 }
 
 // Instantiate yourself
-$Account = new ExactAccounts();
+// $Account = new ExactAccounts();
 
 ?>
