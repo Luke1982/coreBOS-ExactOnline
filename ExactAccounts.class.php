@@ -1,5 +1,7 @@
 <?php
 
+require_once('modules/ExactOnline/ExactApi.class.php');
+
 class ExactAccounts extends ExactApi{
 	
 	public function __construct() {
@@ -108,6 +110,7 @@ class ExactAccounts extends ExactApi{
 	
 }
 
+// Instantiate yourself
 $Account = new ExactAccounts();
 
 ?>

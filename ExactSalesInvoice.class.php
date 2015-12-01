@@ -1,5 +1,7 @@
 <?php
 
+require_once('modules/ExactOnline/ExactApi.class.php');
+
 class ExactSalesInvoice extends ExactApi{
 	
 	public function __construct() {
@@ -127,5 +129,6 @@ class ExactSalesInvoice extends ExactApi{
 	}
 }
 
+// Instantiate yourself
 $SI = new ExactSalesInvoice();
 ?>
