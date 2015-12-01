@@ -14,7 +14,7 @@ class ExactOnline extends CRMEntity {
 	var $db, $log; // Used in class functions of CRMEntity
 
 	var $table_name = 'vtiger_exactonline';
-	var $table_index= 'payslipid';
+	var $table_index= 'exactonlineid';
 	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
