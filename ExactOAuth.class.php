@@ -1,13 +1,9 @@
 <?php
 
-// Includes the ExactSettingsDB class that self-instantiates as $this
+// Includes the ExactSettingsDB class that self-instantiates as $SDB
 require_once('modules/ExactOnline/ExactSettingsDB.class.php');
 
 class ExactOAuth extends ExactSettingsDB {
-	
-	function __construct() {
-		require_once('vtlib/Vtiger/Module.php');
-	}
 	
 	// Function to get a code. You need this code to get the access token
 	// It needs the client ID, the redirect URL (same as the request URL),
