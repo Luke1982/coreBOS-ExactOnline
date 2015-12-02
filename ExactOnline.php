@@ -23,22 +23,22 @@ class ExactOnline extends CRMEntity {
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_payslipcf', 'payslipid');
+	var $customFieldTable = Array('vtiger_exactonlinecf', 'exactonlineid');
 	// Uncomment the line below to support custom field columns on related lists
-	// var $related_tables = Array('vtiger_payslipcf'=>array('payslipid','vtiger_payslip', 'payslipid'));
+	// var $related_tables = Array('vtiger_exactonlinecf'=>array('exactonlineid','vtiger_exactonline', 'exactonlineid'));
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_payslip', 'vtiger_payslipcf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_exactonline', 'vtiger_exactonlinecf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
-		'vtiger_payslip'   => 'payslipid',
-		'vtiger_payslipcf' => 'payslipid');
+		'vtiger_exactonline'   => 'exactonlineid',
+		'vtiger_exactonlinecf' => 'exactonlineid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
@@ -46,52 +46,52 @@ class ExactOnline extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Payslip Name'=> Array('payslip' => 'payslipname'),
+		'Payslip Name'=> Array('exactonline' => 'exactonlinename'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
-		'Payslip Name'=> 'payslipname',
-		'Assigned To' => 'assigned_user_id'
+		'ExactOnline Record Name'=> 'exactonlinename',
+		// 'Assigned To' => 'assigned_user_id'
 	);
 
 	// Make the field link to detail view from list view (Fieldname)
-	var $list_link_field = 'payslipname';
+	var $list_link_field = 'exactonlinename';
 
 	// For Popup listview and UI type support
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Payslip Name'=> Array('payslip' => 'payslipname')
+		'ExactOnline Record Name'=> Array('exactonline' => 'exactonlinename')
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
-		'Payslip Name'=> 'payslipname'
+		'ExactOnline Record Name'=> 'exactonlinename'
 	);
 
 	// For Popup window record selection
-	var $popup_fields = Array('payslipname');
+	var $popup_fields = Array('exactonlinename');
 
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
 	var $sortby_fields = Array();
 
 	// For Alphabetical search
-	var $def_basicsearch_col = 'payslipname';
+	var $def_basicsearch_col = 'exactonlinename';
 
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'payslipname';
+	var $def_detailview_recname = 'exactonlinename';
 
 	// Required Information for enabling Import feature
-	var $required_fields = Array('payslipname'=>1);
+	var $required_fields = Array('exactonlinename'=>1);
 
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'payslipname';
+	var $default_order_by = 'exactonlinename';
 	var $default_sort_order='ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'payslipname');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'exactonlinename');
 
 	function __construct() {
 		global $log;
