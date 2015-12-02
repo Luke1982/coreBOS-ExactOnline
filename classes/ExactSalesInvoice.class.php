@@ -9,7 +9,8 @@ class ExactSalesInvoice extends ExactApi{
 	public function CreateSalesInvoice($division, $invoiceno) {
 		// Here's the function that creates a sales invoice
 		// It only needs the division and invoice no.
-		global $adb, $Account;
+		global $adb;
+		$Account = new ExactAccounts();
 		// Get some more information from the invoice
 		$IR = $adb->pquery('SELECT subject, invoicedate FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
 		$invoiceData = $adb->query_result_rowdata($IR,0);
