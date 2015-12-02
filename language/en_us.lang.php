@@ -9,15 +9,16 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'Module Name',
-	'SINGLE_ModuleName' => 'Module Name',
-	'ModuleName ID' => 'Module Name ID',
+	'ModuleName' 					=> 'Exact Online',
+	'SINGLE_ModuleName' 			=> 'Exact Online Record',
+	'ModuleName ID' 				=> 'Exact Online Record ID',
 
-	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description',
+	'LBL_CUSTOM_INFORMATION' 		=> 'Custom Information',
+	'LBL_EXACTONLINE_INFORMATION' 	=> 'Exact Record Information',
+	'LBL_DESCRIPTION_INFORMATION' 	=> 'Description',
 
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+	'ModuleFieldLabel' 				=> 'ModuleFieldLabel Text',
+	'SetCredentials'				=> 'Set Exact API credentials'
 );
 
 ?>
