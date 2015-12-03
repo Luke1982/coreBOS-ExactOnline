@@ -3,8 +3,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", "on");
 
-// TODO: OAuth class contains database method, maybe move this to a separate class
-require('modules/ExactOnline/ExactOAuth.class.php');
+require('modules/ExactOnline/classes/ExactOAuth.class.php');
 
 // If the 'last token time' is 0 (default value), we'll assume this is the very first run
 if ($OAuth->lastTokenTime() == 0) {
@@ -32,14 +31,11 @@ if ($OAuth->lastTokenTime() == 0) {
 	}
 }
 
-// require the API, it instantiates itself
-require('modules/ExactOnline/ExactApi.class.php');
-
 /*==============================================================================*/
 /*======================= SOME TESTS OF THE ACCOUNT CLASS ======================*/
 /*==============================================================================*/
 // Now it's time to Test the accounts Class
-require('modules/ExactOnline/ExactAccounts.class.php');
+require('modules/ExactOnline/classes/ExactAccounts.class.php');
 
 // First set your division, so Exact can identify you
 $division = '1041426';
@@ -65,13 +61,13 @@ $division = '1041426';
 // echo "</pre>";
 
 
-$accountCreateFields = array (
-	'Name'	=>	'Testaccount 3',
-	'Email'	=>	'krijg@nouwat.nl',
-	'City'	=>	'Geldermalsen',
-	'Code'	=>	'ACC123456',
-	'Status'=>	'C'
-);
+// $accountCreateFields = array (
+	// 'Name'	=>	'Testaccount 3',
+	// 'Email'	=>	'krijg@nouwat.nl',
+	// 'City'	=>	'Geldermalsen',
+	// 'Code'	=>	'ACC123456',
+	// 'Status'=>	'C'
+// );
 
 // $test = $Account->getAccountGUID($division, 'ACC50');
 
@@ -81,12 +77,12 @@ $accountCreateFields = array (
 /*======================= SOME TESTS OF THE SALESINVOICE CLASS===============*/
 /*===========================================================================*/
 
-require('modules/ExactOnline/ExactSalesInvoice.class.php');
+require('modules/ExactOnline/classes/ExactSalesInvoice.class.php');
 
-$SI->CreateSalesInvoice($division,'20151247');
-// $test = $SI->journals($division);
+$createdSI = $SI->CreateSalesInvoice($division,'20151248');
+
 // echo "<pre>";
-// var_dump($test);
+echo $createdSI;
 // echo "</pre>";
 
 
@@ -95,7 +91,7 @@ $SI->CreateSalesInvoice($division,'20151247');
 /*==================== SOME TESTS OF THE ITEMS CLASS ========================*/
 /*===========================================================================*/
 
-require('modules/ExactOnline/ExactItems.class.php');
+require('modules/ExactOnline/classes/ExactItems.class.php');
 
 $Item = new ExactItems();
 
