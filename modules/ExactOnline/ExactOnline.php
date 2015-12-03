@@ -440,7 +440,7 @@ class ExactOnline extends CRMEntity {
 			// Get the Products module
 			$module = Vtiger_Module::getInstance('Products');
 			// Get the main info block for products
-			$productsInfoBlock			= 	Vtiger_Block::getInstance('LBL_PRODUCT_INFORMATION', $module);
+			$productsInfoBlock					= 	Vtiger_Block::getInstance('LBL_PRODUCT_INFORMATION', $module);
 			
 			// Setup the field
 			$glaccProducts						=	new Vtiger_Field();
@@ -461,7 +461,7 @@ class ExactOnline extends CRMEntity {
 			// we can use the same database table for the values
 			$module = Vtiger_Module::getInstance('Services');
 			// Get the main info block for services
-			$servicesInfoBlock			= 	Vtiger_Block::getInstance('LBL_SERVICE_INFORMATION', $module);
+			$servicesInfoBlock					= 	Vtiger_Block::getInstance('LBL_SERVICE_INFORMATION', $module);
 			
 			// Setup the field
 			$glaccServices						=	new Vtiger_Field();
