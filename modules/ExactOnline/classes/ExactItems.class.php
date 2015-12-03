@@ -92,14 +92,12 @@ class ExactItems extends ExactApi{
 	
 	public function updateGLAccounts($division) {
 		global $adb;
-		$adb->query('TRUNCATE vtiger_generalledgers');
-		$adb->query('TRUNCATE vtiger_glservices');
+		$adb->query('TRUNCATE vtiger_exact_glaccounts');
 		// Get the ledgers from Exact
 		$GLAccountsArray = $this->getGLAccounts($division);
 		foreach ($GLAccountsArray as $key => $value) {
 			$key = $key + 1;
-			$adb->pquery('INSERT INTO vtiger_generalledgers (generalledgers, sortorderid, presence) VALUES (?,?,?)', array($value, $key, 1));
-			$adb->pquery('INSERT INTO vtiger_glservices (glservices, sortorderid, presence) VALUES (?,?,?)', array($value, $key, 1));
+			$adb->pquery('INSERT INTO vtiger_exact_glaccounts (exact_glaccounts, sortorderid, presence) VALUES (?,?,?)', array($value, $key, 1));
 		}
 	}
 	
@@ -113,7 +111,7 @@ class ExactItems extends ExactApi{
 		// Get the value from the database
 		// Check if it's a service
 		if ($isservice == TRUE) {
-			$GLresult = $adb->pquery('SELECT glservices FROM vtiger_service WHERE service_no=?',array($productCode));
+			$GLresult = $adb->pquery('SELECT generalledgers FROM vtiger_service WHERE service_no=?',array($productCode));
 			$GL = $adb->query_result($GLresult,0,'glservices');
 		} else {
 			// If it was a product
