@@ -417,7 +417,7 @@ class ExactOnline extends CRMEntity {
 			global $adb;
 			
 			$emm = new VTEntityMethodManager($adb);
-			$emm->addEntityMethod("Accounts", "Send Account to Exact Online", "modules/ExactOnline/workflows/SendAccount.exactworkflow.php", "sendAccountToExact");
+			$emm->addEntityMethod("Accounts", "Send Account to Exact Online", "modules/ExactOnline/handleAPI.php", "sendAccountToExact");
 
 			$emm2 = new VTEntityMethodManager($adb);
 			$emm2->addEntityMethod("Products", "Send Product to Exact Online", "modules/ExactOnline/handleAPI.php", "sendProductToExact");
