@@ -9,6 +9,7 @@
  ************************************************************************************/
 
 $mod_strings = Array(
+	'Response from Exact'			=> 'Antwoord dat Exact gaf',
 	'ModuleName' 					=> 'Exact Online',
 	'SINGLE_ModuleName' 			=> 'Exact Online Record',
 	'ModuleName ID' 				=> 'Exact Online Record ID',
@@ -16,6 +17,7 @@ $mod_strings = Array(
 	'LBL_CUSTOM_INFORMATION' 		=> 'Custom Information',
 	'LBL_EXACTONLINE_INFORMATION' 	=> 'Exact Record Information',
 	'LBL_DESCRIPTION_INFORMATION' 	=> 'Description',
+	'SINGLE_ExactOnline'			=> 'Exact Record', 
 
 	'ModuleFieldLabel' 				=> 'ModuleFieldLabel Text',
 	'SetCredentials'				=> 'Set Exact API credentials'
