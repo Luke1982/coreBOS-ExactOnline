@@ -46,52 +46,52 @@ class ExactOnline extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Payslip Name'=> Array('exactonline' => 'exactonlinename'),
+		'ExactOnline Record No'=> Array('exactonline' => 'exactrecordno'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
-		'ExactOnline Record Name'=> 'exactonlinename',
+		'ExactOnline Record Name'=> 'exactrecordname',
 		// 'Assigned To' => 'assigned_user_id'
 	);
 
 	// Make the field link to detail view from list view (Fieldname)
-	var $list_link_field = 'exactonlinename';
+	var $list_link_field = 'exactrecordname';
 
 	// For Popup listview and UI type support
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'ExactOnline Record Name'=> Array('exactonline' => 'exactonlinename')
+		'ExactOnline Record Name'=> Array('exactonline' => 'exactrecordname')
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
-		'ExactOnline Record Name'=> 'exactonlinename'
+		'ExactOnline Record Name'=> 'exactrecordname'
 	);
 
 	// For Popup window record selection
-	var $popup_fields = Array('exactonlinename');
+	var $popup_fields = Array('exactrecordname');
 
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
 	var $sortby_fields = Array();
 
 	// For Alphabetical search
-	var $def_basicsearch_col = 'exactonlinename';
+	var $def_basicsearch_col = 'exactrecordname';
 
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'exactonlinename';
+	var $def_detailview_recname = 'exactrecordname';
 
 	// Required Information for enabling Import feature
-	var $required_fields = Array('exactonlinename'=>1);
+	var $required_fields = Array('exactrecordname'=>1);
 
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'exactonlinename';
+	var $default_order_by = 'exactrecordname';
 	var $default_sort_order='ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'exactonlinename');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'exactrecordname');
 
 	function __construct() {
 		global $log;
