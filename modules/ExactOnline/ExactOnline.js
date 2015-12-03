@@ -24,6 +24,7 @@ jQuery(window).load(function(){
 				'division'		:	jQuery('input#division').val(),
 				'clientID'		:	jQuery('input#clientID').val(),
 				'clientsecret'	:	jQuery('input#clientsecret').val(),
+				'returnurl'		:	jQuery('input#returnurl').val(),
 				'save'			:	true
 			},
 			success: alert('Settings Saved')

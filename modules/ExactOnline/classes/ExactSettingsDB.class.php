@@ -67,6 +67,12 @@ class ExactSettingsDB {
 	public function saveClientsecret($clientsecret) {
 		global $adb;
 		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactsecret=? WHERE exactonlineid=0',array($clientsecret));
+	}	
+	
+	//function to save the clientsecret into the database
+	public function saveReturnUrl($returnurl) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactreturnurl=? WHERE exactonlineid=0',array($returnurl));
 	}
 	
 }

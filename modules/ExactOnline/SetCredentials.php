@@ -49,6 +49,7 @@ if ( $_POST['save'] == true ) {
 	$SDB->saveDivision($_POST['division']);
 	$SDB->saveClientID($_POST['clientID']);
 	$SDB->saveClientsecret($_POST['clientsecret']);
+	$SDB->saveReturnUrl($_POST['returnurl']);
 }
 
 $smarty->display(vtlib_getModuleTemplate('ExactOnline', 'SetCredentials.tpl'));
