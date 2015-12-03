@@ -17,12 +17,24 @@
 *  Author       : MajorLabel, Guido Goluke
 *************************************************************************************************/
 
-// This file acts as the connector between Exact Online and coreBOS. 
+// This file acts as the connector between Exact Online and coreBOS.
+
+// Turn these two lines on for debugging
 error_reporting(E_ALL);
 ini_set("display_errors", "on");
 
+// CODE FOR THE FIRST RUN
+if ( isset($_GET['firstrun']) || isset($_GET['code']) ) {
+	Authenticate();
+	if ( isset($_GET['code']) ) {
+		echo 'First run complete, your Exact Online Connector is now Authenticated.<br>';
+		echo 'Click <a href="/index.php?module=ExactOnline&action=SetCredentials">HERE</a> to go back to the settings screen.';
+	}
+}
+// END CODE FOR FIRST RUN
+
 function Authenticate() {
-	include('modules/ExactOnline/classes/includeExactClasses.php');
+	include_once('modules/ExactOnline/classes/includeExactClasses.php');
 	$OAuth = new ExactOAuth();
 	// This function needs to be executed inside EVERY workflow task,
 	// before the rest of the function executes. It authenticates the request.

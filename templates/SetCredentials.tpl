@@ -56,4 +56,12 @@ document.getElementsByTagName('body')[0].appendChild(headjs);
 		</tbody>
 	</table>
 	</form>
+	
+	{if $firstrun == true}
+	<h2>You NEED to perform the first Auth, first fill in you Client ID, Client secret, division and return URL and hit 'Save Exact Online Settings'</h2>
+	<div style="width: 100%; padding:20px 0; text-align: center;">
+		<a href="index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&firstrun=1">Perform First Run</a>
+	</div>
+	{/if}
+	
 </div>

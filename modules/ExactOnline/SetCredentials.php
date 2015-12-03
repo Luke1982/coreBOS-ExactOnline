@@ -37,6 +37,13 @@ $smarty->assign("MODULE_Description", $mod['SetCredentials']);
 include_once('modules/ExactOnline/classes/ExactSettingsDB.class.php');
 $SDB = new ExactSettingsDB();
 
+// Check if the last refreshed time is 0, indicating first run
+if ( $SDB->getDbValue('exactrefreshedtime') == 0 ) {
+	// Assign a smarty var so we can adapt the display indicating
+	// The first Auth is still needed
+	$smarty->assign("firstrun", true);
+}
+
 // Assign some variables to Smarty
 $smarty->assign("division", $SDB->getDbValue('exactdivision'));
 $smarty->assign("clientID", $SDB->getDbValue('exactclientid'));
