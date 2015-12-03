@@ -39,6 +39,17 @@ $SDB = new ExactSettingsDB();
 
 // Assign some variables to Smarty
 $smarty->assign("division", $SDB->getDbValue('exactdivision'));
+$smarty->assign("clientID", $SDB->getDbValue('exactclientid'));
+$smarty->assign("clientsecret", $SDB->getDbValue('exactsecret'));
+$smarty->assign("returnurl", $SDB->getDbValue('exactreturnurl'));
+$smarty->assign("servername", $_SERVER['SERVER_NAME']);
+
+// Handle the post request if made by JQuery to save values into the settings table
+if ( $_POST['save'] == true ) {
+	$SDB->saveDivision($_POST['division']);
+	$SDB->saveClientID($_POST['clientID']);
+	$SDB->saveClientsecret($_POST['clientsecret']);
+}
 
 $smarty->display(vtlib_getModuleTemplate('ExactOnline', 'SetCredentials.tpl'));
 ?>
