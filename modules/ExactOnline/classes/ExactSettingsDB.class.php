@@ -1,4 +1,20 @@
 <?php
+/*************************************************************************************************
+ * Copyright 2015 MajorLabel -- This file is a part of MajorLabel coreBOS Customizations.
+ * Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
+ * file except in compliance with the License. You can redistribute it and/or modify it
+ * under the terms of the License. MajorLabel reserves all rights not expressly
+ * granted by the License. coreBOS distributed by MajorLabel is distributed in
+ * the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Unless required by
+ * applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT ANY WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing
+ * permissions and limitations under the License. You may obtain a copy of the License
+ * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
+*************************************************************************************************
+*  Author       : MajorLabel, Guido Goluke
+*************************************************************************************************/
 
 class ExactSettingsDB {
 	// This class is meant to handle all the interaction
@@ -33,6 +49,24 @@ class ExactSettingsDB {
 	public function saveRefreshedTime() {
 		global $adb;
 		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactrefreshedtime=? WHERE exactonlineid=0',array(time()));
+	}
+	
+	//function to save the division into the database
+	public function saveDivision($division) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactdivision=? WHERE exactonlineid=0',array($division));
+	}
+
+	//function to save the clientID into the database
+	public function saveClientID($clientID) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactclientid=? WHERE exactonlineid=0',array($clientID));
+	}	
+	
+	//function to save the clientsecret into the database
+	public function saveClientsecret($clientsecret) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactsecret=? WHERE exactonlineid=0',array($clientsecret));
 	}
 	
 }
