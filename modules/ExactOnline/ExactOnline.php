@@ -459,7 +459,7 @@ class ExactOnline extends CRMEntity {
 			
 			// Setup the same field in Services, give it the same name so
 			// we can use the same database table for the values
-			$module = Vtiger_Module::getInstance(' 	Services');
+			$module = Vtiger_Module::getInstance('Services');
 			// Get the main info block for services
 			$servicesInfoBlock			= 	Vtiger_Block::getInstance('LBL_SERVICE_INFORMATION', $module);
 			
