@@ -15,10 +15,45 @@
 *  Author       : MajorLabel, Guido Goluke
 *************************************************************************************************}
 
-<table style="width: 90%; margin: 20px 0 0 5%">
-	<tbody>
-		<tr>
-			<td class="test"><span class="rood">Division:</span></td><td>{$division}</td>
-		</tr>
-	</tbody>
-</table>
+<script>
+headjs=document.createElement('script');
+headjs.src='modules/ExactOnline/ExactOnline.js';
+
+document.getElementsByTagName('body')[0].appendChild(headjs);
+</script>
+
+<div style="width: 90%; margin: 20px 0 0 5%;">
+	<h2>Exact Online Settings page</h2>
+
+	<p>Go to the APP centre at <a href="http://apps.exactonline.nl" target="_blank">apps.exactonline.nl</a> and register an app. You will need to fill out a return URL. That needs to look like this:<span style="color: red">http://{$servername}/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI</span></p>
+	<p>After you've registered your app, come back here and paste:</p>
+	<ul>
+		<li>Your Client ID</li>
+		<li>Your Client Secret</li>
+		<li>Your division code. To see what this is, go to <a href="http://start.exactonline.nl/api/v1/current/Me?$select=CurrentDivision" target="_blank">http://start.exactonline.nl/api/v1/current/Me?$select=CurrentDivision</a> <b>while logged in to exact</b></li>
+	</ul>
+
+	{capture name='suggestedreturnurl'}http://{$servername}/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI{/capture}
+
+	<form id="setCredentialsForm" name="setExactCredentials" method="POST" action="">
+	<table style="width: 90%; margin: 20px 0 0 5%">
+		<tbody>
+			<tr>
+				<td class="test">Division:</td>
+				<td><input size="100" id="division" name="division" value="{$division}" type="text"></td>
+				<td class="test">Return URL:</td>
+				<td><input size="100" id="returnurl" name="returnurl" value="{$smarty.capture.suggestedreturnurl}" type="text" readonly></td>
+			</tr>		
+			<tr>
+				<td class="test">Client ID:</td>
+				<td><input size="100" id="clientID" name="clientID" value="{$clientID}" type="text"></td>
+				<td class="test">Client Secret:</td>
+				<td><input size="100" id="clientsecret" name="clientsecret" value="{$clientsecret}" type="text"></td>
+			</tr>
+			<tr>
+				<td colspan="4" style="text-align: center"><input type="submit" value="Save Exact online settings"></td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+</div>
