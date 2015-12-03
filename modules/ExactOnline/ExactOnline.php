@@ -409,6 +409,76 @@ class ExactOnline extends CRMEntity {
 		if($event_type == 'module.postinstall') {
 			// TODO Handle post installation actions
 			$this->setModuleSeqNumber('configure', $modulename, $modulename.'-', '0000001');
+			
+			// Create the workflow task entity 
+			include_once 'include/utils/utils.php';
+			include_once('vtlib/Vtiger/Module.php');
+			require 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
+			global $adb;
+			
+			$emm = new VTEntityMethodManager($adb);
+			$emm->addEntityMethod("Accounts", "Send Account to Exact Online", "modules/ExactOnline/workflows/SendAccount.exactworkflow.php", "sendAccountToExact");
+
+			$emm2 = new VTEntityMethodManager($adb);
+			$emm2->addEntityMethod("Products", "Send Product to Exact Online", "modules/ExactOnline/handleAPI.php", "sendProductToExact");
+
+			$emm3 = new VTEntityMethodManager($adb);
+			$emm3->addEntityMethod("Services", "Send Service to Exact Online", "modules/ExactOnline/handleAPI.php", "sendServiceToExact");
+
+
+			$emm4 = new VTEntityMethodManager($adb);
+			$emm4->addEntityMethod("Products", "Sync GL Accounts with coreBOS", "modules/ExactOnline/handleAPI.php", "syncGLAccounts");
+
+			$emm5 = new VTEntityMethodManager($adb);
+			$emm5->addEntityMethod("Invoice", "Send Invoice to Exact Online", "modules/ExactOnline/handleAPI.php", "sendInvoiceToExact");
+			
+			// Create the workflow tasks?? Is this possible?
+			
+			// Create the field for General Ledgers in products module
+			// This should auto-create the table
+			
+			// Get the Products module
+			$module = Vtiger_Module::getInstance('Products');
+			// Get the main info block for products
+			$productsInfoBlock			= 	Vtiger_Block::getInstance('LBL_PRODUCT_INFORMATION', $module);
+			
+			// Setup the field
+			$glaccProducts						=	new Vtiger_Field();
+			$glaccProducts->name				=	'exact_glaccounts';
+			$glaccProducts->label				=	'General Ledger Accounts';
+			$glaccProducts->table				=	'vtiger_products';
+			$glaccProducts->column				=	'generalledgers';
+			$glaccProducts->columntype			=	'VARCHAR(100)';
+			$glaccProducts->uitype				=	16;
+			$glaccProducts->typeofdata			=	'V~M';
+			// Only temp values for the dropdown, Workflow task will sync this with Exact later
+			$glaccProducts->setPicklistValues( array('GLAccount1', 'GLAccount2') );
+			
+			// Now add the field instance to the Products block instance
+			$productsInfoBlock->addField($glaccProducts);
+			
+			// Setup the same field in Services, give it the same name so
+			// we can use the same database table for the values
+			$module = Vtiger_Module::getInstance(' 	Services');
+			// Get the main info block for services
+			$servicesInfoBlock			= 	Vtiger_Block::getInstance('LBL_SERVICE_INFORMATION', $module);
+			
+			// Setup the field
+			$glaccServices						=	new Vtiger_Field();
+			$glaccServices->name				=	'exact_glaccounts';
+			$glaccServices->label				=	'General Ledger Accounts';
+			$glaccServices->table				=	'vtiger_service';
+			$glaccServices->column				=	'generalledgers';
+			$glaccServices->columntype			=	'VARCHAR(100)';
+			$glaccServices->uitype				=	16;
+			$glaccServices->typeofdata			=	'V~M';
+			// Only temp values for the dropdown, Workflow task will sync this with Exact later
+			$glaccServices->setPicklistValues( array('GLAccount1', 'GLAccount2') );
+			
+			// Now add the field instance to the Products block instance
+			$servicesInfoBlock->addField($glaccServices);		
+			
+			
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
 		} else if($event_type == 'module.enabled') {
