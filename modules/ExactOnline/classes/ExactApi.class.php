@@ -33,13 +33,19 @@ class ExactApi {
 			}
 			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select.'&$filter='.$searchfield.'%20eq%20\''.$searchterm.'\'';
 		} else {
-			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select;
+			// Setup a special request URL for the division code GET
+			if ( $division == '' ) {
+				$request_url = $this->apiUrl.$suburl.'?$select='.$select;
+			} else {
+				// Regular call, not a division code request
+				$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select;
+			}
 		}
 		// Setup the header
 		$get_curl_header = array (
 			'authorization: Bearer '.$SDB->getDbValue('access_token'),
 			'Accept: application/JSON'
-		);
+		);		
 		// Setup the cURL options
 		$get_curl_opts = array(
 			CURLOPT_URL 			=> $request_url,
