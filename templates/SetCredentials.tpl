@@ -56,6 +56,9 @@ document.getElementsByTagName('body')[0].appendChild(headjs);
 		</tbody>
 	</table>
 	</form>
+	<div style="width: 200px;height:50px;border:1px solid #666666;" id="getdivisionbutton">
+		<span style="color: #666666">GET THE DIVISION CODE</span>
+	</div>
 	
 	{if $firstrun == true}
 	<h2>You NEED to perform the first Auth, first fill in you Client ID, Client secret, division and return URL and hit 'Save Exact Online Settings'</h2>

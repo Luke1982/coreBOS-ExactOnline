@@ -36,4 +36,17 @@ jQuery(window).load(function(){
 		saveCreds();
 	});
 	
+	function getDivision() {
+		return jQuery.ajax({
+			url		:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=getDivision',
+			success	:	function(data) {
+				jQuery('#division').val(data);
+			}
+		});
+	}
+	
+	jQuery('#getdivisionbutton').click(function(){
+		getDivision();
+	});
+	
 });
