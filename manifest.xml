@@ -48,7 +48,7 @@
 		<table>
 			<name>vtiger_exactonline_settings</name>
 			<sql>
-			<![CDATA[CREATE TABLE `vtiger_exactonline_settings` ( `exactonlineid` INT(11) NULL DEFAULT NULL , `exactauthurl` VARCHAR(255) NOT NULL DEFAULT 'https://start.exactonline.nl/api/oauth2/auth' , `exacttokenurl` VARCHAR(255) NOT NULL DEFAULT 'https://start.exactonline.nl/api/oauth2/token' , `exactclientid` VARCHAR(255) NULL DEFAULT NULL , `exactsecret` VARCHAR(255) NULL DEFAULT NULL , `exactreturnurl` VARCHAR(255) NULL DEFAULT NULL , `access_token` VARCHAR(1000) NULL DEFAULT NULL , `refresh_token` VARCHAR(1000) NULL DEFAULT NULL , `exactrefreshedtime` INT NOT NULL DEFAULT '0' , `exactdivision` INT NULL DEFAULT NULL , PRIMARY KEY (`exactonlineid`)) ENGINE = InnoDB DEFAULT CHARSET=utf8]]>
+			<![CDATA[CREATE TABLE `vtiger_exactonline_settings` ( `exactonlineid` INT(11) NULL DEFAULT NULL , `exactauthurl` VARCHAR(255) NOT NULL DEFAULT 'https://start.exactonline.nl/api/oauth2/auth' , `exacttokenurl` VARCHAR(255) NOT NULL DEFAULT 'https://start.exactonline.nl/api/oauth2/token' , `exactapiurl` VARCHAR(255) NOT NULL DEFAULT 'https://start.exactonline.nl/api/v1/' , `exactclientid` VARCHAR(255) NULL DEFAULT NULL , `exactsecret` VARCHAR(255) NULL DEFAULT NULL , `exactreturnurl` VARCHAR(255) NULL DEFAULT NULL , `access_token` VARCHAR(1000) NULL DEFAULT NULL , `refresh_token` VARCHAR(1000) NULL DEFAULT NULL , `exactrefreshedtime` INT NOT NULL DEFAULT '0' , `exactdivision` INT NULL DEFAULT NULL , PRIMARY KEY (`exactonlineid`)) ENGINE = InnoDB DEFAULT CHARSET=utf8]]>
 			</sql>
 		</table>
 	</tables>
