@@ -15,8 +15,6 @@
 *************************************************************************************************
 *  Author       : MajorLabel, Guido Goluke
 *************************************************************************************************/
-error_reporting(E_ALL);
-ini_set("display_errors", "on");
 
 // This file is meant to retrieve the division code while in the settings screen
 
@@ -56,5 +54,5 @@ $ExactAPI = new ExactApi();
 // Setup a GET request for the division code
 $divisionCode = $ExactAPI->sendGetRequest('current/Me', '', 'CurrentDivision');
 // Return the division code
-return $divisionCode['d']['results'][0]['CurrentDivision'];
+echo $divisionCode['d']['results'][0]['CurrentDivision'];
 ?>
