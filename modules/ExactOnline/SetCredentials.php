@@ -49,6 +49,9 @@ $smarty->assign("division", $SDB->getDbValue('exactdivision'));
 $smarty->assign("clientID", $SDB->getDbValue('exactclientid'));
 $smarty->assign("clientsecret", $SDB->getDbValue('exactsecret'));
 $smarty->assign("returnurl", $SDB->getDbValue('exactreturnurl'));
+$smarty->assign("authurl", $SDB->getDbValue('exactauthurl'));
+$smarty->assign("tokenurl", $SDB->getDbValue('exacttokenurl'));
+$smarty->assign("apiurl", $SDB->getDbValue('exactapiurl'));
 $smarty->assign("servername", $_SERVER['SERVER_NAME']);
 
 // Handle the post request if made by JQuery to save values into the settings table
@@ -57,6 +60,32 @@ if ( $_POST['save'] == true ) {
 	$SDB->saveClientID($_POST['clientID']);
 	$SDB->saveClientsecret($_POST['clientsecret']);
 	$SDB->saveReturnUrl($_POST['returnurl']);
+	$SDB->saveAuthUrl($_POST['authurl']);
+	$SDB->saveTokenUrl($_POST['tokenurl']);
+	$SDB->saveApiUrl($_POST['apiurl']);
+}
+
+// Handle the post request if made by JQuery to save values FROM THE FIRST RUN
+if ( $_POST['firstrunsave'] == true ) {
+	$SDB->saveClientID($_POST['clientID']);
+	$SDB->saveClientsecret($_POST['clientsecret']);
+	
+	$firstRunReturnUrl = 'http://'.$_SERVER['SERVER_NAME'].'/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI';
+	$SDB->saveReturnUrl($firstRunReturnUrl);
+	
+	$firstRunAuthUrl = $_POST['countryurl'].'/api/oauth2/auth';
+	$SDB->saveAuthUrl($firstRunAuthUrl);	
+	
+	$firstRunTokenUrl = $_POST['countryurl'].'/api/oauth2/token';
+	$SDB->saveTokenUrl($firstRunTokenUrl);
+
+	$firstRunApiUrl = $_POST['countryurl'].'/api/v1/';
+	$SDB->saveApiUrl($firstRunApiUrl);
+}
+
+// Handle the POST request if the user wants to perform the first run again
+if ( $_POST['reloadfirstrun'] == true ) {
+	$SDB->resetRefreshedTime();
 }
 
 $smarty->display(vtlib_getModuleTemplate('ExactOnline', 'SetCredentials.tpl'));

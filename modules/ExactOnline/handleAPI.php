@@ -27,8 +27,10 @@ ini_set("display_errors", "on");
 if ( isset($_GET['firstrun']) || isset($_GET['code']) ) {
 	Authenticate();
 	if ( isset($_GET['code']) ) {
+		echo '<div style="font-size: 24px; padding: 40px; text-align: center;">';
 		echo 'First run complete, your Exact Online Connector is now Authenticated.<br>';
 		echo 'Click <a href="/index.php?module=ExactOnline&action=SetCredentials">HERE</a> to go back to the settings screen.';
+		echo '</div>';
 	}
 }
 // END CODE FOR FIRST RUN
@@ -158,5 +160,18 @@ function sendInvoiceToExact($entity) {
 	$SI = new ExactSalesInvoice();
 	$SI->CreateSalesInvoice($division, $entity->data['invoice_no']);
 }
+
+// TEST AREA, WHERE WE'LL SEND AN INVOICE
+	// Authenticate();
+	// Include the classes
+	// include_once('modules/ExactOnline/classes/includeExactClasses.php');
+	// Get the division
+	// $SDB = new ExactSettingsDB();
+	// $division = $SDB->getDbValue('exactdivision');
+	// Instantiate the sales invoice class and execute creation
+	// $SI = new ExactSalesInvoice();
+	// $test = $SI->CreateSalesInvoice($division, '20151249');
+	// var_dump($test);
+
 
 ?>

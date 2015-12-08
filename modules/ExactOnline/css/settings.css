@@ -1,0 +1,108 @@
+#ExactSettings {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 130%;
+}
+
+#firstrunprev {
+	position: absolute;
+	left: 0;
+	top: 300px;
+	font-size: 150%;
+	font-weight: bold;
+	background: #ed1c24;
+	padding: 15px;
+	color: white;
+	width: 140px;
+	cursor: pointer;
+}
+
+#firstrunnext {
+	position: absolute;
+	right: 0;
+	top: 300px;
+	font-size: 150%;
+	font-weight: bold;
+	background: #ed1c24;
+	padding: 15px;
+	color: white;
+	width: 140px;
+	cursor: pointer;
+}
+
+#firstrunwindow {
+	width: 900px;
+	height: 650px;
+	margin: 0 auto;
+	border: 1px solid #666666;
+	position: relative;
+	overflow: hidden;
+}
+
+#firstrunpanelscontainer {
+	width: 3600px;
+	height: 650px;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.firstrunbutton {
+	background: #ed1c24;
+	color: white;
+	padding: 15px;
+	font-size: 130%;
+	width: 30%;
+	float: left;
+	margin: 10px;
+	cursor: pointer;
+}
+
+.firstrunbutton a {
+	color: white;
+}
+
+#exactlogofirstrun {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.firstrunpanel {
+	width: 860px;
+	height: 590px;
+	padding: 40px 20px 20px 20px;
+	float: left;
+}
+
+#firstrunreturnurl {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+}
+
+.exactsettingsinput {
+	font-size: 110%;
+	padding: 8px;
+	border-radius: 3px;
+	border: 1px solid #666666;
+}
+
+#SettingsButtons {
+	width: 100%;
+	text-align: center;
+}
+
+.settingsbutton {
+	display: inline-block;
+	background: #ed1c24;
+	color: white;
+	cursor: pointer;
+	padding: 8px;
+	margin: 10px;
+}
+
+#exactlogosettingspage {
+	float: right;
+	margin: 20px;
+}

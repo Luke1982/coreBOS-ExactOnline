@@ -17,6 +17,25 @@
 
 jQuery(window).load(function(){
 	
+	// Function to save the values obtained from the first run
+	var saveFirstRun = function() {
+		jQuery.ajax({
+			type: "POST",
+			data:	{
+				'clientID'		:	jQuery('input#clientID').val(),
+				'clientsecret'	:	jQuery('input#clientsecret').val(),
+				'countryurl'	:	jQuery('input#countryurl').val(),
+				'firstrunsave'	:	true
+			},
+			success: alert('Settings Saved')
+		});
+	}
+	
+	jQuery('#saveFirstRun').click(function(){
+		saveFirstRun();
+	});
+	
+	// Function to save ALL values in the normal settings screen
 	var saveCreds = function() {
 		jQuery.ajax({
 			type: "POST",
@@ -25,17 +44,20 @@ jQuery(window).load(function(){
 				'clientID'		:	jQuery('input#clientID').val(),
 				'clientsecret'	:	jQuery('input#clientsecret').val(),
 				'returnurl'		:	jQuery('input#returnurl').val(),
+				'authurl'		:	jQuery('input#authurl').val(),
+				'tokenurl'		:	jQuery('input#tokenurl').val(),
+				'apiurl'		:	jQuery('input#apiurl').val(),
 				'save'			:	true
 			},
 			success: alert('Settings Saved')
 		});
 	}
 	
-	jQuery('#setCredentialsForm').submit(function(event){
-		event.preventDefault();
+	jQuery('#savesettings').click(function(){
 		saveCreds();
 	});
 	
+	// Function to autofill the division field
 	function getDivision() {
 		return jQuery.ajax({
 			url		:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=getDivision',
@@ -45,8 +67,46 @@ jQuery(window).load(function(){
 		});
 	}
 	
-	jQuery('#getdivisionbutton').click(function(){
+	jQuery('#getdivision').click(function(){
 		getDivision();
+	});
+	
+	// Some jQuery to control the panel slides on the first run
+	jQuery('#firstrunnext').click(function(){
+		jQuery('#firstrunpanelscontainer').animate({
+			'left'	:	'-=900'
+		});
+	});
+	jQuery('#firstrunprev').click(function(){
+		jQuery('#firstrunpanelscontainer').animate({
+			'left'	:	'+=900'
+		});
+	});
+	
+	// Make the division input border red to get attention for the fact
+	// That it needs to be filled if it's empty
+	setInterval(divisionBorderRed(), 500);
+	
+	function divisionBorderRed(){
+		if (jQuery('input#division').val() == '') {
+			jQuery('input#division').css('border','1px solid red');
+		}
+	}
+	
+	// Function to reload the first run, effectively setting the
+	// 'refreshedtime' in the exact settings table to 0 (zero)
+	var reloadFirstRun = function() {
+		jQuery.ajax({
+			type: "POST",
+			data:	{
+				'reloadfirstrun'	:	true
+			},
+			success: alert('First Run Reset, please reload this page.')
+		});
+	}
+	
+	jQuery('#reloadfirstrun').click(function(){
+		reloadFirstRun();
 	});
 	
 });

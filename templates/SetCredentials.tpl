@@ -20,50 +20,95 @@ headjs=document.createElement('script');
 headjs.src='modules/ExactOnline/ExactOnline.js';
 
 document.getElementsByTagName('body')[0].appendChild(headjs);
+
+headcss = document.createElement('link');
+headcss.href = 'https://fonts.googleapis.com/css?family=Open+Sans';
+headcss.type = 'text/css';
+headcss.rel = 'stylesheet';
+
+headcss2 = document.createElement('link');
+headcss2.href = 'modules/ExactOnline/css/settings.css';
+headcss2.type = 'text/css';
+headcss2.rel = 'stylesheet';
+
+document.getElementsByTagName('head')[0].appendChild(headcss);
+document.getElementsByTagName('head')[0].appendChild(headcss2);
+
 </script>
 
-<div style="width: 90%; margin: 20px 0 0 5%;">
-	<h2>Exact Online Settings page</h2>
+<div style="width: 90%; margin: 20px 0 0 5%;" id="ExactSettings">
+	{if $firstrun == true}
+		<h2>{$MOD.FirstRunTitle}</h2>
+		<div id="firstrunprev"><<&nbsp;{$MOD.FirstRunPrev}</div>
+		<div id="firstrunwindow">
+			<img src="modules/ExactOnline/images/exact-logo-new.png" id="exactlogofirstrun" />
+			<div id="firstrunpanelscontainer">
+				<div class="firstrunpanel">
+					<h3>{$MOD.FirstRunTitleOne}</h3>
+					<p>{$MOD.FirstRunStepOne}</p>
+					<span id="firstrunreturnurl">http://{$servername}/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI</span>
+				</div>				
+				<div class="firstrunpanel">
+					<h3>{$MOD.FirstRunTitleTwo}</h3>
+					<p>{$MOD.FirstRunStepTwo}</p>
+					<p>Client ID:</p>
+					<input size="100" id="clientID" name="clientID" value="" type="text">
+					<p>Client Secret:</p>
+					<input size="100" id="clientsecret" name="clientsecret" value="" type="text">
+				</div>
+				<div class="firstrunpanel">
+					<h3>{$MOD.FirstRunTitleThree}</h3>
+					<p>{$MOD.FirstRunStepThree}</p>
+					<p>{$MOD.YourCountryURL}</p>
+					<input size="100" id="countryurl" name="countryurl" value="" type="text">
+				</div>
+				<div class="firstrunpanel">
+					<h3>{$MOD.FirstRunTitleFour}</h3>
+					<p>{$MOD.FirstRunStepFour}</p>
+					<div id="saveFirstRun" class="firstrunbutton">{$MOD.saveFirstRun}</div>
+					<div id="performFirstAuth" class="firstrunbutton"><a href="index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&firstrun=1">{$MOD.performFirstAuth}</a></div>
+				</div>
+			</div>
+		</div>
+		<div id="firstrunnext">{$MOD.FirstRunNext}&nbsp;>></div>
+	{else}
+	<!-- NORMAL SETTINGS SCREEN, IF THE FIRST RUN WAS COMPLETED -->
+	<img src="modules/ExactOnline/images/exact-logo-new.png" id="exactlogosettingspage" /><h2>Exact Online Settings page</h2>
 
-	<p>Go to the APP centre at <a href="http://apps.exactonline.nl" target="_blank">apps.exactonline.nl</a> and register an app. You will need to fill out a return URL. That needs to look like this:<span style="color: red">http://{$servername}/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI</span></p>
-	<p>After you've registered your app, come back here and paste:</p>
-	<ul>
-		<li>Your Client ID</li>
-		<li>Your Client Secret</li>
-		<li>Your division code. To see what this is, go to <a href="http://start.exactonline.nl/api/v1/current/Me?$select=CurrentDivision" target="_blank">http://start.exactonline.nl/api/v1/current/Me?$select=CurrentDivision</a> <b>while logged in to exact</b></li>
-	</ul>
+	<p>{$MOD.settingsintro}</p>
 
-	{capture name='suggestedreturnurl'}http://{$servername}/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI{/capture}
-
-	<form id="setCredentialsForm" name="setExactCredentials" method="POST" action="">
-	<table style="width: 90%; margin: 20px 0 0 5%">
+	<table cellpadding="5">
 		<tbody>
 			<tr>
-				<td class="test">Division:</td>
-				<td><input size="100" id="division" name="division" value="{$division}" type="text"></td>
-				<td class="test">Return URL:</td>
-				<td><input size="100" id="returnurl" name="returnurl" value="{$smarty.capture.suggestedreturnurl}" type="text" readonly></td>
+				<td>{$MOD.division}:</td>
+				<td><input class="exactsettingsinput" size="50" id="division" name="division" value="{$division}" type="text"></td>
+				<td>Return URL:</td>
+				<td><input class="exactsettingsinput" size="130" id="returnurl" name="returnurl" value="{$returnurl}" type="text" readonly></td>
 			</tr>		
 			<tr>
-				<td class="test">Client ID:</td>
-				<td><input size="100" id="clientID" name="clientID" value="{$clientID}" type="text"></td>
-				<td class="test">Client Secret:</td>
-				<td><input size="100" id="clientsecret" name="clientsecret" value="{$clientsecret}" type="text"></td>
-			</tr>
+				<td>Client ID:</td>
+				<td><input class="exactsettingsinput" size="50" id="clientID" name="clientID" value="{$clientID}" type="text"></td>
+				<td>Client Secret:</td>
+				<td><input class="exactsettingsinput" size="50" id="clientsecret" name="clientsecret" value="{$clientsecret}" type="text"></td>
+			</tr>			
 			<tr>
-				<td colspan="4" style="text-align: center"><input type="submit" value="Save Exact online settings"></td>
+				<td>{$MOD.authurl}:</td>
+				<td><input class="exactsettingsinput" size="50" id="authurl" name="authurl" value="{$authurl}" type="text"></td>
+				<td>{$MOD.tokenurl}:</td>
+				<td><input class="exactsettingsinput" size="50" id="tokenurl" name="tokenurl" value="{$tokenurl}" type="text"></td>
+			</tr>			
+			<tr>
+				<td>{$MOD.apiurl}:</td>
+				<td><input class="exactsettingsinput" size="50" id="apiurl" name="apiurl" value="{$apiurl}" type="text"></td>
+				<td></td>
+				<td></td>
 			</tr>
 		</tbody>
 	</table>
-	</form>
-	<div style="width: 200px;height:50px;border:1px solid #666666;" id="getdivisionbutton">
-		<span style="color: #666666">GET THE DIVISION CODE</span>
-	</div>
-	
-	{if $firstrun == true}
-	<h2>You NEED to perform the first Auth, first fill in you Client ID, Client secret, division and return URL and hit 'Save Exact Online Settings'</h2>
-	<div style="width: 100%; padding:20px 0; text-align: center;">
-		<a href="index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&firstrun=1">Perform First Run</a>
+	<div id="SettingsButtons">
+		<span class="settingsbutton" id="getdivision">{$MOD.getdivision}</span>
+		<span class="settingsbutton" id="savesettings">{$MOD.savesettings}</span>
+		<span class="settingsbutton" id="reloadfirstrun">{$MOD.reloadfirstrun}</span>
 	</div>
 	{/if}
 	

@@ -51,6 +51,12 @@ class ExactSettingsDB {
 		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactrefreshedtime=? WHERE exactonlineid=0',array(time()));
 	}
 	
+	//function to set the refreshed time back to zero
+	public function resetRefreshedTime() {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactrefreshedtime=? WHERE exactonlineid=0',array(0));
+	}
+	
 	//function to save the division into the database
 	public function saveDivision($division) {
 		global $adb;
@@ -75,6 +81,23 @@ class ExactSettingsDB {
 		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactreturnurl=? WHERE exactonlineid=0',array($returnurl));
 	}
 	
+	//function to save the AUTH URL into the database
+	public function saveAuthUrl($authurl) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactauthurl=? WHERE exactonlineid=0',array($authurl));
+	}
+	
+	//function to save the TOKEN URL into the database
+	public function saveTokenUrl($tokenurl) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exacttokenurl=? WHERE exactonlineid=0',array($tokenurl));
+	}
+	
+	//function to save the API URL into the database
+	public function saveApiUrl($apiurl) {
+		global $adb;
+		$adb->pquery('UPDATE vtiger_exactonline_settings SET exactapiurl=? WHERE exactonlineid=0',array($apiurl));
+	}
 }
 
 ?>

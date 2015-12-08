@@ -18,7 +18,14 @@ $mod_strings = Array(
 	'LBL_DESCRIPTION_INFORMATION' 	=> 'Description',
 
 	'ModuleFieldLabel' 				=> 'ModuleFieldLabel Text',
-	'SetCredentials'				=> 'Set Exact API credentials'
+	
+	/*		SETTINGS AREA	*/
+	'SetCredentials'				=> 'Set Exact API credentials',
+	'SetCredentialsTitle'			=> 'Set Credentials',
+	
+	/* FIRST RUN */
+	'FirstRunTitleOne'				=> 'Go to the Exact Online app center and create an API key',
+	'FirstRunStepOne'				=> 'First, you need to visit <a href="http://apps.exactonline.com" target="_blank">http://apps.exactonline.com</a> to register an API key. Log in, if you aren\'t already and click "Register API Keys."'
 );
 
 ?>
