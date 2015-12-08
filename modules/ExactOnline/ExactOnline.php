@@ -451,11 +451,12 @@ class ExactOnline extends CRMEntity {
 			$glaccProducts->columntype			=	'VARCHAR(100)';
 			$glaccProducts->uitype				=	16;
 			$glaccProducts->typeofdata			=	'V~M';
-			// Only temp values for the dropdown, Workflow task will sync this with Exact later
-			$glaccProducts->setPicklistValues( array('GLAccount1', 'GLAccount2') );
-			
+		
 			// Now add the field instance to the Products block instance
 			$productsInfoBlock->addField($glaccProducts);
+
+			// Only temp values for the dropdown, Workflow task will sync this with Exact later
+			$glaccProducts->setPicklistValues( array('GLAccount1', 'GLAccount2') );
 			
 			// Setup the same field in Services, give it the same name so
 			// we can use the same database table for the values
@@ -472,12 +473,13 @@ class ExactOnline extends CRMEntity {
 			$glaccServices->columntype			=	'VARCHAR(100)';
 			$glaccServices->uitype				=	16;
 			$glaccServices->typeofdata			=	'V~M';
-			// Only temp values for the dropdown, Workflow task will sync this with Exact later
-			$glaccServices->setPicklistValues( array('GLAccount1', 'GLAccount2') );
-			
+		
 			// Now add the field instance to the Products block instance
 			$servicesInfoBlock->addField($glaccServices);		
 			
+			// Only temp values for the dropdown, Workflow task will sync this with Exact later
+			$glaccServices->setPicklistValues( array('GLAccount1', 'GLAccount2') );
+
 			
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
