@@ -122,7 +122,4 @@ class ExactOAuth extends ExactSettingsDB {
 	
 }
 
-// Instantiate yourself
-// $OAuth = new ExactOAuth();
-
 ?>
