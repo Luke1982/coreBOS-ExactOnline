@@ -124,8 +124,8 @@
 					<helpinfo><![CDATA[]]></helpinfo>
 					<masseditable>1</masseditable>
 					<entityidentifier>
-						<entityidfield>ExactOnline</entityidfield>
-						<entityidcolumn>ExactOnline</entityidcolumn>
+						<entityidfield>exactrecordname</entityidfield>
+						<entityidcolumn>exactrecordname</entityidcolumn>
 					</entityidentifier>
 				</field>
 			</fields>
