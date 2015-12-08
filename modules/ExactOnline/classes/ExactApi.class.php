@@ -6,6 +6,8 @@ class ExactApi {
 	
 	function __construct() {
 		include_once('modules/ExactOnline/classes/ExactSettingsDB.class.php');
+		$SDB = new ExactSettingsDB();
+		$this->apiUrl = $SDB->getDbValue('exactapiurl');
 	}
 	
 	public function sendGetRequest($suburl = NULL, $division = NULL, $select = NULL, $filter = NULL) {
@@ -111,6 +113,8 @@ class ExactApi {
 		$post_curl_result = curl_exec($post_curl_handler);
 		// Returns a string, split that into an array so we can use
 		// it to send to coreBOS records later.
+		var_dump($postfields);
+		echo "<br>";
 		return $post_curl_result;
 		// Close the curl
 		curl_close($post_curl_handler);
