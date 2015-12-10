@@ -21,4 +21,5 @@ include('modules/ExactOnline/classes/ExactApi.class.php');
 include('modules/ExactOnline/classes/ExactAccounts.class.php');
 include('modules/ExactOnline/classes/ExactItems.class.php');
 include('modules/ExactOnline/classes/ExactSalesInvoice.class.php');
+include('modules/ExactOnline/classes/ExactPaymentCond.class.php');
 ?>
