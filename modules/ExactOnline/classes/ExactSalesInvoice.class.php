@@ -72,13 +72,18 @@ class ExactSalesInvoice extends ExactApi{
 		while ($inventoryrow = $adb->fetch_array($InventoryResults)) {
 			
 			// We need some information from the Products module in coreBOS
-			$PQ = $adb->pquery('SELECT product_no FROM vtiger_products WHERE productid=?', array($inventoryrow['productid']));
+			// Including the 'exact-vatcodes' column, which is a field created
+			// By the ExactOnline module in both Products and services.
+			$PQ = $adb->pquery('SELECT product_no, exact_vatcodes FROM vtiger_products WHERE productid=?', array($inventoryrow['productid']));
+			$VATCode = $adb->query_result($PQ,0,'exact_vatcodes');
 			$ProductCode = $adb->query_result($PQ,0,'product_no');
 			// Could also be a service, Exact doesn't distinguish, but if we
 			// get back an empty Product code from coreBOS, we should look in Services
 			if ($ProductCode == "") {
-				$SQ = $adb->pquery('SELECT service_no FROM vtiger_service WHERE serviceid=?', array($inventoryrow['productid']));
+				$SQ = $adb->pquery('SELECT service_no, exact_vatcodes FROM vtiger_service WHERE serviceid=?', array($inventoryrow['productid']));
 				$ProductCode = $adb->query_result($SQ,0,'service_no');
+				// If it was a service, also overwrite the VATCode variable
+				$VATCode = $adb->query_result($SQ,0,'exact_vatcodes');
 			}
 			// Now we need to get the Exact GUID for this product code
 			$ProductGUID = $this->getItemGUID($division, $ProductCode);
@@ -111,7 +116,7 @@ class ExactSalesInvoice extends ExactApi{
 				'Item'			=>		$ProductGUID,
 				'Quantity'		=>		$inventoryrow['quantity'],
 				'UnitPrice'		=>		$sellingPrice,
-				'VATCode'		=>		'02'
+				'VATCode'		=>		$VATCode
 			);
 			
 			// Add this line to the SalesInvoiceLinesArray

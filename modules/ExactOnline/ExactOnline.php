@@ -478,7 +478,59 @@ class ExactOnline extends CRMEntity {
 			$servicesInfoBlock->addField($glaccServices);		
 			
 			// Only temp values for the dropdown, Workflow task will sync this with Exact later
-			$glaccServices->setPicklistValues( array('GLAccount1', 'GLAccount2') );
+			$glaccServices->setPicklistValues( array('GLAccount1', 'GLAccount2') );			
+			
+			// Setup a field for the VAT-codes, exact will want these in it's own
+			// code format
+			$module = Vtiger_Module::getInstance('Products');
+			// Get the pricing info block for products
+			$productsPricingBlock					= 	Vtiger_Block::getInstance('LBL_PRICING_INFORMATION', $module);
+			
+			// Setup the field
+			$productsVATCodesField					=	new Vtiger_Field();
+			$productsVATCodesField->name			=	'exact_vatcodes';
+			$productsVATCodesField->label			=	'Exact VAT Codes';
+			$productsVATCodesField->table			=	'vtiger_products';
+			$productsVATCodesField->column			=	'exact_vatcodes';
+			$productsVATCodesField->columntype		=	'VARCHAR(100)';
+			$productsVATCodesField->uitype			=	16;
+			$productsVATCodesField->typeofdata		=	'V~M';
+			// Set it as 'mass editable', which you'll probably want to do after
+			// first installation of the module.
+			$productsVATCodesField->masseditable	=	1;
+		
+			// Now add the field instance to the Products pricingblock instance
+			$productsPricingBlock->addField($productsVATCodesField);		
+			
+			// Add the picklist values, with a maximum of 7 different choices
+			// The user should set up his VAT codes in Exact
+			$productsVATCodesField->setPicklistValues( array('01','02','03','04','05','06','07') );			
+			
+			// Setup a field for the VAT-codes in Services, using the same dropdown-table
+			// As the VAT code field in Services will have
+			$module = Vtiger_Module::getInstance('Services');
+			// Get the pricing info block for products
+			$servicesPricingBlock					= 	Vtiger_Block::getInstance('LBL_PRICING_INFORMATION', $module);
+			
+			// Setup the field
+			$servicesVATCodesField					=	new Vtiger_Field();
+			$servicesVATCodesField->name			=	'exact_vatcodes';
+			$servicesVATCodesField->label			=	'Exact VAT Codes';
+			$servicesVATCodesField->table			=	'vtiger_service';
+			$servicesVATCodesField->column			=	'exact_vatcodes';
+			$servicesVATCodesField->columntype		=	'VARCHAR(100)';
+			$servicesVATCodesField->uitype			=	16;
+			$servicesVATCodesField->typeofdata		=	'V~M';
+			// Set it as 'mass editable', which you'll probably want to do after
+			// first installation of the module.
+			$servicesVATCodesField->masseditable	=	1;
+		
+			// Now add the field instance to the Products pricingblock instance
+			$servicesPricingBlock->addField($servicesVATCodesField);		
+			
+			// Add the picklist values, with a maximum of 7 different choices
+			// The user should set up his VAT codes in Exact
+			$servicesVATCodesField->setPicklistValues( array('01','02','03','04','05','06','07') );
 
 			
 		} else if($event_type == 'module.disabled') {
