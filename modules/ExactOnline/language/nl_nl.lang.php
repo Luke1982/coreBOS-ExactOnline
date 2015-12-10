@@ -19,8 +19,8 @@ $mod_strings = Array(
 
 	'ModuleFieldLabel' 				=> 'ModuleFieldLabel Text',
 	
-	/*		SETTINGS AREA	*/
-	'SetCredentials'				=> 'Set Exact API credentials',
+	/*	SETTINGS AREA	*/
+	'SetCredentials'				=> 'Set Exact API credentials, division and return URL. Perform first run here.',
 	'SetCredentialsTitle'			=> 'Set Credentials',
 	'division'						=> 'Division',
 	'getdivision'					=> 'GET THE DIVISION',
@@ -29,7 +29,15 @@ $mod_strings = Array(
 	'authurl'						=> 'Authentification URL',
 	'tokenurl'						=> 'Token URL',
 	'apiurl'						=> 'API URL',
-	'settingsintro'					=> 'Welcome, maybe you just performed your first Authentification. Remember, you <b>need</b> to set your division first. This is easy, just click \'GET THE DIVISION\' and you will see you division code appear in the input field. Now click \'SAVE\' to save all settings.<br><br>Now the Auth URL, Token URL and API URL have been automatically set during your first run. <b>Don\'t change these</b> unless you are experiencing problems. Make sure the countrycode in the URL\'s are correct, so for the Netherlands, the URL should start with https://start.exactonline.<b>nl</b>, and so on.<br><br>If you need to re-perform the first-run for some reason, click the \'RESET FIRST RUN\' button and press F5 on your keyboard or reload the page.',
+	'settingspagetitle'				=> 'Exact Online Settings Page',
+	'settingsintro'					=> 'Welcome, maybe you just performed your first Authentification. Remember, you <b>need</b> to set your division first. This is easy, just click \'GET THE DIVISION\' and you will see you division code appear in the input field. Now click \'SAVE\' to save all settings.',
+	'settingsintro2'				=> 'Now the Auth URL, Token URL and API URL have been automatically set during your first run. <b>Don\'t change these</b> unless you are experiencing problems. Make sure the countrycode in the URL\'s are correct, so for the Netherlands, the URL should start with https://start.exactonline.<b>nl</b>, and so on.',
+	'settingsintro3'				=> 'If you need to re-perform the first-run for some reason, click the \'RESET FIRST RUN\' button and press F5 on your keyboard or reload the page.',
+	
+	/* SYNC PAGE SETTINGS */
+	
+	'syncsettings'					=> 'Synchronisation',
+	'synsettingsdesc'				=> 'Synchronize your Products and Services for the first time and manually synchronize your General Ledgers and Payment Conditions',
 	
 	/* FIRST RUN */
 	'FirstRunPrev'					=> 'Previous',

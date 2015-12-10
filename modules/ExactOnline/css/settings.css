@@ -81,6 +81,29 @@
 	font-weight: bold;
 }
 
+#settingstext {
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+.settingstextcolumn {
+	width: 28%;
+	float: left;
+	margin: 0 0 0 3%;
+	padding: 0.5% 1%;
+	border: 1px solid #ed1c24;
+	border-radius: 3px;
+}
+
+.settingstextcolumn:first-child {
+	margin-left: 0;
+}
+
+#exactsettingstable {
+	float: left;
+}
+
 .exactsettingsinput {
 	font-size: 110%;
 	padding: 8px;
@@ -91,6 +114,7 @@
 #SettingsButtons {
 	width: 100%;
 	text-align: center;
+	float: left;
 }
 
 .settingsbutton {

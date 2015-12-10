@@ -73,11 +73,21 @@ document.getElementsByTagName('head')[0].appendChild(headcss2);
 		<div id="firstrunnext">{$MOD.FirstRunNext}&nbsp;>></div>
 	{else}
 	<!-- NORMAL SETTINGS SCREEN, IF THE FIRST RUN WAS COMPLETED -->
-	<img src="modules/ExactOnline/images/exact-logo-new.png" id="exactlogosettingspage" /><h2>Exact Online Settings page</h2>
+	<img src="modules/ExactOnline/images/exact-logo-new.png" id="exactlogosettingspage" /><h2>{$MOD.settingspagetitle}</h2>
 
-	<p>{$MOD.settingsintro}</p>
-
-	<table cellpadding="5">
+	<div id="settingstext">
+		<div class="settingstextcolumn">
+			<p>{$MOD.settingsintro}</p>
+		</div>	
+		<div class="settingstextcolumn">
+			<p>{$MOD.settingsintro2}</p>
+		</div>	
+		<div class="settingstextcolumn">
+			<p>{$MOD.settingsintro3}</p>
+		</div>
+	</div>
+		
+	<table cellpadding="5" id="exactsettingstable">
 		<tbody>
 			<tr>
 				<td>{$MOD.division}:</td>

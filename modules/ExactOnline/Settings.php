@@ -38,7 +38,12 @@ if(!is_admin($current_user)) {
 	$menu_array['SetCredentials']['location'] = 'index.php?module=ExactOnline&action=SetCredentials';
 	$menu_array['SetCredentials']['image_src'] = 'modules/ExactOnline/images/setexactcredIcon.png';
 	$menu_array['SetCredentials']['desc'] = getTranslatedString('SetCredentials','ExactOnline');
-	$menu_array['SetCredentials']['label'] = getTranslatedString('SetCredentialsTitle','ExactOnline');
+	$menu_array['SetCredentials']['label'] = getTranslatedString('SetCredentialsTitle','ExactOnline');	
+	
+	$menu_array['synFromToExact']['location'] = 'index.php?module=ExactOnline&action=synFromToExact';
+	$menu_array['synFromToExact']['image_src'] = 'modules/ExactOnline/images/syncSettingsIcon.png';
+	$menu_array['synFromToExact']['desc'] = getTranslatedString('synsettingsdesc','ExactOnline');
+	$menu_array['synFromToExact']['label'] = getTranslatedString('syncsettings','ExactOnline');
 	
 	//add blanks for 3-column layout
 	$count = count($menu_array)%3;
