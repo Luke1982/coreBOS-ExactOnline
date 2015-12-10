@@ -162,16 +162,28 @@ function sendInvoiceToExact($entity) {
 }
 
 // TEST AREA, WHERE WE'LL SEND AN INVOICE
-	// Authenticate();
+// if ( $ja == 'nee') {
+	Authenticate();
 	// Include the classes
-	// include_once('modules/ExactOnline/classes/includeExactClasses.php');
+	include_once('modules/ExactOnline/classes/includeExactClasses.php');
 	// Get the division
-	// $SDB = new ExactSettingsDB();
-	// $division = $SDB->getDbValue('exactdivision');
+	$SDB = new ExactSettingsDB();
+	$division = $SDB->getDbValue('exactdivision');
 	// Instantiate the sales invoice class and execute creation
-	// $SI = new ExactSalesInvoice();
-	// $test = $SI->CreateSalesInvoice($division, '20151249');
-	// var_dump($test);
+	$SI = new ExactSalesInvoice();
+	$test = $SI->CreateSalesInvoice($division, '20151249');
+	var_dump($test);
+// }
 
-
+function updatePaymentConditions() {
+	Authenticate();
+	// Include the classes
+	include_once('modules/ExactOnline/classes/includeExactClasses.php');
+	// Get the division
+	$SDB = new ExactSettingsDB();
+	$division = $SDB->getDbValue('exactdivision');
+	
+	$PC = new ExactPaymentConditions();
+	$PC->updatePaymentConds($division);
+}
 ?>

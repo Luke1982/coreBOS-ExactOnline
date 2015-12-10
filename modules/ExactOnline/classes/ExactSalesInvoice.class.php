@@ -12,7 +12,7 @@ class ExactSalesInvoice extends ExactApi{
 		global $adb;
 		$Account = new ExactAccounts();
 		// Get some more information from the invoice
-		$IR = $adb->pquery('SELECT subject, salesorderid, invoicestatus FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
+		$IR = $adb->pquery('SELECT subject, salesorderid, invoicestatus, exact_payment_cond FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
 		$invoiceData = $adb->query_result_rowdata($IR,0);
 		// Get the salesorder from this invoice from the database
 		$invoiceRelSalesOrder = $adb->pquery('SELECT createdtime FROM vtiger_crmentity WHERE crmid=?',array($invoiceData['salesorderid']));
@@ -25,6 +25,12 @@ class ExactSalesInvoice extends ExactApi{
 		} else {
 			$invoiceType = 8020;
 		}
+		// Exact will also want it's payment condition to be coded in it's own format.
+		// We have a class setup for this and a workflow function. Best to set this up
+		// As a workflow task with a set interval
+		// Now: just get the first two digits from the dropdown, that's the code part
+		$paymentCond = explode(' ',trim($invoiceData['exact_payment_cond']));
+		$paymentCond = $paymentCond[0];
 		// Get the Account number related to this invoice
 		$accountResultforInvoice = $adb->pquery('SELECT account_no FROM vtiger_account LEFT JOIN vtiger_invoice ON vtiger_account.accountid=vtiger_invoice.accountid WHERE vtiger_invoice.invoice_no=?',array($invoiceno));
 		$AccNoForThisInvoice = $adb->query_result($accountResultforInvoice,0,'account_no');
@@ -45,6 +51,7 @@ class ExactSalesInvoice extends ExactApi{
 			'Type'				=>	$invoiceType,
 			'OrderNumber'		=>	$invoiceno,
 			'Description'		=>	$invoiceData['subject'],
+			'PaymentCondition'	=>	$paymentCond,
 			'SalesInvoiceLines'	=>	$InvoiceLines
 		);
 		// Send the invoice and catch it in a var, we want to do some things to it
@@ -153,6 +160,4 @@ class ExactSalesInvoice extends ExactApi{
 	}
 }
 
-// Instantiate yourself
-// $SI = new ExactSalesInvoice();
 ?>

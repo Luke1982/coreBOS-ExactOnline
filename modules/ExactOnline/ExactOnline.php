@@ -431,6 +431,9 @@ class ExactOnline extends CRMEntity {
 
 			$emm5 = new VTEntityMethodManager($adb);
 			$emm5->addEntityMethod("Invoice", "Send Invoice to Exact Online", "modules/ExactOnline/handleAPI.php", "sendInvoiceToExact");
+
+			$emm6 = new VTEntityMethodManager($adb);
+			$emm6->addEntityMethod("Invoice", "Synchronize Payment Conditions with Exact", "modules/ExactOnline/handleAPI.php", "updatePaymentConditions");
 			
 			// Create the workflow tasks?? Is this possible?
 			
@@ -531,6 +534,29 @@ class ExactOnline extends CRMEntity {
 			// Add the picklist values, with a maximum of 7 different choices
 			// The user should set up his VAT codes in Exact
 			$servicesVATCodesField->setPicklistValues( array('01','02','03','04','05','06','07') );
+			
+			// Setup a field for the Payment Conditions in the Invoices module
+			//exact will want these in it's own code format
+			$module = Vtiger_Module::getInstance('Invoice');
+			// Get the pricing info block for products
+			$invoiceDescriptionBlock				= 	Vtiger_Block::getInstance('LBL_INVOICE_INFORMATION', $module);
+			
+			// Setup the field
+			$invoicePaymentCondField				=	new Vtiger_Field();
+			$invoicePaymentCondField->name			=	'exact_payment_cond';
+			$invoicePaymentCondField->label			=	'Exact Payment Condition';
+			$invoicePaymentCondField->table			=	'vtiger_invoice';
+			$invoicePaymentCondField->column		=	'exact_payment_cond';
+			$invoicePaymentCondField->columntype	=	'VARCHAR(100)';
+			$invoicePaymentCondField->uitype		=	16;
+			$invoicePaymentCondField->typeofdata	=	'V~M';
+			// Now add the field instance to the Products pricingblock instance
+			$invoiceDescriptionBlock->addField($invoicePaymentCondField);		
+			
+			// Add some dummy picklist values, will be synced with Exact when the
+			// Module is authenticated
+			$invoicePaymentCondField->setPicklistValues( array('Condition1','Condition2') );			
+
 
 			
 		} else if($event_type == 'module.disabled') {
