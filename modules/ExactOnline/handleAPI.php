@@ -162,7 +162,7 @@ function sendInvoiceToExact($entity) {
 }
 
 // TEST AREA, WHERE WE'LL SEND AN INVOICE
-// if ( $ja == 'nee') {
+ if ( isset($_GET['test']) && $_GET['test'] == 1 ) {
 	Authenticate();
 	// Include the classes
 	include_once('modules/ExactOnline/classes/includeExactClasses.php');
@@ -173,7 +173,7 @@ function sendInvoiceToExact($entity) {
 	$SI = new ExactSalesInvoice();
 	$test = $SI->CreateSalesInvoice($division, '20151249');
 	var_dump($test);
-// }
+}
 
 function updatePaymentConditions() {
 	Authenticate();
@@ -182,8 +182,28 @@ function updatePaymentConditions() {
 	// Get the division
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
-	
 	$PC = new ExactPaymentConditions();
 	$PC->updatePaymentConds($division);
 }
+
+if ( isset($_GET['updatepaymentconds']) && $_GET['updatepaymentconds'] == 1 ) {
+	updatePaymentConditions();
+} 
+ 
+if ( isset($_GET['syncglaccounts']) && $_GET['syncglaccounts'] == 1 ) {
+	syncGLAccounts();
+}
+ 
+if ( isset($_GET['getdivision']) && $_GET['getdivision'] == 1 ) {
+	Authenticate();
+	// Include the classes
+	include_once('modules/ExactOnline/classes/includeExactClasses.php');
+	// Instantiate the API class
+	$ExactAPI = new ExactApi();
+	// Setup a GET request for the division code
+	$divisionCode = $ExactAPI->sendGetRequest('current/Me', '', 'CurrentDivision');
+	// Return the division code
+	echo $divisionCode['d']['results'][0]['CurrentDivision'];
+}
+
 ?>
