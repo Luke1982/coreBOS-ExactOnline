@@ -12,8 +12,13 @@ class ExactSalesInvoice extends ExactApi{
 		global $adb;
 		$Account = new ExactAccounts();
 		// Get some more information from the invoice
-		$IR = $adb->pquery('SELECT subject, invoicedate FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
+		$IR = $adb->pquery('SELECT subject, salesorderid, duedate FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
 		$invoiceData = $adb->query_result_rowdata($IR,0);
+		// Get the salesorder from this invoice from the database
+		$invoiceRelSalesOrder = $adb->pquery('SELECT createdtime FROM vtiger_crmentity WHERE crmid=?',array($invoiceData['salesorderid']));
+		$invoiceRelSalesOrderDate = $adb->query_result($invoiceRelSalesOrder,0,'createdtime');
+		// Cut off the time by a simple substr function
+		$invoiceRelSalesOrderDate = substr($invoiceRelSalesOrderDate, 0, 10);
 		// Get the Account number related to this invoice
 		$accountResultforInvoice = $adb->pquery('SELECT account_no FROM vtiger_account LEFT JOIN vtiger_invoice ON vtiger_account.accountid=vtiger_invoice.accountid WHERE vtiger_invoice.invoice_no=?',array($invoiceno));
 		$AccNoForThisInvoice = $adb->query_result($accountResultforInvoice,0,'account_no');
@@ -30,7 +35,8 @@ class ExactSalesInvoice extends ExactApi{
 			'Journal'			=>	'50',
 			'OrderedBy'			=>	$AccGuidForThisInv,
 			'InvoiceTo'			=>	$AccGuidForThisInv,
-			'InvoiceDate'		=>	$invoiceData['invoicedate'],
+			'DueDate'			=>	$invoiceData['duedate'],
+			'OrderDate'			=>	$invoiceRelSalesOrderDate,
 			'Type'				=>	8020,
 			'OrderNumber'		=>	$invoiceno,
 			'Description'		=>	$invoiceData['subject'],
@@ -88,6 +94,16 @@ class ExactSalesInvoice extends ExactApi{
 				// Percentage discount was awarded
 				$discountFactor = ( 100 - $inventoryrow['discount_percent'] ) / 100;
 				$sellingPrice = $inventoryrow['listprice'] * $discountFactor;
+			}
+			
+			// Now we have the actual selling price, we should see if it was negative.
+			// Exact can't handle a negative selling price, in stead, it wants a
+			// negative quantity and positive selling price.
+			if ( $sellingPrice < 0 ) {
+				// Turn the sellingprice into an absolute (positive) number
+				$sellingPrice = abs($sellingPrice);
+				// Turn the quantity into a negative number
+				$inventoryrow['quantity'] = 0 - $inventoryrow['quantity'];
 			}
 			
 			// Now let's build the SalesInvoice Line
