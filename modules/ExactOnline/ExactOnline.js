@@ -60,7 +60,7 @@ jQuery(window).load(function(){
 	// Function to autofill the division field
 	function getDivision() {
 		return jQuery.ajax({
-			url		:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=getDivision',
+			url		:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&getdivision=1',
 			success	:	function(data) {
 				jQuery('#division').val(data);
 			}
