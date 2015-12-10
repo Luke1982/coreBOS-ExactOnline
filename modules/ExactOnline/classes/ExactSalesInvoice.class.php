@@ -12,7 +12,7 @@ class ExactSalesInvoice extends ExactApi{
 		global $adb;
 		$Account = new ExactAccounts();
 		// Get some more information from the invoice
-		$IR = $adb->pquery('SELECT subject, salesorderid, status FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
+		$IR = $adb->pquery('SELECT subject, salesorderid, invoicestatus FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
 		$invoiceData = $adb->query_result_rowdata($IR,0);
 		// Get the salesorder from this invoice from the database
 		$invoiceRelSalesOrder = $adb->pquery('SELECT createdtime FROM vtiger_crmentity WHERE crmid=?',array($invoiceData['salesorderid']));
@@ -20,7 +20,7 @@ class ExactSalesInvoice extends ExactApi{
 		// Cut off the time by a simple substr function
 		$invoiceRelSalesOrderDate = substr($invoiceRelSalesOrderDate, 0, 10);
 		// Set the type: always 8020, except when status is 'Credit Invoice', then 8021
-		if ( $invoiceData['status'] == 'Credit Invoice' ) {
+		if ( $invoiceData['invoicestatus'] == 'Credit Invoice' ) {
 			$invoiceType = 8021;
 		} else {
 			$invoiceType = 8020;
