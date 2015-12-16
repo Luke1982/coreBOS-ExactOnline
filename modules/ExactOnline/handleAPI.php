@@ -186,6 +186,9 @@ function updatePaymentConditions() {
 	$PC->updatePaymentConds($division);
 }
 
+// The functions below will all be available in the settings page of the module
+// By using a GET parameter on the URL, we can choose which function we want to
+// use. They are mainly for manual synchronization between Exact and coreBOS
 if ( isset($_GET['updatepaymentconds']) && $_GET['updatepaymentconds'] == 1 ) {
 	updatePaymentConditions();
 } 
@@ -204,6 +207,32 @@ if ( isset($_GET['getdivision']) && $_GET['getdivision'] == 1 ) {
 	$divisionCode = $ExactAPI->sendGetRequest('current/Me', '', 'CurrentDivision');
 	// Return the division code
 	echo $divisionCode['d']['results'][0]['CurrentDivision'];
+}
+
+if ( isset($_GET['sendallproducts']) && $_GET['sendallproducts'] == 1 ) {
+	Authenticate();
+	// Include the classes
+	include_once('modules/ExactOnline/classes/includeExactClasses.php');
+	// Get the division
+	$SDB = new ExactSettingsDB();
+	$division = $SDB->getDbValue('exactdivision');
+	// Instantiate the Items class
+	$Products = new ExactItems();
+	// Use the 'send all products' method
+	$Products->ExportAllProducts($division);
+}
+
+if ( isset($_GET['sendallservices']) && $_GET['sendallservices'] == 1 ) {
+	Authenticate();
+	// Include the classes
+	include_once('modules/ExactOnline/classes/includeExactClasses.php');
+	// Get the division
+	$SDB = new ExactSettingsDB();
+	$division = $SDB->getDbValue('exactdivision');
+	// Instantiate the Items class
+	$Products = new ExactItems();
+	// Use the 'send all products' method
+	$Products->ExportAllServices($division);
 }
 
 ?>

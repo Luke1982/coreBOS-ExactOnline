@@ -93,7 +93,7 @@ document.getElementsByTagName('head')[0].appendChild(headcss2);
 				<td>{$MOD.division}:</td>
 				<td><input class="exactsettingsinput" size="50" id="division" name="division" value="{$division}" type="text"></td>
 				<td>Return URL:</td>
-				<td><input class="exactsettingsinput" size="130" id="returnurl" name="returnurl" value="{$returnurl}" type="text" readonly></td>
+				<td><textarea class="exactsettingsinput" cols="50" rows="3" id="returnurl" name="returnurl" value="{$returnurl}">{$returnurl}</textarea></td>
 			</tr>		
 			<tr>
 				<td>Client ID:</td>

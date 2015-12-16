@@ -43,7 +43,7 @@ jQuery(window).load(function(){
 				'division'		:	jQuery('input#division').val(),
 				'clientID'		:	jQuery('input#clientID').val(),
 				'clientsecret'	:	jQuery('input#clientsecret').val(),
-				'returnurl'		:	jQuery('input#returnurl').val(),
+				'returnurl'		:	jQuery('textarea#returnurl').val(),
 				'authurl'		:	jQuery('input#authurl').val(),
 				'tokenurl'		:	jQuery('input#tokenurl').val(),
 				'apiurl'		:	jQuery('input#apiurl').val(),
@@ -109,4 +109,53 @@ jQuery(window).load(function(){
 		reloadFirstRun();
 	});
 	
+	// Function to get the General Ledgers from Exact
+	// This launches a function in the handleAPI file
+	// That in it's turn launches a method of the Items class
+	jQuery('#syncGLAccounts').click(function(){
+		syncGLAccounts();
+	});
+	var syncGLAccounts = function() {
+		jQuery.ajax({
+			type: 	'POST',
+			url:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&syncglaccounts=1',
+			success: alert(jQuery('#syncGLAccounts').data('alert'))
+		});
+	}	
+	// Function to get the Payment Conditions from Exact
+	// This launches a function in the handleAPI file
+	// That in it's turn launches a method of the PaymentConds class
+	jQuery('#syncPaymentConds').click(function(){
+		syncPaymentConds();
+	});
+	var syncPaymentConds = function() {
+		jQuery.ajax({
+			type: 	'POST',
+			url:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&updatepaymentconds=1',
+			success: alert(jQuery('#syncPaymentConds').data('alert'))
+		});
+	}
+	// Function for starting the 'send all products' method in the handleAPI file
+	jQuery('#sendAllProducts').click(function(){
+		sendAllProducts();
+	});
+	var sendAllProducts = function() {
+		jQuery.ajax({
+			type: 	'POST',
+			url:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&sendallproducts=1',
+			success: alert(jQuery('#sendAllProducts').data('alert'))
+		});
+	}
+	// Function for starting the 'send all services' method in the handleAPI file
+	jQuery('#sendAllServices').click(function(){
+		sendAllServices();
+	});
+	var sendAllServices = function() {
+		jQuery.ajax({
+			type: 	'POST',
+			url:	'index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI&sendallservices=1',
+			success: alert(jQuery('#sendAllServices').data('alert'))
+		});
+	}
+
 });

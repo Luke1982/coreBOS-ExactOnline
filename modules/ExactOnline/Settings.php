@@ -40,7 +40,7 @@ if(!is_admin($current_user)) {
 	$menu_array['SetCredentials']['desc'] = getTranslatedString('SetCredentials','ExactOnline');
 	$menu_array['SetCredentials']['label'] = getTranslatedString('SetCredentialsTitle','ExactOnline');	
 	
-	$menu_array['synFromToExact']['location'] = 'index.php?module=ExactOnline&action=synFromToExact';
+	$menu_array['synFromToExact']['location'] = 'index.php?module=ExactOnline&action=SyncFromToExact';
 	$menu_array['synFromToExact']['image_src'] = 'modules/ExactOnline/images/syncSettingsIcon.png';
 	$menu_array['synFromToExact']['desc'] = getTranslatedString('synsettingsdesc','ExactOnline');
 	$menu_array['synFromToExact']['label'] = getTranslatedString('syncsettings','ExactOnline');
