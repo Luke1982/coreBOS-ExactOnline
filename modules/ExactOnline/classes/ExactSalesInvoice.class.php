@@ -52,7 +52,8 @@ class ExactSalesInvoice extends ExactApi{
 			'OrderNumber'		=>	$invoiceno,
 			'Description'		=>	$invoiceData['subject'],
 			'PaymentCondition'	=>	$paymentCond,
-			'SalesInvoiceLines'	=>	$InvoiceLines
+			'SalesInvoiceLines'	=>	$InvoiceLines,
+			'PaymentReference'	=>	$invoiceno
 		);
 		// Send the invoice and catch it in a var, we want to do some things to it
 		$returnedSI = $this->sendPostRequest('salesinvoice/SalesInvoices', $division, $SIpostfields);
