@@ -16,8 +16,6 @@ $mod_strings = Array(
 	'LBL_CUSTOM_INFORMATION' 		=> 'Custom Information',
 	'LBL_EXACTONLINE_INFORMATION' 	=> 'Exact Record Information',
 	'LBL_DESCRIPTION_INFORMATION' 	=> 'Description',
-
-	'ModuleFieldLabel' 				=> 'ModuleFieldLabel Text',
 	
 	/*	SETTINGS AREA	*/
 	'SetCredentials'				=> 'Set Exact API credentials, division and return URL. Perform first run here.',
