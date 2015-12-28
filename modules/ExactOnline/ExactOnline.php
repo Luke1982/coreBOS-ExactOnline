@@ -92,7 +92,6 @@ class ExactOnline extends CRMEntity {
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'exactrecordname');
-	var $mandatory_fields = Array('exactrecordname');
 
 	function __construct() {
 		global $log;
