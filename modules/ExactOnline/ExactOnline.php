@@ -52,7 +52,7 @@ class ExactOnline extends CRMEntity {
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'ExactOnline Record Name'=> 'exactrecordname',
-		// 'Assigned To' => 'assigned_user_id'
+		'Assigned To' => 'assigned_user_id'
 	);
 
 	// Make the field link to detail view from list view (Fieldname)
@@ -92,6 +92,7 @@ class ExactOnline extends CRMEntity {
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'exactrecordname');
+	var $mandatory_fields = Array('exactrecordname');
 
 	function __construct() {
 		global $log;
