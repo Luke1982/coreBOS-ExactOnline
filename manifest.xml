@@ -57,9 +57,9 @@
 			<label>LBL_EXACTONLINE_INFORMATION</label>
 			<fields>
 				<field>
-					<fieldname>ExactOnline_no</fieldname>
+					<fieldname>exactrecordno</fieldname>
 					<uitype>4</uitype>
-					<columnname>ExactOnline_no</columnname>
+					<columnname>exactrecordno</columnname>
 					<tablename>vtiger_exactonline</tablename>
 					<generatedtype>1</generatedtype>
 					<fieldlabel>ExactOnline Record No</fieldlabel>
@@ -215,7 +215,7 @@
 			<setmetrics>false</setmetrics>
 			<fields>
 				<field>
-					<fieldname>ExactOnline_no</fieldname>
+					<fieldname>exactrecordno</fieldname>
 					<columnindex>0</columnindex>
 				</field>				
 				<field>
