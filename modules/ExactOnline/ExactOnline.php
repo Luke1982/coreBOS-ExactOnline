@@ -408,7 +408,7 @@ class ExactOnline extends CRMEntity {
 	function vtlib_handler($modulename, $event_type) {
 		if($event_type == 'module.postinstall') {
 			// TODO Handle post installation actions
-			$this->setModuleSeqNumber('configure', $modulename, $modulename.'-', '0000001');
+			$this->setModuleSeqNumber('configure', $modulename, 'EO-', '0000001');
 			
 			// Create the workflow task entity 
 			include_once 'include/utils/utils.php';
