@@ -416,6 +416,9 @@ class ExactOnline extends CRMEntity {
 			require 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 			global $adb;
 			
+			// Create the row in the settings table
+			$adb->query("INSERT INTO `vtiger_exactonline_settings` (`exactonlineid`, `exactauthurl`, `exacttokenurl`, `exactapiurl`, `exactclientid`, `exactsecret`, `exactreturnurl`, `access_token`, `refresh_token`, `exactrefreshedtime`, `exactdivision`) VALUES ('0', 'https://start.exactonline.nl/api/oauth2/auth', 'https://start.exactonline.nl/api/oauth2/token', 'https://start.exactonline.nl/api/v1/', NULL, NULL, NULL, NULL, NULL, '0', NULL)");
+			
 			$emm = new VTEntityMethodManager($adb);
 			$emm->addEntityMethod("Accounts", "Send Account to Exact Online", "modules/ExactOnline/handleAPI.php", "sendAccountToExact");
 
