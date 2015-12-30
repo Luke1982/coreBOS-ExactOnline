@@ -113,8 +113,6 @@ class ExactApi {
 		$post_curl_result = curl_exec($post_curl_handler);
 		// Returns a string, split that into an array so we can use
 		// it to send to coreBOS records later.
-		var_dump($postfields);
-		echo "<br>";
 		return $post_curl_result;
 		// Close the curl
 		curl_close($post_curl_handler);
@@ -162,13 +160,12 @@ class ExactApi {
 		curl_setopt_array($put_curl_handler, $put_curl_opts);
 		// Execute the cURL
 		$put_curl_result = curl_exec($put_curl_handler);
-		// TEST to see the result
-		// var_dump($put_curl_result);		
+		// return the result
+		return $put_curl_result;
+		// Close the curl
+		curl_close($put_curl_handler);
 	}
 	
 }
-
-// Instantiate yourself
-// $ExactAPI = new ExactApi();
 
 ?>
