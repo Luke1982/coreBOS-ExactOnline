@@ -72,7 +72,7 @@ function sendAccountToExact($entity) {
 	// Authenticate at Exact first
 	Authenticate();
 	include_once('modules/ExactOnline/classes/includeExactClasses.php');
-	global $adb;
+	global $adb, $current_user;
 	list($acc,$acc_id) = explode('x',$entity->data['id']);
 	// Get the bill address for this account
 	$AR = $adb->pquery('SELECT bill_city, bill_code, bill_country, bill_street FROM vtiger_accountbillads WHERE accountaddressid=?',array($acc_id));
@@ -92,7 +92,25 @@ function sendAccountToExact($entity) {
 		'Postcode'		=>	$AccAddress['bill_code'],
 		'Status'		=>	'C'
 	);
-	$Account->CreateAccount($division, $accountFields);
+	
+	$SendAccountReturn = $Account->CreateAccount($division, $accountFields);
+	
+	// Handle the return if it was empty
+	if ($SendAccountReturn == "") {
+		$SendAccountReturn = 'Return was empty';
+	}
+	
+	// Here we handle the creation of a record in the Exact Online module
+	// For the return exact gives back
+	include_once('include/Webservices/Create.php');
+	
+	$data_to_save = array(
+		'exactrecordname' => $entity->data['accountname'].' ('.$entity->data['account_no'].')',
+		'exactonlinereturn' => $SendAccountReturn,
+		'assigned_user_id' => '19x'.$current_user->id
+	);
+	
+	vtws_create('ExactOnline', $data_to_save, $current_user);
 }
 
 function sendProductToExact($entity) {
@@ -158,10 +176,23 @@ function sendInvoiceToExact($entity) {
 	$division = $SDB->getDbValue('exactdivision');
 	// Instantiate the sales invoice class and execute creation
 	$SI = new ExactSalesInvoice();
-	$SI->CreateSalesInvoice($division, $entity->data['invoice_no']);
+	$ReturnedSalesInvoice = $SI->CreateSalesInvoice($division, $entity->data['invoice_no']);
+	
+	// Here we handle the creation of a record in the Exact Online module
+	// For the return exact gives back
+	include_once('include/Webservices/Create.php');
+	global $current_user;
+	
+	$data_to_save = array(
+		'exactrecordname' => 'Invoice '.$entity->data['invoice_no'],
+		'exactonlinereturn' => $ReturnedSalesInvoice,
+		'assigned_user_id' => '19x'.$current_user->id
+	);
+	
+	vtws_create('ExactOnline', $data_to_save, $current_user);
 }
 
-// TEST AREA, WHERE WE'LL SEND AN INVOICE
+// TEST AREA, WHERE WE'LL CREATE AN ACCOUNT
  if ( isset($_GET['test']) && $_GET['test'] == 1 ) {
 	Authenticate();
 	// Include the classes
@@ -169,10 +200,12 @@ function sendInvoiceToExact($entity) {
 	// Get the division
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
+	
 	// Instantiate the sales invoice class and execute creation
 	$SI = new ExactSalesInvoice();
-	$test = $SI->CreateSalesInvoice($division, '20151249');
-	var_dump($test);
+	$return = $SI->CreateSalesInvoice($division, '20151261');
+	
+	$return;
 }
 
 function updatePaymentConditions() {
