@@ -24,12 +24,12 @@ class ExactAccounts extends ExactApi{
 				// We should check if the account already exists first
 				if ( !$this->AccountExists($division, $fields) ) {
 					// It doesn't exist, so send a POST
-					$this->sendPostRequest('crm/Accounts', $division, $fields);
+					return $this->sendPostRequest('crm/Accounts', $division, $fields);
 				} else {
 					// It already exists, so send a PUT
 					// We need to provide the Exact 'guid' code for this, so let's retrieve it
 					$ExactGUID = $this->getAccountGUID($division, $fields['Code']);
-					$this->sendPutRequest('crm/Accounts', $division, $fields, $ExactGUID);
+					return $this->sendPutRequest('crm/Accounts', $division, $fields, $ExactGUID);
 				}
 			} else {
 				echo "You need to provide an Account code, make sure to set array key with a capital C.";
