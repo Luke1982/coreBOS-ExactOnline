@@ -67,7 +67,7 @@ class ExactSalesInvoice extends ExactApi{
 				$returnedLines .= $returnLine.'<br>';
 			}
 		}
-		// Return an UL with all the returned lines as an LI element.
+		// Return an UL with all the returned lines as .
 		return $returnedLines;
 	}
 	
