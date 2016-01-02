@@ -192,7 +192,7 @@ function sendInvoiceToExact($entity) {
 	vtws_create('ExactOnline', $data_to_save, $current_user);
 }
 
-// TEST AREA, WHERE WE'LL CREATE AN ACCOUNT
+// TEST AREA
  if ( isset($_GET['test']) && $_GET['test'] == 1 ) {
 	Authenticate();
 	// Include the classes
@@ -200,12 +200,7 @@ function sendInvoiceToExact($entity) {
 	// Get the division
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
-	
-	// Instantiate the sales invoice class and execute creation
-	$SI = new ExactSalesInvoice();
-	$return = $SI->CreateSalesInvoice($division, '20151261');
-	
-	$return;
+	// TEST FUNCTION HERE
 }
 
 function updatePaymentConditions() {

@@ -47,6 +47,10 @@ $mod_strings = Array(
 	'sendallproductsalert'			=> 'Starting to send all products, this may not work, depending on your server settings and the amount of products you have.',
 	'sendallservices'				=> 'Send all Services',
 	'sendallservicesalert'			=> 'Starting to send all services, this may not work, depending on your server settings and the amount of services you have.',
+	'glaccounts_start'				=> 'General Ledgers Start number',
+	'glaccounts_stop'				=> 'General Ledgers End number',
+	'setGLRange'					=> 'Save General Ledger sync range',
+	'setGLRangealert'				=> 'General Ledger sync range saved',
 	
 	/* FIRST RUN */
 	'FirstRunPrev'					=> 'Previous',

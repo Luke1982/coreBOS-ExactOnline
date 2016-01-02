@@ -33,6 +33,17 @@ $smarty->assign("MODULE_ICON", 'modules/ExactOnline/images/syncSettingsIcon.png'
 $smarty->assign("MODULE_TITLE", $mod['syncsettings']);
 $smarty->assign("MODULE_Description", $mod['syncsettingsdesc']);
 
+// Get the previously saved start and end range for the general ledgers, if any
+include_once('modules/ExactOnline/classes/ExactSettingsDB.class.php');
+$SDB = new ExactSettingsDB();
+
+$smarty->assign("gl_start_range", $SDB->getDbValue('glaccounts_start'));
+$smarty->assign("gl_stop_range", $SDB->getDbValue('glaccounts_stop'));
+
+// This part saves the start and end range for the general ledgers you want to sync
+if ($_POST['setGLrange'] == true) {
+	$adb->pquery('UPDATE vtiger_exactonline_settings SET glaccounts_start=?, glaccounts_stop=? WHERE exactonlineid=?', array($_POST['GLstart'], $_POST['GLstop'],0));
+}
 
 $smarty->display(vtlib_getModuleTemplate('ExactOnline', 'syncSettings.tpl'));
 ?>

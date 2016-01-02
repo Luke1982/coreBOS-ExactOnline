@@ -76,15 +76,24 @@ class ExactItems extends ExactApi{
 		// This function gets all the GLAccounts from Exact
 		// We'll set up a cron job in coreBOS to sync them
 		// from Exact to coreBOS and add them to a field in
-		// Products module. Make sure to filter on 'Debet'
+		// Products module. Make sure to filter on 'Credit'
 		$GLAccountsFilter = array(
-			'BalanceSide'	=>	'D'
+			'BalanceSide'	=>	'C'
 		);
 		$GLAccountsArray = $this->sendGetRequest('financial/GLAccounts',$division,'ID,Code,Description',$GLAccountsFilter);
 		// Prepare the values for the dropdown in corebos
+		// We need to only add the General Ledgers in the desired range from the
+		// Settings table, so first get the start and end of that range
+		include_once('modules/ExactOnline/classes/ExactSettingsDB.class.php');
+		$SDB = new ExactSettingsDB();
+		$start_range = $SDB->getDbValue('glaccounts_start');
+		$stop_range = $SDB->getDbValue('glaccounts_stop');
 		$dropdownValues = array();
 		foreach ($GLAccountsArray['d']['results'] as $value) {
-			$dropdownValues[] = $value['Code']." - ".$value['Description'];
+			// Only set the ones that fall inside the range from the settings table
+			if ($value['Code'] >= $start_range && $value['Code'] <= $stop_range) {
+				$dropdownValues[] = $value['Code']." - ".$value['Description'];
+			}
 		}
 		// Return the array so we can add it to the field in Products
 		return $dropdownValues;

@@ -147,6 +147,7 @@
 	margin: 5% 0 5% 5%;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 130%;
+	padding: 0 0 3% 0;
 }
 
 .synccolumn {
@@ -179,4 +180,10 @@
 	float: left;
 	cursor: pointer;
 	margin-left: 10px;
+}
+
+#glaccounts_range {
+	float: left;
+	clear: both;
+	padding: 1% 0 0 0;
 }

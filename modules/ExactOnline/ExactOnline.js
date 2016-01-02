@@ -157,5 +157,17 @@ jQuery(window).load(function(){
 			success: alert(jQuery('#sendAllServices').data('alert'))
 		});
 	}
+	
+	jQuery('#setGLAccountsRange').click(function(){
+		jQuery.ajax({
+			type:		'POST',
+			data:		{
+				'GLstart' 	: jQuery('#glaccounts_start').val(),
+				'GLstop'	: jQuery('#glaccounts_stop').val(),
+				'setGLrange': true
+			},
+			success:	alert(jQuery('#setGLAccountsRange').data('alert'))
+		});
+	});
 
 });

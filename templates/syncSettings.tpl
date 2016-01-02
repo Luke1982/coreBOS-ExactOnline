@@ -42,6 +42,13 @@ document.getElementsByTagName('head')[0].appendChild(headcss2);
 		<p class="synccolumn">{$MOD.syncsettingsC2}</p>
 		<p class="synccolumn">{$MOD.syncsettingsC3}</p>
 		
+		<div id="glaccounts_range">
+			<label for="glaccounts_start">{$MOD.glaccounts_start}</label>
+			<input type="text" size="10" name="glaccounts_start" id="glaccounts_start" value="{$gl_start_range}">
+			<label for="glaccounts_stop">{$MOD.glaccounts_stop}</label>
+			<input type="text" size="10" name="glaccounts_stop" id="glaccounts_stop" value="{$gl_stop_range}">
+		</div>
+		
 		<div id="syncsettingsButtons">
 			<div class="syncbutton" id="syncGLAccounts" data-alert="{$MOD.glaccountsalert}">
 				{$MOD.syncglaccounts}
@@ -55,6 +62,9 @@ document.getElementsByTagName('head')[0].appendChild(headcss2);
 			<div class="syncbutton" id="sendAllServices" data-alert="{$MOD.sendallservicesalert}">
 				{$MOD.sendallservices}
 			</div>
+			<div class="syncbutton" id="setGLAccountsRange" data-alert="{$MOD.setGLRangealert}">
+				{$MOD.setGLRange}
+			</div>
 		</div>
-
+		
 </div>
