@@ -125,7 +125,7 @@ function sendProductToExact($entity) {
 	$GLAccountGUID = $Item->getGLAccountGUID($division, $entity->data['product_no']);
 	// Setup the POST array for this product
 	$productPostArray = array(
-		'GLCosts'			=>	$GLAccountGUID,
+		'GLRevenue'			=>	$GLAccountGUID,
 		'Code'				=>	$entity->data['product_no'],
 		'Description'		=>	$entity->data['productname']
 	);
@@ -201,6 +201,9 @@ function sendInvoiceToExact($entity) {
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
 	// TEST FUNCTION HERE
+	$SI = new ExactSalesInvoice();
+	$ReturnedSalesInvoice = $SI->CreateSalesInvoice($division, '20160001');
+	var_dump($ReturnedSalesInvoice);
 }
 
 function updatePaymentConditions() {
