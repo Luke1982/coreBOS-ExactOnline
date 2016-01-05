@@ -44,7 +44,7 @@ class ExactItems extends ExactApi{
 		// Attempts to send ALL items from coreBOS to Exact
 		global $adb;
 		// Get all the products from coreBOS
-		$productResult = $adb->pquery('SELECT product_no, productname FROM vtiger_products', array());
+		$productResult = $adb->pquery('SELECT product_no, productname FROM vtiger_products LEFT JOIN vtiger_crmentity ON vtiger_products.productid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=?', array(0));
 		// Loop them and insert them into Exact
 		while ( $product = $adb->fetch_array($productResult) ) {
 			$productPostFields = array(
@@ -60,7 +60,7 @@ class ExactItems extends ExactApi{
 		// Attempts to send ALL services from coreBOS to Exact
 		global $adb;
 		// Get all the products from coreBOS
-		$serviceResult = $adb->pquery('SELECT service_no, servicename FROM vtiger_service', array());
+		$serviceResult = $adb->pquery('SELECT service_no, servicename FROM vtiger_service LEFT JOIN vtiger_crmentity ON vtiger_service.serviceid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=?', array(0)', array());
 		// Loop them and insert them into Exact
 		while ( $service = $adb->fetch_array($serviceResult) ) {
 			$servicePostFields = array(
