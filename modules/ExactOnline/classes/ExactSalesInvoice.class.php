@@ -32,13 +32,16 @@ class ExactSalesInvoice extends ExactApi{
 		$paymentCond = explode(' ',trim($invoiceData['exact_payment_cond']));
 		$paymentCond = $paymentCond[0];
 		// Get the Account number related to this invoice
-		$accountResultforInvoice = $adb->pquery('SELECT account_no FROM vtiger_account LEFT JOIN vtiger_invoice ON vtiger_account.accountid=vtiger_invoice.accountid WHERE vtiger_invoice.invoice_no=?',array($invoiceno));
+		$accountResultforInvoice = $adb->pquery('SELECT account_no, exact_acc_vat FROM vtiger_account LEFT JOIN vtiger_invoice ON vtiger_account.accountid=vtiger_invoice.accountid WHERE vtiger_invoice.invoice_no=?',array($invoiceno));
 		$AccNoForThisInvoice = $adb->query_result($accountResultforInvoice,0,'account_no');
 		// Now exact wants to receive it's own 'GUID' code for this account.
 		// We have a method for this in the 'Accounts' class, use it here
 		$AccGuidForThisInv = $Account->getAccountGUID($division, $AccNoForThisInvoice);
+		// See if there is a VAT code selected for the account the invoice is for.
+		$AccVATCode = $adb->query_result($accountResultforInvoice,0,'exact_acc_vat');
+		// Pass this VAT code through to the SalesInvoiceLines call
 		// Every invoice needs to send 'SalesInvoiceLines', the products that it lists
-		$InvoiceLines = $this->getSalesInvoiceLines($division,$invoiceno);
+		$InvoiceLines = $this->getSalesInvoiceLines($division,$invoiceno,$AccVATCode);
 		// Next we'll send a Post request, right now it is fixed using the Journal code '50',
 		// This should be selectable in the future?
 		
@@ -71,8 +74,12 @@ class ExactSalesInvoice extends ExactApi{
 		return $returnedLines;
 	}
 	
-	public function getSalesInvoiceLines($division, $invoiceno) {
+	public function getSalesInvoiceLines($division, $invoiceno, $accountvatcode = '') {
 		global $adb;
+		// This function should reveive a VAT code from the account. If this is
+		// NULL, an empty string or '--' we should use the vat codes from the
+		// products, else we should use the one set for the account. This is
+		// done in the while loop for the return of the query of the inventory lines
 		// Get the internal CRM id for the invoice
 		$invoiceCrmIdResult = $adb->pquery('SELECT invoiceid FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
 		$invoiceCrmId = $adb->query_result($invoiceCrmIdResult,0,'invoiceid');
@@ -88,7 +95,14 @@ class ExactSalesInvoice extends ExactApi{
 			// Including the 'exact-vatcodes' column, which is a field created
 			// By the ExactOnline module in both Products and services.
 			$PQ = $adb->pquery('SELECT product_no, exact_vatcodes FROM vtiger_products WHERE productid=?', array($inventoryrow['productid']));
-			$VATCode = $adb->query_result($PQ,0,'exact_vatcodes');
+			// Check the vatcode from the account, if it's set it should override
+			// The VAT code set in the product
+			if ($accountvatcode == '' || $accountvatcode == NULL || $accountvatcode == '--') {
+				$VATCode = $adb->query_result($PQ,0,'exact_vatcodes');
+			} else {
+				// There was a VAT code set for the account, use this one in stead
+				$VATCode = $accountvatcode;
+			}
 			$ProductCode = $adb->query_result($PQ,0,'product_no');
 			// Could also be a service, Exact doesn't distinguish, but if we
 			// get back an empty Product code from coreBOS, we should look in Services
@@ -96,7 +110,14 @@ class ExactSalesInvoice extends ExactApi{
 				$SQ = $adb->pquery('SELECT service_no, exact_vatcodes FROM vtiger_service WHERE serviceid=?', array($inventoryrow['productid']));
 				$ProductCode = $adb->query_result($SQ,0,'service_no');
 				// If it was a service, also overwrite the VATCode variable
-				$VATCode = $adb->query_result($SQ,0,'exact_vatcodes');
+				// Check the vatcode from the account, if it's set it should override
+				// The VAT code set in the service
+				if ($accountvatcode == '' || $accountvatcode == NULL || $accountvatcode == '--') {
+					$VATCode = $adb->query_result($SQ,0,'exact_vatcodes');
+				} else {
+					// There was a VAT code set for the account, use this one in stead
+					$VATCode = $accountvatcode;
+				}
 			}
 			// Now we need to get the Exact GUID for this product code
 			$ProductGUID = $this->getItemGUID($division, $ProductCode);

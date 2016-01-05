@@ -538,6 +538,25 @@ class ExactOnline extends CRMEntity {
 			// The user should set up his VAT codes in Exact
 			$servicesVATCodesField->setPicklistValues( array('01','02','03','04','05','06','07') );
 			
+			// Setup a dropdown of VAT codes in Accounts. This will override the VAT codes
+			// from the product or service when selected.
+			$module = Vtiger_Module::getInstance('Accounts');
+			$accountsBlock = Vtiger_Block::getInstance('LBL_ACCOUNT_INFORMATION', $module);
+
+			$accountsVatDropdown = new Vtiger_Field();
+			$accountsVatDropdown->name = 'exact_acc_vat';
+			$accountsVatDropdown->label	= 'Exact VAT Code for Account';
+			$accountsVatDropdown->table = 'vtiger_account';
+			$accountsVatDropdown->column = 'exact_acc_vat';
+			$accountsVatDropdown->columtype = 'VARCHAR(100)';
+			$accountsVatDropdown->uitype = 16;
+			$accountsVatDropdown->typeofdata = 'V~O';
+			$accountsVatDropdown->masseditable = 1;
+
+			$accountsBlock->addField($accountsVatDropdown);
+
+			$accountsVatDropdown->setPicklistValues( array('--','01','02','03','04','05','06','07','08','09','10','11') );
+			
 			// Setup a field for the Payment Conditions in the Invoices module
 			//exact will want these in it's own code format
 			$module = Vtiger_Module::getInstance('Invoice');
