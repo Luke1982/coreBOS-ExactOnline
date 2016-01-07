@@ -78,11 +78,11 @@ class ExactItems extends ExactApi{
 		// This function gets all the GLAccounts from Exact
 		// We'll set up a cron job in coreBOS to sync them
 		// from Exact to coreBOS and add them to a field in
-		// Products module. Make sure to filter on 'Credit'
+		// Products module. Make sure to filter on 'Revenue'
 		$GLAccountsFilter = array(
-			'BalanceSide'	=>	'C'
+			'TypeDescription'	=>	'Revenue'
 		);
-		$GLAccountsArray = $this->sendGetRequest('financial/GLAccounts',$division,'ID,Code,Description',$GLAccountsFilter);
+		$GLAccountsArray = $this->sendGetRequest('financial/GLAccounts',$division,'ID,Code,Description,TypeDescription',$GLAccountsFilter);
 		// Prepare the values for the dropdown in corebos
 		// We need to only add the General Ledgers in the desired range from the
 		// Settings table, so first get the start and end of that range
@@ -123,7 +123,7 @@ class ExactItems extends ExactApi{
 		// Check if it's a service
 		if ($isservice == TRUE) {
 			$GLresult = $adb->pquery('SELECT generalledgers FROM vtiger_service WHERE service_no=?',array($productCode));
-			$GL = $adb->query_result($GLresult,0,'glservices');
+			$GL = $adb->query_result($GLresult,0,'generalledgers');
 		} else {
 			// If it was a product
 			$GLresult = $adb->pquery('SELECT generalledgers FROM vtiger_products WHERE product_no=?',array($productCode));
