@@ -47,7 +47,7 @@ class ExactSalesInvoice extends ExactApi{
 		
 		// Setup the fields for the post request
 		$SIpostfields = array(
-			'Journal'			=>	'70',
+			'Journal'			=>	'VER',
 			'OrderedBy'			=>	$AccGuidForThisInv,
 			'InvoiceTo'			=>	$AccGuidForThisInv,
 			'OrderDate'			=>	$invoiceRelSalesOrderDate,
