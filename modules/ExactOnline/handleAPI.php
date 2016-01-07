@@ -141,12 +141,12 @@ function sendServiceToExact($entity) {
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
 	$Item = new ExactItems();
-	// Get the GUID for the GLAccount for this product, we need to specify an extract
+	// Get the GUID for the GLAccount for this service, we need to specify an extract
 	// parameter here to tell the method to look in the services table
 	$GLAccountGUID = $Item->getGLAccountGUID($division, $entity->data['service_no'], TRUE);
-	// Setup the POST array for this product
+	// Setup the POST array for this service
 	$servicePostArray = array(
-		'GLCosts'			=>	$GLAccountGUID,
+		'GLRevenue'			=>	$GLAccountGUID,
 		'Code'				=>	$entity->data['service_no'],
 		'Description'		=>	$entity->data['servicename'],
 		'StartDate'			=>	$entity->data['sales_start_date']
@@ -205,13 +205,13 @@ function sendInvoiceToExact($entity) {
 	// TEST FUNCTION HERE
 	$Item = new ExactItems();
 	// Get the GUID for the GLAccount for this product
-	$GLAccountGUID = $Item->getGLAccountGUID($division, 'PRO11');
+	$GLAccountGUID = $Item->getGLAccountGUID($division, 'SER9', TRUE);
 	// Setup the POST array for this product
 	$productPostArray = array(
-		// 'GLRevenue'			=>	'8040',
-		'Code'				=>	'PRO55555555',
-		'Description'		=>	'TEST PRODUCT 2',
-		'StartDate'			=>	'2015-05-05'
+		'GLRevenue'			=>	$GLAccountGUID,
+		'Code'				=>	'SER9',
+		'Description'		=>	'SER9 TEST',
+		'StartDate'			=>	'1995-01-01'
 	);
 	$result = $Item->sendItem($division, $productPostArray);
 	var_dump($result);
