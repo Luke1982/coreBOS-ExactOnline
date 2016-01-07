@@ -44,14 +44,15 @@ class ExactItems extends ExactApi{
 		// Attempts to send ALL items from coreBOS to Exact
 		global $adb;
 		// Get all the products from coreBOS
-		$productResult = $adb->pquery('SELECT product_no, productname FROM vtiger_products LEFT JOIN vtiger_crmentity ON vtiger_products.productid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=?', array(0));
+		$productResult = $adb->pquery('SELECT product_no, productname, sales_start_date FROM vtiger_products LEFT JOIN vtiger_crmentity ON vtiger_products.productid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=?', array(0));
 		// Loop them and insert them into Exact
 		while ( $product = $adb->fetch_array($productResult) ) {
 			$productPostFields = array(
 				'Code'			=>		$product['product_no'],
-				'Description'	=>		$product['productname']
+				'Description'	=>		$product['productname'],
+				'StartDate'		=>		$product['sales_start_date']
 			);
-			// Let's send the post request for this Item in teh loop
+			// Let's send the post request for this Item in the loop
 			$this->sendPostRequest('logistics/Items', $division, $productPostFields);
 		}
 	}
@@ -60,14 +61,15 @@ class ExactItems extends ExactApi{
 		// Attempts to send ALL services from coreBOS to Exact
 		global $adb;
 		// Get all the products from coreBOS
-		$serviceResult = $adb->pquery('SELECT service_no, servicename FROM vtiger_service LEFT JOIN vtiger_crmentity ON vtiger_service.serviceid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=?', array(0));
+		$serviceResult = $adb->pquery('SELECT service_no, servicename, sales_start_date FROM vtiger_service LEFT JOIN vtiger_crmentity ON vtiger_service.serviceid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=?', array(0));
 		// Loop them and insert them into Exact
 		while ( $service = $adb->fetch_array($serviceResult) ) {
 			$servicePostFields = array(
 				'Code'			=>		$service['service_no'],
-				'Description'	=>		$service['servicename']
+				'Description'	=>		$service['servicename'],
+				'StartDate'		=>		$service['sales_start_date']
 			);
-			// Let's send the post request for this Item in teh loop
+			// Let's send the post request for this Item in the loop
 			$this->sendPostRequest('logistics/Items', $division, $servicePostFields);
 		}
 	}
@@ -152,7 +154,7 @@ class ExactItems extends ExactApi{
 		// Returns an array
 		$ItemResult = $this->sendGetRequest('logistics/Items', $division, 'Code', $ItemFilter);
 		// If the item does NOT exist, array below will not exist
-		if ( is_array($ItemResult['d']['results'][0]) ) {
+		if ( isset($ItemResult['d']['results'][0]) ) {
 			return TRUE;
 		} else {
 			return FALSE;
