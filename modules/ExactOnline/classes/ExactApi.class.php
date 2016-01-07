@@ -62,10 +62,10 @@ class ExactApi {
 		curl_setopt_array($get_curl_handler, $get_curl_opts);
 		// Execute the cURL
 		$get_curl_result = curl_exec($get_curl_handler);
-		// Return the JSON in PHP Array form
-		return json_decode($get_curl_result, true);
 		// Close the curl
-		curl_close($get_curl_handler);
+		curl_close($get_curl_handler);	
+		// Return the JSON in PHP Array form		
+		return json_decode($get_curl_result, true);
 	}
 	
 	public function sendPostRequest($suburl, $division, $postfields) {
@@ -111,11 +111,10 @@ class ExactApi {
 		curl_setopt_array($post_curl_handler, $post_curl_opts);
 		// Execute the cURL
 		$post_curl_result = curl_exec($post_curl_handler);
-		// Returns a string, split that into an array so we can use
-		// it to send to coreBOS records later.
-		return $post_curl_result;
 		// Close the curl
 		curl_close($post_curl_handler);
+		// Returns the result
+		return $post_curl_result;
 	}
 	
 	public function sendPutRequest($suburl, $division, $putfields, $GUID) {
@@ -160,10 +159,10 @@ class ExactApi {
 		curl_setopt_array($put_curl_handler, $put_curl_opts);
 		// Execute the cURL
 		$put_curl_result = curl_exec($put_curl_handler);
-		// return the result
-		return $put_curl_result;
 		// Close the curl
 		curl_close($put_curl_handler);
+		// return the result
+		return $put_curl_result;
 	}
 	
 }
