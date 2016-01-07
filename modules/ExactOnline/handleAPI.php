@@ -127,7 +127,8 @@ function sendProductToExact($entity) {
 	$productPostArray = array(
 		'GLRevenue'			=>	$GLAccountGUID,
 		'Code'				=>	$entity->data['product_no'],
-		'Description'		=>	$entity->data['productname']
+		'Description'		=>	$entity->data['productname'],
+		'StartDate'			=>	$entity->data['sales_start_date']
 	);
 	$Item->sendItem($division, $productPostArray);
 }
@@ -147,7 +148,8 @@ function sendServiceToExact($entity) {
 	$servicePostArray = array(
 		'GLCosts'			=>	$GLAccountGUID,
 		'Code'				=>	$entity->data['service_no'],
-		'Description'		=>	$entity->data['servicename']
+		'Description'		=>	$entity->data['servicename'],
+		'StartDate'			=>	$entity->data['sales_start_date']
 	);
 	$Item->sendItem($division, $servicePostArray);
 }
@@ -201,9 +203,18 @@ function sendInvoiceToExact($entity) {
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
 	// TEST FUNCTION HERE
-	$SI = new ExactSalesInvoice();
-	$ReturnedSalesInvoice = $SI->CreateSalesInvoice($division, '20160001');
-	var_dump($ReturnedSalesInvoice);
+	$Item = new ExactItems();
+	// Get the GUID for the GLAccount for this product
+	$GLAccountGUID = $Item->getGLAccountGUID($division, 'PRO11');
+	// Setup the POST array for this product
+	$productPostArray = array(
+		// 'GLRevenue'			=>	'8040',
+		'Code'				=>	'PRO55555555',
+		'Description'		=>	'TEST PRODUCT 2',
+		'StartDate'			=>	'2015-05-05'
+	);
+	$result = $Item->sendItem($division, $productPostArray);
+	var_dump($result);
 }
 
 function updatePaymentConditions() {
