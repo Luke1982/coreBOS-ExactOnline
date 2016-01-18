@@ -12,7 +12,7 @@ class ExactSalesInvoice extends ExactApi{
 		global $adb;
 		$Account = new ExactAccounts();
 		// Get some more information from the invoice
-		$IR = $adb->pquery('SELECT subject, salesorderid, invoicestatus, exact_payment_cond FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
+		$IR = $adb->pquery('SELECT subject, salesorderid, invoicestatus, exact_payment_cond, invoicedate FROM vtiger_invoice WHERE invoice_no=?', array($invoiceno));
 		$invoiceData = $adb->query_result_rowdata($IR,0);
 		// Get the salesorder from this invoice from the database
 		$invoiceRelSalesOrder = $adb->pquery('SELECT createdtime FROM vtiger_crmentity WHERE crmid=?',array($invoiceData['salesorderid']));
@@ -50,7 +50,9 @@ class ExactSalesInvoice extends ExactApi{
 			'Journal'			=>	'VER',
 			'OrderedBy'			=>	$AccGuidForThisInv,
 			'InvoiceTo'			=>	$AccGuidForThisInv,
-			'OrderDate'			=>	$invoiceRelSalesOrderDate,
+			// Orderdate should be the invoicedate, not order date
+			// 'OrderDate'			=>	$invoiceRelSalesOrderDate,
+			'OrderDate'			=>	$invoiceData['invoicedate'],
 			'Type'				=>	$invoiceType,
 			'OrderNumber'		=>	$invoiceno,
 			'Description'		=>	$invoiceData['subject'],
