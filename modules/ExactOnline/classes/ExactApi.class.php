@@ -107,6 +107,8 @@ class ExactApi {
 			CURLOPT_POST			=> TRUE,
 			CURLOPT_POSTFIELDS		=> $postfields
 		);
+		// TEST
+		// print_r($postfields);
 		// Add the cURL options to the handler
 		curl_setopt_array($post_curl_handler, $post_curl_opts);
 		// Execute the cURL

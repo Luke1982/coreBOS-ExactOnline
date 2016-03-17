@@ -129,8 +129,11 @@ class ExactSalesInvoice extends ExactApi{
 				// Product was sold for list price
 				$sellingPrice = $inventoryrow['listprice'];
 			} else if ( $inventoryrow['discount_amount'] != NULL ) {
-				// Absolute amount was discounted
-				$sellingPrice = ($inventoryrow['listprice'] - $inventoryrow['discount_amount']);
+				// Absolute amount was discounted, this amount should be divided by the
+				// quentity, since Exact will multiply the unit price with the quantity
+				$sellingPrice = ($inventoryrow['listprice'] - ($inventoryrow['discount_amount'] / abs($inventoryrow['quantity'])));
+				// Round the result to two decimals
+				$sellingPrice = round($sellingPrice, 2);
 			} else if ( $inventoryrow['discount_percent'] != NULL ) {
 				// Percentage discount was awarded
 				$discountFactor = ( 100 - $inventoryrow['discount_percent'] ) / 100;
