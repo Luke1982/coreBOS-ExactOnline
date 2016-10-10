@@ -579,10 +579,21 @@ class ExactOnline extends CRMEntity {
 			// Module is authenticated
 			$invoicePaymentCondField->setPicklistValues( array('Condition1','Condition2') );
 
+		} else if($event_type == 'module.disabled') {
+			// TODO Handle actions when this module is disabled.
+		} else if($event_type == 'module.enabled') {
+			// TODO Handle actions when this module is enabled.
+		} else if($event_type == 'module.preuninstall') {
+			// TODO Handle actions when this module is about to be deleted.
+		} else if($event_type == 'module.preupdate') {
+			// TODO Handle actions before this module is updated.
+		} else if($event_type == 'module.postupdate') {
+			// TODO Handle actions after this module is updated.
+			
 			// Setup a field for the Payment Conditions in the Accounts module
 			//exact will want these in it's own code format
 			$module = Vtiger_Module::getInstance('Accounts');
-			// Get the pricing info block for products
+			// Get the pricing info block for accounts
 			$accountsDescriptionBlock				= 	Vtiger_Block::getInstance('LBL_ACCOUNT_INFORMATION', $module);
 			
 			// Setup the field
@@ -599,18 +610,7 @@ class ExactOnline extends CRMEntity {
 			
 			// Add some dummy picklist values, will be synced with Exact when the
 			// Module is authenticated
-			$accountsPaymentCondField->setPicklistValues( array('Condition1','Condition2') );
-			
-		} else if($event_type == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
-		} else if($event_type == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
-		} else if($event_type == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
-		} else if($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
-		} else if($event_type == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+			$accountsPaymentCondField->setPicklistValues( array('Condition1','Condition2') );			
 		}
 	}
 
