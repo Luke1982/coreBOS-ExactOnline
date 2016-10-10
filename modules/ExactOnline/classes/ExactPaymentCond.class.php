@@ -25,7 +25,7 @@ class ExactPaymentConditions extends ExactApi{
 		// Prepare the values for the dropdown in corebos
 		$dropdownValues = array();
 		foreach ($PaymentCondsArray['d']['results'] as $value) {
-			$dropdownValues[] = $value['Code']." - ".$value['Description'];
+			$dropdownValues[] = $value['Code']." - ".trim($value['Description']);
 		}
 		// Return the array so we can add it to the field in Invoices
 		return $dropdownValues;
