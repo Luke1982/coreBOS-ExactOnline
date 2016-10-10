@@ -605,12 +605,34 @@ class ExactOnline extends CRMEntity {
 			$accountsPaymentCondField->columntype	=	'VARCHAR(100)';
 			$accountsPaymentCondField->uitype		=	16;
 			$accountsPaymentCondField->typeofdata	=	'V~M';
-			// Now add the field instance to the Products pricingblock instance
+
 			$accountsDescriptionBlock->addField($accountsPaymentCondField);		
 			
 			// Add some dummy picklist values, will be synced with Exact when the
 			// Module is authenticated
-			$accountsPaymentCondField->setPicklistValues( array('Condition1','Condition2') );			
+			$accountsPaymentCondField->setPicklistValues( array('Condition1','Condition2') );
+
+			// Setup a field for the Payment Conditions in the Salesorder module
+			// exact will want these in it's own code format
+			$module = Vtiger_Module::getInstance('SalesOrder');
+			// Get the pricing info block for Salesorders
+			$soDescriptionBlock				= 	Vtiger_Block::getInstance('LBL_SO_INFORMATION', $module);
+			
+			// Setup the field
+			$soPaymentCondField				=	new Vtiger_Field();
+			$soPaymentCondField->name		=	'exact_so_payment_cond';
+			$soPaymentCondField->label		=	'Exact Payment Condition for SalesOrders';
+			$soPaymentCondField->table		=	'vtiger_salesorder';
+			$soPaymentCondField->column		=	'exact_so_payment_cond';
+			$soPaymentCondField->columntype	=	'VARCHAR(100)';
+			$soPaymentCondField->uitype		=	16;
+			$soPaymentCondField->typeofdata	=	'V~M';
+
+			$soDescriptionBlock->addField($soPaymentCondField);		
+			
+			// Add some dummy picklist values, will be synced with Exact when the
+			// Module is authenticated
+			$soPaymentCondField->setPicklistValues( array('Condition1','Condition2') );
 		}
 	}
 

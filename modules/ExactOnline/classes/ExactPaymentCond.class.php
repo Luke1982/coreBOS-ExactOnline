@@ -35,6 +35,7 @@ class ExactPaymentConditions extends ExactApi{
 		global $adb;
 		$adb->query('TRUNCATE vtiger_exact_payment_cond');
 		$adb->query('TRUNCATE vtiger_exact_acc_payment_cond');
+		$adb->query('TRUNCATE vtiger_exact_so_payment_cond');
 		// Get the payment conditions from Exact
 		$PaymentCondArray = $this->getPaymentConds($division);
 		array_unshift($PaymentCondArray, '--None--');
@@ -42,6 +43,7 @@ class ExactPaymentConditions extends ExactApi{
 			$key = $key + 1;
 			$adb->pquery('INSERT INTO vtiger_exact_payment_cond (exact_payment_cond, sortorderid, presence) VALUES (?,?,?)', array($value, $key, 0));
 			$adb->pquery('INSERT INTO vtiger_exact_acc_payment_cond (exact_acc_payment_cond, sortorderid, presence) VALUES (?,?,?)', array($value, $key, 0));
+			$adb->pquery('INSERT INTO vtiger_exact_so_payment_cond (exact_so_payment_cond, sortorderid, presence) VALUES (?,?,?)', array($value, $key, 0));
 		}
 	}
 }
