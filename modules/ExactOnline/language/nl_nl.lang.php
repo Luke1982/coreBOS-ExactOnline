@@ -10,7 +10,7 @@
 
 $mod_strings = array(
 	'ModuleName' => 'Exact Online',
-	'SINGLE_ModuleName' => 'Exact Online Record',
+	'SINGLE_ExactOnline' => 'Exact Online Record',
 	'ModuleName ID' => 'Exact Online Record ID',
 	'LBL_CUSTOM_INFORMATION' => 'Eigen informatie',
 	'LBL_EXACTONLINE_INFORMATION' => 'Exact Record Informatie',
