@@ -20,7 +20,7 @@
 // This file acts as the connector between Exact Online and coreBOS.
 
 // Turn these two lines on for debugging
-error_reporting(E_ALL);
+error_reporting(E_ERROR);
 ini_set("display_errors", "on");
 
 // CODE FOR THE FIRST RUN
@@ -77,6 +77,10 @@ function sendAccountToExact($entity) {
 	// Get the bill address for this account
 	$AR = $adb->pquery('SELECT bill_city, bill_code, bill_country, bill_street FROM vtiger_accountbillads WHERE accountaddressid=?',array($acc_id));
 	$AccAddress = $adb->query_result_rowdata($AR,0);
+	// Get the custom field 'email facturatie'
+	$email_fac_q = $adb->pquery('SELECT cf_884 FROM vtiger_accountscf WHERE accountid=?', array($acc_id));
+	$email_fac = $adb->query_result($email_fac_q, 0, 'cf_884');
+
 	$SDB = new ExactSettingsDB();
 	$Account = new ExactAccounts();
 	// Get the division
@@ -90,7 +94,8 @@ function sendAccountToExact($entity) {
 		'Email'			=>	$entity->data['email1'],
 		'AddressLine1'	=>	$AccAddress['bill_street'],
 		'Postcode'		=>	$AccAddress['bill_code'],
-		'Status'		=>	'C'
+		'Status'		=>	'C',
+		'Email'			=>	$email_fac
 	);
 	
 	$SendAccountReturn = $Account->CreateAccount($division, $accountFields);
@@ -203,18 +208,9 @@ function sendInvoiceToExact($entity) {
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
 	// TEST FUNCTION HERE
-	$Item = new ExactItems();
-	// Get the GUID for the GLAccount for this product
-	$GLAccountGUID = $Item->getGLAccountGUID($division, 'SER9', TRUE);
-	// Setup the POST array for this product
-	$productPostArray = array(
-		'GLRevenue'			=>	$GLAccountGUID,
-		'Code'				=>	'SER9',
-		'Description'		=>	'SER9 TEST',
-		'StartDate'			=>	'1995-01-01'
-	);
-	$result = $Item->sendItem($division, $productPostArray);
-	var_dump($result);
+	$SI = new ExactSalesInvoice();
+	$return = $SI->CreateSalesInvoice($division, '20160286');
+	var_dump($return);
 }
 
 function updatePaymentConditions() {
