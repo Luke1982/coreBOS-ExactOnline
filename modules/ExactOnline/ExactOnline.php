@@ -577,9 +577,29 @@ class ExactOnline extends CRMEntity {
 			
 			// Add some dummy picklist values, will be synced with Exact when the
 			// Module is authenticated
-			$invoicePaymentCondField->setPicklistValues( array('Condition1','Condition2') );			
+			$invoicePaymentCondField->setPicklistValues( array('Condition1','Condition2') );
 
-
+			// Setup a field for the Payment Conditions in the Accounts module
+			//exact will want these in it's own code format
+			$module = Vtiger_Module::getInstance('Accounts');
+			// Get the pricing info block for products
+			$accountsDescriptionBlock				= 	Vtiger_Block::getInstance('LBL_ACCOUNT_INFORMATION', $module);
+			
+			// Setup the field
+			$accountsPaymentCondField				=	new Vtiger_Field();
+			$accountsPaymentCondField->name			=	'exact_acc_payment_cond';
+			$accountsPaymentCondField->label		=	'Exact Payment Condition for Account';
+			$accountsPaymentCondField->table		=	'vtiger_account';
+			$accountsPaymentCondField->column		=	'exact_acc_payment_cond';
+			$accountsPaymentCondField->columntype	=	'VARCHAR(100)';
+			$accountsPaymentCondField->uitype		=	16;
+			$accountsPaymentCondField->typeofdata	=	'V~M';
+			// Now add the field instance to the Products pricingblock instance
+			$accountsDescriptionBlock->addField($accountsPaymentCondField);		
+			
+			// Add some dummy picklist values, will be synced with Exact when the
+			// Module is authenticated
+			$accountsPaymentCondField->setPicklistValues( array('Condition1','Condition2') );
 			
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
