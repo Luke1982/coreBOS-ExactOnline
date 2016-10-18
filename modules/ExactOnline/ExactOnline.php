@@ -598,7 +598,7 @@ class ExactOnline extends CRMEntity {
 			
 			// Setup the field
 			$accountsPaymentCondField				=	new Vtiger_Field();
-			$accountsPaymentCondField->name			=	'exact_acc_payment_cond';
+			$accountsPaymentCondField->name			=	'exact_payment_cond';
 			$accountsPaymentCondField->label		=	'Exact Payment Condition for Account';
 			$accountsPaymentCondField->table		=	'vtiger_account';
 			$accountsPaymentCondField->column		=	'exact_acc_payment_cond';
@@ -620,7 +620,7 @@ class ExactOnline extends CRMEntity {
 			
 			// Setup the field
 			$soPaymentCondField				=	new Vtiger_Field();
-			$soPaymentCondField->name		=	'exact_so_payment_cond';
+			$soPaymentCondField->name		=	'exact_payment_cond';
 			$soPaymentCondField->label		=	'Exact Payment Condition for SalesOrders';
 			$soPaymentCondField->table		=	'vtiger_salesorder';
 			$soPaymentCondField->column		=	'exact_so_payment_cond';
