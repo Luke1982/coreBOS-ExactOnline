@@ -601,7 +601,7 @@ class ExactOnline extends CRMEntity {
 			$accountsPaymentCondField->name			=	'exact_payment_cond';
 			$accountsPaymentCondField->label		=	'Exact Payment Condition for Account';
 			$accountsPaymentCondField->table		=	'vtiger_account';
-			$accountsPaymentCondField->column		=	'exact_acc_payment_cond';
+			$accountsPaymentCondField->column		=	'exact_payment_cond';
 			$accountsPaymentCondField->columntype	=	'VARCHAR(100)';
 			$accountsPaymentCondField->uitype		=	16;
 			$accountsPaymentCondField->typeofdata	=	'V~M';
@@ -623,7 +623,7 @@ class ExactOnline extends CRMEntity {
 			$soPaymentCondField->name		=	'exact_payment_cond';
 			$soPaymentCondField->label		=	'Exact Payment Condition for SalesOrders';
 			$soPaymentCondField->table		=	'vtiger_salesorder';
-			$soPaymentCondField->column		=	'exact_so_payment_cond';
+			$soPaymentCondField->column		=	'exact_payment_cond';
 			$soPaymentCondField->columntype	=	'VARCHAR(100)';
 			$soPaymentCondField->uitype		=	16;
 			$soPaymentCondField->typeofdata	=	'V~M';
@@ -633,6 +633,28 @@ class ExactOnline extends CRMEntity {
 			// Add some dummy picklist values, will be synced with Exact when the
 			// Module is authenticated
 			$soPaymentCondField->setPicklistValues( array('Condition1','Condition2') );
+
+			// Setup a field for the Payment Conditions in the Quotes module
+			// exact will want these in it's own code format
+			$module = Vtiger_Module::getInstance('Quotes');
+			// Get the pricing info block for Salesorders
+			$quDescriptionBlock				= 	Vtiger_Block::getInstance('LBL_QUOTE_INFORMATION', $module);
+			
+			// Setup the field
+			$quPaymentCondField				=	new Vtiger_Field();
+			$quPaymentCondField->name		=	'exact_payment_cond';
+			$quPaymentCondField->label		=	'Exact Payment Condition for Quotes';
+			$quPaymentCondField->table		=	'vtiger_quotes';
+			$quPaymentCondField->column		=	'exact_payment_cond';
+			$quPaymentCondField->columntype	=	'VARCHAR(100)';
+			$quPaymentCondField->uitype		=	16;
+			$quPaymentCondField->typeofdata	=	'V~M';
+
+			$quDescriptionBlock->addField($quPaymentCondField);		
+			
+			// Add some dummy picklist values, will be synced with Exact when the
+			// Module is authenticated
+			$quPaymentCondField->setPicklistValues( array('Condition1','Condition2') );
 		}
 	}
 
