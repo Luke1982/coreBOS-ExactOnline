@@ -590,8 +590,8 @@ class ExactOnline extends CRMEntity {
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			$moduleInstance = Vtiger_Module::getInstance('ExactOnline');
-			if ($moduleInstance->version == "0.86") {
-				updateFromVersionZeroPointEightSix();
+			if ($moduleInstance->version == "0.88") {
+				updateFromVersionZeroPointEightSeven();
 			}
 		}
 	}
@@ -625,7 +625,7 @@ class ExactOnline extends CRMEntity {
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 }
 
-function updateFromVersionZeroPointEightSix() {
+function updateFromVersionZeroPointEightSeven() {
 	// Setup a field for the Payment Conditions in the Accounts module
 	//exact will want these in it's own code format
 	$module = Vtiger_Module::getInstance('Accounts');
