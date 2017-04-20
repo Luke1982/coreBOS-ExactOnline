@@ -10,7 +10,7 @@ class ExactApi {
 		$this->apiUrl = $SDB->getDbValue('exactapiurl');
 	}
 	
-	public function sendGetRequest($suburl = NULL, $division = NULL, $select = NULL, $filter = NULL) {
+	public function sendGetRequest($suburl = NULL, $division = NULL, $select = NULL, $filter = NULL, $filterint = false) {
 		$SDB = new ExactSettingsDB();
 		// Every get request has to have:
 		// * The API URL
@@ -18,6 +18,7 @@ class ExactApi {
 		// * Your access token in the HEADER
 		// * The selection of fields you want returned
 		// * OPTIONAL: a filter, to select a specific record, this should be an array
+		// * OPTIONAL: a 'filterint' flagg. Setting this to true will remove quotes around the searchterm
 
 		// setup a curl
 		$get_curl_handler =  curl_init();
@@ -33,7 +34,13 @@ class ExactApi {
 				$searchfield 	= (string)$key;
 				$searchterm 	= (string)urlencode($value);
 			}
-			$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select.'&$filter='.$searchfield.'%20eq%20\''.$searchterm.'\'';
+			if ($filterint) {
+				$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select.'&$filter='.$searchfield.'%20eq%20'.$searchterm.'';
+			} else {
+				$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select.'&$filter='.$searchfield.'%20eq%20\''.$searchterm.'\'';
+			}
+			
+			echo $request_url."<br />";
 		} else {
 			// Setup a special request URL for the division code GET
 			if ( $division == '' ) {
