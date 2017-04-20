@@ -60,8 +60,18 @@ class ExactSalesInvoice extends ExactApi{
 			'SalesInvoiceLines'	=>	$InvoiceLines,
 			'PaymentReference'	=>	$invoiceno
 		);
-		// Send the invoice and catch it in a var, we want to do some things to it
-		$returnedSI = $this->sendPostRequest('salesinvoice/SalesInvoices', $division, $SIpostfields);
+		$invoiceGUID = $this->getInvoiceGUID($division, $invoiceno);
+		if ($invoiceGUID != false) {
+			// Update an existing invoice
+			// remove fields that are not allowed for a PUT on SalesInvoice
+			unset($SIpostfields['Journal']);
+			unset($SIpostfields['OrderedBy']);
+			unset($SIpostfields['SalesInvoiceLines']);
+			$returnedSI = $this->sendPutRequest('salesinvoice/SalesInvoices', $division, $SIpostfields, $invoiceGUID);
+		} else {
+			// Send the invoice and catch it in a var, we want to do some things to it
+			$returnedSI = $this->sendPostRequest('salesinvoice/SalesInvoices', $division, $SIpostfields);
+		}
 		// Now create an array from the returned string
 		$returnedSI = explode("\n", $returnedSI);
 		// Create the start string for the report
@@ -174,6 +184,18 @@ class ExactSalesInvoice extends ExactApi{
 		);
 		$ProductArray = $this->sendGetRequest('logistics/Items', $division, 'ID', $productFilter);
 		return $ProductArray['d']['results'][0]['ID'];
+	}
+
+	/*
+	 * Function that handles checking if a SalesInvoice already exists or not
+	 */
+	private function getInvoiceGUID($division, $inv_no) {
+		// Setup the filter
+		$invoiceFilter = array(
+			'OrderNumber'	=>	$inv_no
+		);
+		$invoiceArray = $this->sendGetRequest('salesinvoice/SalesInvoices', $division, 'InvoiceID', $invoiceFilter, true);
+		return isset($invoiceArray['d']['results'][0]['InvoiceID']) ? $invoiceArray['d']['results'][0]['InvoiceID'] : false;
 	}
 	
 	// TEST function to see what 'Journals' are available
