@@ -173,6 +173,77 @@ class ExactApi {
 		// return the result
 		return $put_curl_result;
 	}
+
+	public function sendXMLGetRequest($division = NULL, $topic = NULL, $params = NULL) {
+		$SDB = new ExactSettingsDB();
+		// Every get request has to have:
+		// * The division
+		// * Your access token in the HEADER
+		// * a topic.
+		// * OPTIONAL: a string of params
+		$xml_endpoint = 'https://start.exactonline.nl/docs/XMLDownload.aspx?';
+
+		// setup a curl
+		$get_curl_handler = curl_init();
+		// Setup the URL
+		$request_url = $xml_endpoint . 'Topic=' . $topic . '&_Division_=' . $division;
+		// If there are params
+		if ($params && is_array($params)) {
+			$request_url .= '&' . implode('&', $params);
+		}
+
+		// Setup the header
+		$get_curl_header = array (
+			'authorization: Bearer '.$SDB->getDbValue('access_token'),
+			'Accept: application/xml,application/xhtml+xml,text/html'
+		);		
+		// Setup the cURL options
+		$get_curl_opts = array(
+			CURLOPT_URL 			=> $request_url,
+			CURLOPT_RETURNTRANSFER 	=> TRUE,
+			CURLOPT_SSL_VERIFYPEER 	=> TRUE,
+			CURLOPT_HEADER 			=> FALSE,
+			CURLOPT_HTTPHEADER 		=> $get_curl_header,
+			// CURLOPT_ENCODING 		=> '',
+			CURLOPT_CUSTOMREQUEST	=> 'GET'
+		);
+		// Add the cURL options to the handler
+		curl_setopt_array($get_curl_handler, $get_curl_opts);
+		// Execute the cURL
+		$get_curl_result = curl_exec($get_curl_handler);
+		// Close the curl
+		curl_close($get_curl_handler);	
+		//TEST
+		echo $request_url;
+		//TEST
+		// Return the JSON in PHP Array form		
+		return $this->XML2Array($get_curl_result);
+	}
+
+	private function XML2Array($xml) {
+		$this->normalizeSimpleXML(simplexml_load_string($xml), $result);
+		return $result;
+	}
+
+	private function normalizeSimpleXML($obj, &$result) {
+		$data = $obj;
+		if (is_object($data)) {
+			$data = get_object_vars($data);
+		}
+		if (is_array($data)) {
+			foreach ($data as $key => $value) {
+				$res = null;
+				$this->normalizeSimpleXML($value, $res);
+				if (($key == '@attributes') && ($key)) {
+					$result = $res;
+				} else {
+					$result[$key] = $res;
+				}
+			}
+		} else {
+			$result = $data;
+		}
+	}
 	
 }
 

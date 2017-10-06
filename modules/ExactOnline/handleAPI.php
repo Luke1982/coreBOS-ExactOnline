@@ -78,8 +78,9 @@ function sendAccountToExact($entity) {
 	$AR = $adb->pquery('SELECT bill_city, bill_code, bill_country, bill_street FROM vtiger_accountbillads WHERE accountaddressid=?',array($acc_id));
 	$AccAddress = $adb->query_result_rowdata($AR,0);
 	// Get the custom field 'email facturatie'
-	$email_fac_q = $adb->pquery('SELECT cf_884 FROM vtiger_accountscf WHERE accountid=?', array($acc_id));
+	$email_fac_q = $adb->pquery('SELECT cf_884, cf_944 FROM vtiger_accountscf WHERE accountid=?', array($acc_id));
 	$email_fac = $adb->query_result($email_fac_q, 0, 'cf_884');
+	$acc_phone = $adb->query_result($email_fac_q, 0, 'cf_944');
 
 	$SDB = new ExactSettingsDB();
 	$Account = new ExactAccounts();
@@ -91,11 +92,12 @@ function sendAccountToExact($entity) {
 		'Code'			=>	$entity->data['account_no'],
 		'Name'			=>	$entity->data['accountname'],
 		'City'			=>	$AccAddress['bill_city'],
-		'Email'			=>	$entity->data['email1'],
+		// 'Email'			=>	$entity->data['email1'],
 		'AddressLine1'	=>	$AccAddress['bill_street'],
 		'Postcode'		=>	$AccAddress['bill_code'],
 		'Status'		=>	'C',
-		'Email'			=>	$email_fac
+		'Email'			=>	$email_fac,
+		'Phone'			=>	$acc_phone
 	);
 	
 	$SendAccountReturn = $Account->CreateAccount($division, $accountFields);
@@ -184,6 +186,11 @@ function sendInvoiceToExact($entity) {
 	// Instantiate the sales invoice class and execute creation
 	$SI = new ExactSalesInvoice();
 	$ReturnedSalesInvoice = $SI->CreateSalesInvoice($division, $entity->data['invoice_no']);
+
+	// Handle the return if it was empty
+	if ($ReturnedSalesInvoice == "") {
+		$ReturnedSalesInvoice = 'Lege string retour';
+	}	
 	
 	// Here we handle the creation of a record in the Exact Online module
 	// For the return exact gives back
@@ -208,9 +215,25 @@ function sendInvoiceToExact($entity) {
 	$SDB = new ExactSettingsDB();
 	$division = $SDB->getDbValue('exactdivision');
 	// TEST FUNCTION HERE
-	$SI = new ExactSalesInvoice();
-	$return = $SI->CreateSalesInvoice($division, '20160286');
-	var_dump($return);
+	$payments = new ExactPayments();
+	$return = $payments->updatePaymentsForAccount($division, '3089', 'ACC');
+
+	echo '<pre>';
+	print_r($return);
+	echo '</pre>';
+}
+
+function checkPayments($entity) {
+	list($webservice_id,$crm_id) = explode('x',$entity->data['id']);  // separate webservice ID
+	Authenticate();
+	// Include the classes
+	include_once('modules/ExactOnline/classes/includeExactClasses.php');
+	// Get the division
+	$SDB = new ExactSettingsDB();
+	$division = $SDB->getDbValue('exactdivision');
+	$payments = new ExactPayments();
+	$acc_code = preg_replace("/[^0-9,.]/", "", $entity->data['account_no']); // Strip out the prefix
+	$payments->updatePaymentsForAccount($division, $acc_code, 'ACC');
 }
 
 function updatePaymentConditions() {
