@@ -124,6 +124,9 @@ class ExactItems extends ExactApi{
 		if ($isservice == TRUE) {
 			$GLresult = $adb->pquery('SELECT generalledgers FROM vtiger_service WHERE service_no=?',array($productCode));
 			$GL = $adb->query_result($GLresult,0,'generalledgers');
+			if ($productCode == 'SER79') {
+				$GL = '1299';
+			}
 		} else {
 			// If it was a product
 			$GLresult = $adb->pquery('SELECT generalledgers FROM vtiger_products WHERE product_no=?',array($productCode));
