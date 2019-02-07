@@ -39,8 +39,6 @@ class ExactApi {
 			} else {
 				$request_url = $this->apiUrl.$division.'/'.$suburl.'?$select='.$select.'&$filter='.$searchfield.'%20eq%20\''.$searchterm.'\'';
 			}
-			
-			echo $request_url."<br />";
 		} else {
 			// Setup a special request URL for the division code GET
 			if ( $division == '' ) {
