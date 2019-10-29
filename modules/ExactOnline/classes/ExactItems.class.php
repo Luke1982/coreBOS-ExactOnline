@@ -143,6 +143,27 @@ class ExactItems extends ExactApi{
 		$GLgetResult = $this->sendGetRequest('financial/GLAccounts', $division, 'ID', $GLfilter);
 		return $GLgetResult['d']['results'][0]['ID'];
 	}
+
+	public function getItemGroups($division) {
+		$itemgroups = $this->sendGetRequest('logistics/ItemGroups', $division, 'ID,Code,Description', false);
+		$return = array();
+		foreach ($itemgroups['d']['results'] as $value) {
+			$return[] = $value;
+		}
+		return $return;
+	}
+
+	public function getItemGroupIdByDesc($division, $desc) {
+		$grps = $this->getItemGroups($division);
+		$id = false;
+		foreach ($grps as $grp) {
+			if ($grp['Description'] == $desc) {
+				$id = $grp['ID'];
+				break;
+			}
+		}
+		return $id;
+	}
 	
 	public function itemExists($division, $code) {
 		// This function checks the product of service name

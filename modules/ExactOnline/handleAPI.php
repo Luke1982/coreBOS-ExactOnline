@@ -135,8 +135,15 @@ function sendProductToExact($entity) {
 		'GLRevenue'			=>	$GLAccountGUID,
 		'Code'				=>	$entity->data['product_no'],
 		'Description'		=>	$entity->data['productname'],
-		'StartDate'			=>	$entity->data['sales_start_date']
+		'StartDate'			=>	$entity->data['sales_start_date'],
+		'IsStockItem'		=>	$entity->data['exact_stockarticle'] == 1 ? true : false,
+		'CostPriceStandard' =>	$entity->data['cost_price'],
 	);
+
+	$grp_id = $Item->getItemGroupIdByDesc($division, $entity->data['exact_articlegroup']);
+	if (!!$grp_id) {
+		$productPostArray['ItemGroup'] = $grp_id;
+	}
 	$Item->sendItem($division, $productPostArray);
 }
 
