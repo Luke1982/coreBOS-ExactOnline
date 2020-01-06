@@ -153,11 +153,11 @@ class ExactItems extends ExactApi{
 		return $return;
 	}
 
-	public function getItemGroupIdByDesc($division, $desc) {
+	public function getItemGroupIdByCode($division, $desc) {
 		$grps = $this->getItemGroups($division);
 		$id = false;
 		foreach ($grps as $grp) {
-			if ($grp['Description'] == $desc) {
+			if ($grp['Code'] == $desc) {
 				$id = $grp['ID'];
 				break;
 			}

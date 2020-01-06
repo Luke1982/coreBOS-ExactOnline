@@ -140,7 +140,7 @@ function sendProductToExact($entity) {
 		'CostPriceStandard' =>	$entity->data['cost_price'],
 	);
 
-	$grp_id = $Item->getItemGroupIdByDesc($division, $entity->data['exact_articlegroup']);
+	$grp_id = $Item->getItemGroupIdByCode($division, $entity->data['exact_articlegroup']);
 	if (!!$grp_id) {
 		$productPostArray['ItemGroup'] = $grp_id;
 	}
