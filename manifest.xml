@@ -3,11 +3,11 @@
 	<name>ExactOnline</name>
 	<label>Exact Online Connector</label>
 	<parent>Tools</parent>
-	<version>0.88</version>
+	<version>0.9</version>
 	<short_description>Handles sending accounts, products, service and invoices to Exact Online upon saving records</short_description>
 	<dependencies>
 		<vtiger_version>5.4.0</vtiger_version>
-		<vtiger_max_version>5.*</vtiger_max_version>
+		<vtiger_max_version>8.*</vtiger_max_version>
 	</dependencies>
 	<license>
 		<inline><![CDATA[

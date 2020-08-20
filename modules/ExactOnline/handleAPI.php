@@ -132,12 +132,13 @@ function sendProductToExact($entity) {
 	$GLAccountGUID = $Item->getGLAccountGUID($division, $entity->data['product_no']);
 	// Setup the POST array for this product
 	$productPostArray = array(
-		'GLRevenue'			=>	$GLAccountGUID,
-		'Code'				=>	$entity->data['product_no'],
-		'Description'		=>	$entity->data['productname'],
-		'StartDate'			=>	$entity->data['sales_start_date'],
-		'IsStockItem'		=>	$entity->data['exact_stockarticle'] == 1 ? true : false,
-		'CostPriceStandard' =>	$entity->data['cost_price'],
+		'GLRevenue'				=>	$GLAccountGUID,
+		'Code'					=>	$entity->data['product_no'],
+		'Description'			=>	$entity->data['productname'],
+		'StartDate'				=>	$entity->data['sales_start_date'],
+		'IsStockItem'			=>	$entity->data['exact_stockarticle'] == 1 ? true : false,
+		'IsFractionAllowedItem'	=>	$entity->data['divisible'] == 1 ? true : false,
+		'CostPriceStandard' 	=>	$entity->data['cost_price'],
 	);
 
 	$grp_id = $Item->getItemGroupIdByCode($division, $entity->data['exact_articlegroup']);
@@ -160,10 +161,11 @@ function sendServiceToExact($entity) {
 	$GLAccountGUID = $Item->getGLAccountGUID($division, $entity->data['service_no'], TRUE);
 	// Setup the POST array for this service
 	$servicePostArray = array(
-		'GLRevenue'			=>	$GLAccountGUID,
-		'Code'				=>	$entity->data['service_no'],
-		'Description'		=>	$entity->data['servicename'],
-		'StartDate'			=>	$entity->data['sales_start_date']
+		'GLRevenue'				=>	$GLAccountGUID,
+		'Code'					=>	$entity->data['service_no'],
+		'Description'			=>	$entity->data['servicename'],
+		'StartDate'				=>	$entity->data['sales_start_date'],
+		'IsFractionAllowedItem'	=>	$entity->data['divisible'] == 1 ? true : false,
 	);
 	$Item->sendItem($division, $servicePostArray);
 }
