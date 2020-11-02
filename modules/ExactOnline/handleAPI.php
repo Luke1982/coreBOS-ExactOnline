@@ -89,7 +89,7 @@ function sendAccountToExact($entity) {
 			WHERE a.accountid = ?",
 		array($acc_id)
 	);
-	$accdata = $adb->query_result($r);
+	$accdata = $adb->query_result_rowdata($r, 0);
 
 	$SDB = new ExactSettingsDB();
 	$Account = new ExactAccounts();
