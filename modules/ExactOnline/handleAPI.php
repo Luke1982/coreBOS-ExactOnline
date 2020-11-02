@@ -75,12 +75,21 @@ function sendAccountToExact($entity) {
 	global $adb, $current_user;
 	list($acc,$acc_id) = explode('x',$entity->data['id']);
 	// Get the bill address for this account
-	$AR = $adb->pquery('SELECT bill_city, bill_code, bill_country, bill_street FROM vtiger_accountbillads WHERE accountaddressid=?',array($acc_id));
-	$AccAddress = $adb->query_result_rowdata($AR,0);
-	// Get the custom field 'email facturatie'
-	$email_fac_q = $adb->pquery('SELECT cf_884, cf_944 FROM vtiger_accountscf WHERE accountid=?', array($acc_id));
-	$email_fac = $adb->query_result($email_fac_q, 0, 'cf_884');
-	$acc_phone = $adb->query_result($email_fac_q, 0, 'cf_944');
+	$r = $adb->pquery(
+		"SELECT aba.bill_city,
+				aba.bill_code,
+				aba.bill_country,
+				aba.bill_street,
+				acf.cf_884,
+				acf.cf_944,
+				a.bill_countrycode
+			FROM vtiger_account AS a
+			INNER JOIN vtiger_accountbillads AS aba ON a.accountid = aba.accountaddressid
+			INNER JOIN vtiger_accountscf AS acf ON a.accountid = acf.accountid
+			WHERE a.accountid = ?",
+		array($acc_id)
+	);
+	$accdata = $adb->query_result($r);
 
 	$SDB = new ExactSettingsDB();
 	$Account = new ExactAccounts();
@@ -91,13 +100,13 @@ function sendAccountToExact($entity) {
 	$accountFields = array(
 		'Code'			=>	$entity->data['account_no'],
 		'Name'			=>	$entity->data['accountname'],
-		'City'			=>	$AccAddress['bill_city'],
-		// 'Email'			=>	$entity->data['email1'],
-		'AddressLine1'	=>	$AccAddress['bill_street'],
-		'Postcode'		=>	$AccAddress['bill_code'],
+		'City'			=>	$accdata['bill_city'],
+		'AddressLine1'	=>	$accdata['bill_street'],
+		'Postcode'		=>	$accdata['bill_code'],
 		'Status'		=>	'C',
-		'Email'			=>	$email_fac,
-		'Phone'			=>	$acc_phone
+		'Email'			=>	$accdata['cf_884'],
+		'Phone'			=>	$accdata['cf_944'],
+		'Country'		=>	$accdata['bill_countrycode'],
 	);
 	
 	$SendAccountReturn = $Account->CreateAccount($division, $accountFields);
