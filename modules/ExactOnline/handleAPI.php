@@ -82,6 +82,7 @@ function sendAccountToExact($entity) {
 				aba.bill_street,
 				acf.cf_884,
 				acf.cf_944,
+				acf.cf_736,
 				a.bill_countrycode
 			FROM vtiger_account AS a
 			INNER JOIN vtiger_accountbillads AS aba ON a.accountid = aba.accountaddressid
@@ -107,6 +108,7 @@ function sendAccountToExact($entity) {
 		'Email'			=>	$accdata['cf_884'],
 		'Phone'			=>	$accdata['cf_944'],
 		'Country'		=>	$accdata['bill_countrycode'],
+		'VATNumber'		=>	$accdata['cf_736'],
 	);
 	
 	$SendAccountReturn = $Account->CreateAccount($division, $accountFields);

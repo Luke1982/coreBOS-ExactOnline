@@ -3,7 +3,7 @@
 	<name>ExactOnline</name>
 	<label>Exact Online Connector</label>
 	<parent>Tools</parent>
-	<version>0.92</version>
+	<version>0.93</version>
 	<short_description>Handles sending accounts, products, service and invoices to Exact Online upon saving records</short_description>
 	<dependencies>
 		<vtiger_version>5.4.0</vtiger_version>
