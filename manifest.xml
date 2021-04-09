@@ -33,7 +33,7 @@
 		<table>
 			<name>vtiger_exactonline</name>
 				<sql>
-				<![CDATA[CREATE TABLE `vtiger_exactonline` ( `exactonlineid` INT(11) NULL DEFAULT NULL , `exactrecordno` VARCHAR(11) NULL DEFAULT NULL , `exactrecordname` VARCHAR(255) NOT NULL , `exactonlinereturn` VARCHAR(1000) NOT NULL , PRIMARY KEY (`exactonlineid`)) ENGINE = InnoDB DEFAULT CHARSET=utf8]]>
+				<![CDATA[CREATE TABLE `vtiger_exactonline` ( `exactonlineid` INT(11) NULL DEFAULT NULL , `exactrecordno` VARCHAR(11) NULL DEFAULT NULL , `exactrecordname` VARCHAR(255) NOT NULL , `exactonlinereturn` VARCHAR(6000) NOT NULL , PRIMARY KEY (`exactonlineid`)) ENGINE = InnoDB DEFAULT CHARSET=utf8]]>
 				</sql>
 		</table>
 		<table>
