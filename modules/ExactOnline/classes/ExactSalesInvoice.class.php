@@ -54,7 +54,7 @@ class ExactSalesInvoice extends ExactApi{
 			// 'OrderDate'			=>	$invoiceRelSalesOrderDate,
 			'OrderDate'			=>	$invoiceData['invoicedate'],
 			'Type'				=>	$invoiceType,
-			'OrderNumber'		=>	$invoiceno,
+			'OrderNumber'		=>	preg_replace('/[^0-9]+/', '', $invoiceno),
 			'Description'		=>	$invoiceData['subject'],
 			'PaymentCondition'	=>	$paymentCond,
 			'SalesInvoiceLines'	=>	$InvoiceLines,
