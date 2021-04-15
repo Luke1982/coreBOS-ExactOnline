@@ -10,7 +10,7 @@ class ExactOAuth extends ExactSettingsDB {
 	public function getCode() {
 		$code_url_params = array(
 			'client_id'		=>	$this->getDbValue('exactclientid'),
-			'redirect_uri'	=>	$this->getDbValue('exactreturnurl'),
+			'redirect_uri'	=>	decode_html($this->getDbValue('exactreturnurl')),
 			'response_type'	=>	'code',
 			'force_login'	=>	0
 		);
