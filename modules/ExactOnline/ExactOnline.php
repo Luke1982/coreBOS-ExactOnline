@@ -623,6 +623,12 @@ class ExactOnline extends CRMEntity {
 	 * You can override the behavior by re-defining it here.
 	 */
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
+
+	public static function convertResponseToArray($xml) {
+		$xml = simplexml_load_string($xml, "SimpleXMLElement", LIBXML_NOCDATA);
+		$json = json_encode($xml);
+		return json_decode($json, true);
+	}
 }
 
 function updateFromVersionZeroPointEightSeven() {

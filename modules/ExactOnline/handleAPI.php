@@ -219,7 +219,7 @@ function sendInvoiceToExact($entity) {
 	
 	$data_to_save = array(
 		'exactrecordname' => 'Invoice '.$entity->data['invoice_no'],
-		'exactonlinereturn' => $ReturnedSalesInvoice,
+		'exactonlinereturn' => $ReturnedSalesInvoice['message'],
 		'assigned_user_id' => '19x'.$current_user->id
 	);
 	
