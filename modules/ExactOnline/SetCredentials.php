@@ -70,7 +70,7 @@ if ( $_POST['firstrunsave'] == true ) {
 	$SDB->saveClientID($_POST['clientID']);
 	$SDB->saveClientsecret($_POST['clientsecret']);
 	
-	$firstRunReturnUrl = 'http://'.$_SERVER['SERVER_NAME'].'/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI';
+	$firstRunReturnUrl = 'https://'.$_SERVER['SERVER_NAME'].'/index.php?module=ExactOnline&action=ExactOnlineAjax&file=handleAPI';
 	$SDB->saveReturnUrl($firstRunReturnUrl);
 	
 	$firstRunAuthUrl = $_POST['countryurl'].'/api/oauth2/auth';
