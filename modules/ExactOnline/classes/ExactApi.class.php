@@ -106,7 +106,7 @@ class ExactApi {
 			CURLOPT_URL 			=> $request_url,
 			CURLOPT_RETURNTRANSFER 	=> TRUE,
 			CURLOPT_SSL_VERIFYPEER 	=> TRUE,
-			CURLOPT_HEADER 			=> FALSE,
+			CURLOPT_HEADER 			=> true,
 			CURLOPT_HTTPHEADER 		=> $post_curl_header,
 			CURLOPT_ENCODING 		=> '',
 			CURLOPT_POST			=> TRUE,
